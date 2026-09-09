@@ -123,6 +123,13 @@
 .hero-stat .big.claim span{display:block}
 .hero-stat p{margin:14px 0 16px;font-size:.96rem;line-height:1.5;color:var(--muted);max-width:34ch}
 @media(max-width:800px){.mini-stat.is-claim{font-size:26px;max-width:none}.hero-stat .big.claim{font-size:30px}}
+
+/* El panel de stakeholder ahora lleva una categoría y una explicación corta. */
+.por-que{margin:16px 0 0;font-size:1.02rem;line-height:1.6;max-width:46ch}
+.rol-nota{margin:14px 0 0;padding-left:14px;border-left:2px solid var(--line);font-size:.9rem;line-height:1.55;color:var(--muted);max-width:46ch}
+.chapter-heading.solo{grid-template-columns:1fr;max-width:24ch}
+/* La etiqueta de la problemática elegida, más presente. */
+.chosen-tag{font:700 .78rem/1 var(--font);letter-spacing:.09em;padding:8px 15px;margin-left:16px}
 @media(prefers-color-scheme:dark){
 :root:not([data-theme=light]) .chosen-tag,:root:not([data-theme=light]) .candidata.gana .cand-veredicto{color:#10201a}
 :root:not([data-theme=light]) .decision-section{background:var(--paper)}
@@ -186,7 +193,7 @@ const PROBLEMS=[
  {id:'salud',name:'Salud pública / IMSS',short:'Salud pública',n:'01',color:'#287f75',light:'#287f75',pale:'#dcece6',insight:'Tratar no garantiza controlar.\nEl hogar paga parte de la brecha.',headline:'Del tratamiento\nal control hay una brecha.',claim:'Tratar no es controlar',claimLong:'El tratamiento llega.\nEl control, no.',claimFoot:'La diferencia la absorbe el hogar.',metric:'33%',metricLabel:'con control glucémico',metricContext:'INSP · ENSANUT 2021–2024 · México',metricSource:'ensanut',stat:'33%',center:'Atención sin\ncontrol suficiente',takeaway:'El seguimiento importa tanto como el acceso.',causeTitle:'Factores del problema',effectTitle:'Lo que se observa',
  causes:[{label:'Recursos limitados',dim:'P',detail:'5.9% del PIB en gasto total de salud; 9.3% en el promedio OCDE. La comparación describe recursos, no demuestra por sí sola por qué falla el control.',source:'oecd'},{label:'Seguimiento clínico',dim:'S',detail:'El estudio recomienda continuidad y coordinación del primer nivel para mejorar el control. El mecanismo es una interpretación apoyada por su discusión, no un efecto causal estimado.',source:'ensanut'},{label:'Cuidado discontinuo',dim:'S',detail:'77.4% reportó uso regular de fármacos. La adherencia se mide por autorreporte y convive con barreras de acceso y atención.',source:'ensanut'}],
  effects:[{label:'Brecha de control',dim:'S',detail:'90.9% estaba en tratamiento y 33.0% logró control glucémico. Ambos porcentajes corresponden a adultos con diagnóstico previo de diabetes tipo 2.',source:'ensanut'},{label:'Gasto del hogar',dim:'E',detail:'El gasto de bolsillo fue de $6,421 anuales por hogar en 2024; subió 7.9% real desde 2022. CIEP documenta su persistencia incluso entre personas afiliadas.',source:'ciep'}],
- roles:[{name:'Pacientes y familias',role:'Viven la brecha',cats:['afectado'],dim:'S',verb:'Cuidan y pagan',bullets:['Sostienen el tratamiento cotidiano.','Absorben parte del costo de atención.'],detail:'Son personas afectadas y redes de cuidado. El mapa no atribuye el mal control a una decisión individual.',sources:['ensanut','ciep']},{name:'Equipos de salud y unidades',role:'Operan la atención',cats:['afectado','activista'],dual:'Afectados —así los clasificó el profesor— porque operan con una capacidad instalada que no deciden ellos: 1.0 camas por mil habitantes frente a 4.2 de la OCDE. Activistas cuando sostienen la continuidad clínica, que el estudio identifica como la palanca para pasar de tratar a controlar.',dim:'L',verb:'Atienden y dan seguimiento',bullets:['Conectan consulta, tratamiento y control.','Trabajan con la capacidad que se les asigna.'],detail:'La continuidad clínica es una palanca sugerida por el estudio. Su muestra incluye varios servicios de salud: los resultados no son exclusivos del IMSS.',sources:['ensanut','nom']},{name:'Autoridades y gobierno',role:'Asignan el presupuesto',cats:['perpetrador','activista'],dual:'Perpetradores —clasificación explícita del profesor— por la vía presupuestal: el financiamiento sostenido por debajo del referente OCDE condiciona la capacidad del sistema y, en cadena, el abasto. Activistas cuando fijan el estándar clínico que obliga a prevenir, tratar y controlar.',dim:'P',verb:'Deciden la capacidad',bullets:['Determinan capacidad y prioridades.','Establecen estándares de atención.'],detail:'México destina 5.9% del PIB a gasto total en salud frente a 9.3% del promedio OCDE, panorama 2025. Es gasto total, no presupuesto público. La NOM-015 establece el marco de prevención, tratamiento y control.',sources:['oecd','nom']},{name:'Industria farmacéutica y proveedores',role:'Surten el medicamento',cats:['perpetrador'],dim:'E',verb:'Distribuyen o no distribuyen',bullets:['Abastecen el medicamento del sistema público.','Su entrega depende del pago, y el pago del presupuesto.'],detail:'El profesor clasificó a las farmacéuticas como perpetradoras principales junto con las autoridades: no surten porque no les pagan, y eso se liga directo al presupuesto. El diagnóstico sectorial documenta retrasos en la distribución de medicamentos; no atribuye ese retraso a una empresa concreta ni cuantifica su efecto sobre el control del padecimiento.',sources:['sector']},{name:'Farmacias y sector privado',role:'Absorben la demanda no cubierta',cats:['afectado'],dim:'E',verb:'Proveen atención e insumos',bullets:['Atienden parte de la demanda que el sistema público no alcanza.','Reciben el gasto directo de las familias.'],detail:'El profesor fue explícito: en este esquema farmacias y sector privado quedan como afectados, no como perpetradores. Reciben una demanda desplazada que no originaron. El análisis de ENIGH registra uso de servicios privados y farmacias; participar en el sistema no significa causar el problema.',sources:['ciep','ensanut']}],
+ roles:[{name:'Pacientes y familias',role:'Viven la brecha',cat:'afectado',porQue:'Reciben tratamiento pero no llegan al control, y cuando el sistema no alcanza, el gasto lo cubre el hogar.',dim:'S',verb:'Cuidan y pagan',bullets:['Sostienen el tratamiento cotidiano.','Absorben parte del costo de atención.'],detail:'Son personas afectadas y redes de cuidado. El mapa no atribuye el mal control a una decisión individual.',sources:['ensanut','ciep']},{name:'Equipos de salud y unidades',role:'Operan la atención',cat:'afectado',porQue:'Trabajan con una capacidad instalada que no deciden ellos. La falta de personal y de camas les llega como carga, no como decisión.',nota:'También actúan en contra del problema cuando sostienen la continuidad del cuidado.',dim:'L',verb:'Atienden con lo que hay',bullets:['Conectan consulta, tratamiento y control.','Trabajan con la capacidad que se les asigna.'],detail:'La continuidad clínica es una palanca sugerida por el estudio. Su muestra incluye varios servicios de salud: los resultados no son exclusivos del IMSS.',sources:['ensanut','nom']},{name:'Autoridades y gobierno',role:'Asignan el presupuesto',cat:'perpetrador',porQue:'Deciden cuánto se financia el sistema. Ese techo condiciona el personal, las camas y el abasto, y en cadena, si el padecimiento se controla o no.',nota:'También fijan el estándar clínico que obliga a prevenir, tratar y controlar.',dim:'P',verb:'Deciden la capacidad',bullets:['Determinan capacidad y prioridades.','Establecen estándares de atención.'],detail:'México destina 5.9% del PIB a gasto total en salud frente a 9.3% del promedio OCDE, panorama 2025. Es gasto total, no presupuesto público. La NOM-015 establece el marco de prevención, tratamiento y control.',sources:['oecd','nom']},{name:'Industria farmacéutica y proveedores',role:'Surten el medicamento',cat:'perpetrador',porQue:'Su entrega depende del pago, y el pago del presupuesto. Cuando no surten, el tratamiento se interrumpe aunque la consulta haya ocurrido.',dim:'E',verb:'Distribuyen o no distribuyen',bullets:['Abastecen el medicamento del sistema público.','Su entrega depende del pago.'],detail:'El diagnóstico sectorial documenta retrasos en la distribución de medicamentos; no atribuye ese retraso a una empresa concreta ni cuantifica su efecto sobre el control del padecimiento.',sources:['sector']},{name:'Farmacias y sector privado',role:'Absorben lo no cubierto',cat:'afectado',porQue:'Reciben una demanda desplazada que no originaron: la que el sistema público no alcanzó a atender.',dim:'E',verb:'Atienden la demanda que sobra',bullets:['Atienden parte de la demanda que el sistema público no alcanza.','Reciben el gasto directo de las familias.'],detail:'El análisis de ENIGH registra uso de servicios privados y farmacias. Participar en el sistema no significa causar el problema.',sources:['ciep','ensanut']}],
  nodes:[
  {id:'p1',label:'Recursos para\natender',dim:'P',type:'Factor',detail:'México destina 5.9% del PIB a salud; la referencia OCDE es 9.3%.',source:'oecd'},
  {id:'p2',label:'Capacidad\ndel sistema',dim:'P',type:'Contexto',detail:'La comparación OCDE identifica brechas en personal e infraestructura. El alcance es nacional.',source:'oecd'},
@@ -200,7 +207,7 @@ const PROBLEMS=[
  {id:'seguridad',name:'Seguridad pública',short:'Seguridad',n:'02',color:'#c45237',light:'#b34d34',pale:'#f3e4dc',insight:'Casi nadie denuncia.\nNo por descuido: por desconfianza.',headline:'Lo que no se investiga\ntambién tiene un costo.',claim:'Casi nadie denuncia',claimLong:'No denuncian\nporque no confían.',claimFoot:'Y quienes sí denuncian, muchas veces tampoco obtienen una carpeta. El sistema falla en dos puertas distintas.',metric:'91.7%',metricLabel:'de los delitos nunca se investigó',metricContext:'INEGI · ENVIPE 2025 · Jalisco, datos 2024',metricSource:'envipe',stat:'91.7%',center:'Delitos fuera\nde investigación',takeaway:'La desconfianza no es una percepción suelta: es la lectura acumulada de un sistema que no responde.',causeTitle:'Razones para no denunciar',effectTitle:'Lo que queda fuera',
  causes:[{label:'Pérdida de tiempo',dim:'P',detail:'31.4% de las razones de no denuncia en Jalisco correspondió a pérdida de tiempo.',source:'envipe'},{label:'Desconfianza',dim:'S',detail:'15.9% de las razones de no denuncia fue desconfianza en la autoridad. Es una respuesta de encuesta, no una acusación contra toda institución.',source:'envipe'},{label:'Fricción institucional',dim:'L',detail:'ENVIPE agrupa trámites largos, actitud hostil, pérdida de tiempo, desconfianza y miedo a extorsión como causas atribuibles a la autoridad.',source:'envipe'}],
  effects:[{label:'Sin denuncia o carpeta',dim:'L',detail:'91.7% de los delitos integró la cifra oculta. La definición incluye no denuncia, ausencia de carpeta y casos no especificados.',source:'envipe'},{label:'Daño y costos privados',dim:'E',detail:'Los hogares de Jalisco enfrentaron $25.8 mil millones de costo por inseguridad y delito en 2024. No se atribuye todo ese costo a la falta de denuncia.',source:'envipe'}],
- roles:[{name:'Víctimas y hogares',role:'Reciben el daño',cats:['afectado'],dim:'S',verb:'Evalúan denunciar',bullets:['Enfrentan riesgos, tiempo y costos.','Deciden bajo condiciones de confianza.'],detail:'Las razones para no denunciar son reportadas por las víctimas. Su decisión no las hace responsables del delito.',sources:['envipe']},{name:'Agresores',role:'Producen la victimización',cats:['perpetrador'],dim:'E',verb:'Generan el daño',bullets:['Cometen los hechos delictivos.','Producen pérdidas y afectaciones.'],detail:'La ENVIPE estudia delitos del fuero común que afectan a personas y hogares. No mide directamente delincuencia organizada.',sources:['envipe']},{name:'Fiscalía y Ministerio Público',role:'Abren la investigación',cats:['activista','perpetrador'],dual:'Activistas cuando reciben la denuncia y abren la carpeta, único camino formal para que un delito entre a investigación. Perpetradores por omisión cuando la denuncia no deriva en carpeta: esos casos forman parte de la propia cifra oculta que aquí se estudia.',dim:'L',verb:'Reciben e investigan',bullets:['Reciben denuncias y abren carpetas.','Su actuación condiciona la experiencia.'],detail:'9.7% de los delitos se denunció y 8.3% del total tuvo carpeta. El mapa sitúa a estas instituciones en esa entrada al proceso. La brecha entre denunciar y abrir carpeta es un dato de ENVIPE, no una imputación de responsabilidad individual.',sources:['envipe']},{name:'Policías',role:'Prevención y primer contacto',cats:['activista','perpetrador'],dual:'Activistas cuando previenen y atienden el primer contacto. Perpetradores cuando el trato hostil o el miedo a la extorsión por parte de la autoridad aparecen entre los motivos declarados de no denuncia. El profesor señaló exactamente esta dualidad.',dim:'P',verb:'Atienden y disuaden',bullets:['Articulan respuesta y prevención.','Su trato condiciona si la víctima denuncia.'],detail:'ENVIPE incluye la actitud hostil de la autoridad y el miedo a la extorsión entre los motivos de no denuncia. Son percepciones reportadas por las víctimas en una encuesta, no una acusación probada contra toda la institución.',sources:['envipe']},{name:'Comunidad y redes vecinales',role:'Sostienen el entorno',cats:['afectado','activista'],dual:'Afectadas cuando el miedo restringe salidas y visitas: 57% dejó de permitir salidas de menores sin compañía y 27.1% dejó de visitar parientes o amistades. Activistas cuando se organizan para prevenir en lugar de replegarse.',dim:'S',verb:'Se organizan o se repliegan',bullets:['Aportan redes de apoyo y vigilancia.','El miedo puede disolver esas mismas redes.'],detail:'Los porcentajes de cambio de conducta corresponden a Jalisco, datos 2024, ENVIPE 2025. La organización vecinal es una línea de intervención propuesta; no se presenta como resultado ya evaluado, y no traslada al hogar una obligación del Estado. HUECO DECLARADO: el profesor agrupó a la comunidad junto con la policía como posible perpetradora por colusión con el delito. No lo etiquetamos así porque ENVIPE no mide colusión comunitaria y no tenemos otra fuente que la sostenga. Se declara el hueco en vez de afirmarlo sin evidencia.',sources:['envipe']}],
+ roles:[{name:'Víctimas y hogares',role:'Reciben el daño',cat:'afectado',porQue:'Cargan el delito y, encima, el costo de intentar denunciarlo. Deciden bajo la sospecha de que no va a servir.',dim:'S',verb:'Evalúan si vale la pena',bullets:['Enfrentan riesgos, tiempo y costos.','Deciden bajo condiciones de confianza.'],detail:'Las razones para no denunciar son reportadas por las víctimas. Su decisión no las hace responsables del delito.',sources:['envipe']},{name:'Agresores',role:'Producen el daño',cat:'perpetrador',porQue:'Cometen el hecho y se benefician del silencio: mientras menos se denuncia, menos probable es que alguien los investigue.',dim:'E',verb:'Cometen el delito',bullets:['Cometen los hechos delictivos.','Se benefician de que no se denuncie.'],detail:'La ENVIPE estudia delitos del fuero común que afectan a personas y hogares. No mide directamente delincuencia organizada.',sources:['envipe']},{name:'Fiscalía y Ministerio Público',role:'Controlan la entrada',cat:'perpetrador',porQue:'Son la única puerta formal para que un delito entre a investigación, y esa puerta está tapada: cada agente carga cientos de expedientes y buena parte de las carpetas termina archivada. Denunciar y ser investigado acaban siendo dos cosas distintas.',nota:'También son quienes pueden abrir la carpeta: sin ellos ningún delito entra al sistema.',dim:'L',verb:'Dificultan denunciar',bullets:['Reciben denuncias y abren carpetas.','La saturación decide qué avanza.'],detail:'La brecha entre denunciar y abrir carpeta es un dato de ENVIPE, no una imputación de responsabilidad individual.',sources:['envipe']},{name:'Policías',role:'Primer contacto',cat:'perpetrador',porQue:'Son el primer trato que recibe la víctima, y ese trato aparece entre los motivos declarados para no denunciar: la actitud hostil y el miedo a que la propia autoridad extorsione.',nota:'También previenen y atienden el primer contacto, que es donde se podría construir confianza.',dim:'P',verb:'Desalientan la denuncia',bullets:['Articulan respuesta y prevención.','Su trato condiciona si la víctima denuncia.'],detail:'ENVIPE incluye la actitud hostil de la autoridad y el miedo a la extorsión entre los motivos de no denuncia. Son percepciones reportadas por las víctimas, no una acusación probada contra toda la institución.',sources:['envipe']},{name:'Comunidad y redes vecinales',role:'Sostienen el entorno',cat:'afectado',porQue:'El miedo les cambia la vida cotidiana: dejan de permitir que los menores salgan solos y dejan de visitar a su gente. Pierden el tejido que las protegía.',nota:'También pueden organizarse para prevenir, en lugar de replegarse.',dim:'S',verb:'Se repliegan',bullets:['Aportan redes de apoyo y vigilancia.','El miedo disuelve esas mismas redes.'],detail:'Los cambios de conducta corresponden a Jalisco, datos 2024, ENVIPE 2025. La organización vecinal es una línea de intervención propuesta, no un resultado evaluado, y no traslada al hogar una obligación del Estado.',sources:['envipe']}],
  nodes:[
  {id:'p1',label:'Denunciar\nquita tiempo',dim:'P',type:'Motivo reportado',detail:'31.4% señaló pérdida de tiempo como motivo de no denuncia.',source:'envipe'},
  {id:'p2',label:'Trato y\ntrámites',dim:'P',type:'Motivo reportado',detail:'Trámites difíciles y actitud hostil figuran entre las razones atribuibles a la autoridad.',source:'envipe'},
@@ -214,7 +221,7 @@ const PROBLEMS=[
  {id:'juventud',name:'Precariedad juvenil',short:'Precariedad juvenil',n:'03',color:'#a57d27',light:'#87631b',pale:'#eee8d6',insight:'Tener trabajo no asegura protección\nni una vivienda al alcance.',headline:'Trabajar no basta\npara construir autonomía.',claim:'Trabajar ya no alcanza',claimLong:'Hay trabajo,\npero no protección.',claimFoot:'Y la vivienda se aleja al mismo ritmo.',metric:'58.8%',metricLabel:'de informalidad juvenil',metricContext:'INEGI · ENOE 1T 2025 · México, 15–29 años',metricSource:'youth',stat:'58.8%',center:'Autonomía\ncon barreras',takeaway:'Empleo y vivienda deben leerse como un mismo sistema.',causeTitle:'Barreras que se acumulan',effectTitle:'Implicaciones documentadas',
  causes:[{label:'Empleo informal',dim:'L',detail:'58.8% de la población ocupada de 15 a 29 años trabajó en la informalidad en el primer trimestre de 2025, en México.',source:'youth'},{label:'Vivienda más cara',dim:'E',detail:'El índice SHF aumentó 12.46% anual en la ZM de Guadalajara en el primer trimestre de 2026. Es precio nominal, no renta ni aumento real.',source:'housing'},{label:'Alquiler poco asequible',dim:'P',detail:'CONAVI identifica una oferta insuficiente de rentas asequibles para las necesidades de la población joven.',source:'conavi'}],
  effects:[{label:'Protección laboral débil',dim:'L',detail:'La definición de informalidad se refiere a inserción laboral sin respaldo del marco legal o institucional correspondiente.',source:'youth'},{label:'Acceso habitacional difícil',dim:'S',detail:'CONAVI relaciona los ingresos reducidos con las dificultades para adquirir o rentar vivienda adecuada.',source:'conavi'}],
- roles:[{name:'Jóvenes y familias',role:'Enfrentan las barreras',cats:['afectado'],dim:'S',verb:'Trabajan y sostienen',bullets:['Buscan ingreso, protección y vivienda.','Las redes familiares aportan apoyo.'],detail:'Las fuentes usan rangos de edad distintos: ENOE 15–29 y el diagnóstico CONAVI principalmente 12–29. No se suman sus poblaciones.',sources:['youth','conavi']},{name:'Empleadores',role:'Configuran el empleo',cats:['perpetrador','activista'],dual:'Perpetradores en la medida en que la contratación informal deja al trabajo fuera del marco que protege empleo e ingreso. Activistas cuando formalizan: la formalización es la vía directa para revertir el indicador.',dim:'L',verb:'Contratan y protegen',bullets:['Definen condiciones de contratación.','Participan en la protección laboral.'],detail:'La informalidad incluye modalidades dependientes e independientes. No se atribuye toda la tasa de 58.8% a una sola clase de empleador, ni se afirma intención en cada caso.',sources:['youth']},{name:'Arrendadores y financiadores',role:'Configuran el acceso',cats:['perpetrador'],dim:'E',verb:'Fijan condiciones',bullets:['Establecen precios y requisitos.','Median el acceso a renta y crédito.'],detail:'Funciones identificadas en el diagnóstico de vivienda. Ser perpetrador en este esquema describe la posición en la cadena causal —quien fija el precio y el requisito de entrada—, no una intención ni una culpabilidad individual. El índice SHF describe precios; no establece culpabilidad de actores individuales.',sources:['housing','conavi']},{name:'Gobiernos e instituciones',role:'Diseñan la respuesta',cats:['activista','perpetrador'],dual:'Activistas cuando articulan política de empleo y de vivienda asequible. Perpetradores por omisión cuando los programas quedan segmentados y dejan tramos de edad o de informalidad sin cobertura.',dim:'P',verb:'Regulan y habilitan',bullets:['Articulan empleo y política de vivienda.','Pueden ampliar alternativas asequibles.'],detail:'CONAVI identifica la necesidad de soluciones que respondan al ciclo de vida de las juventudes. Es una línea de intervención, no una evaluación de impacto.',sources:['conavi']}],
+ roles:[{name:'Jóvenes y familias',role:'Enfrentan las barreras',cat:'afectado',porQue:'Trabajan, pero sin protección y con la vivienda alejándose. La autonomía se pospone y la familia termina cubriendo la diferencia.',dim:'S',verb:'Trabajan y sostienen',bullets:['Buscan ingreso, protección y vivienda.','Las redes familiares aportan apoyo.'],detail:'Las fuentes usan rangos de edad distintos: ENOE 15–29 y el diagnóstico CONAVI principalmente 12–29. No se suman sus poblaciones.',sources:['youth','conavi']},{name:'Empleadores',role:'Configuran el empleo',cat:'perpetrador',porQue:'Definen si el trabajo entra o no al marco que protege el empleo y el ingreso. La informalidad deja fuera de ese marco a quien la vive.',nota:'También son la vía directa para revertirlo: formalizar cambia el indicador.',dim:'L',verb:'Contratan sin protección',bullets:['Definen condiciones de contratación.','Participan en la protección laboral.'],detail:'La informalidad incluye modalidades dependientes e independientes. No se atribuye toda la tasa a una sola clase de empleador.',sources:['youth']},{name:'Arrendadores y financiadores',role:'Configuran el acceso',cat:'perpetrador',porQue:'Fijan el precio y los requisitos con los que se entra a una vivienda o a un crédito. Sin comprobantes formales, la puerta simplemente no abre.',dim:'E',verb:'Fijan la entrada',bullets:['Establecen precios y requisitos.','Median el acceso a renta y crédito.'],detail:'Ser perpetrador en este esquema describe la posición en la cadena causal, no una intención ni una culpabilidad individual.',sources:['housing','conavi']},{name:'Gobiernos e instituciones',role:'Diseñan la respuesta',cat:'activista',porQue:'Son quienes pueden articular empleo y vivienda asequible, y ya identificaron la necesidad. Es donde está la palanca.',nota:'También quedan del otro lado cuando los programas dejan tramos de edad o de informalidad sin cobertura.',dim:'P',verb:'Regulan y habilitan',bullets:['Articulan empleo y política de vivienda.','Pueden ampliar alternativas asequibles.'],detail:'CONAVI identifica la necesidad de soluciones que respondan al ciclo de vida de las juventudes. Es una línea de intervención, no una evaluación de impacto.',sources:['conavi']}],
  nodes:[
  {id:'p1',label:'Política\nde vivienda',dim:'P',type:'Marco de respuesta',detail:'CONAVI propone atender las necesidades habitacionales específicas de las juventudes.',source:'conavi'},
  {id:'p2',label:'Oferta de\nrenta asequible',dim:'P',type:'Barrera documentada',detail:'El diagnóstico identifica una oferta insuficiente de alquiler asequible y adecuado.',source:'conavi'},
@@ -273,28 +280,28 @@ const expanded={
  causeIds:['p1','p4','s1','t1'],effectIds:['f1','f2','f4'],gap:'Salud se analiza como sistema; diabetes es un indicador de resultado. Los factores ambientales describen carga general de enfermedad, no una explicación del 33% de control.'},
  seguridad:{bg:'#eed1c0',ink:'#542a25',mapBg:'#402026',mapAccent:'#f3bba7',summary:'Los factores institucionales y sociales se entrelazan: tiempo, trato, confianza y miedo. Los efectos económicos son visibles, aunque no equivalen a las causas de no denuncia.',
  nodes:[
- N('p1','Denunciar\nquita tiempo','P','factor','31.4% de las razones para no denunciar en Jalisco, 2024. INEGI la agrupa explícitamente entre las «causas atribuibles a la autoridad», junto con trámites largos, desconfianza y miedo a la extorsión. ENVIPE 2025.','envipe'),
- N('p2','Trámites\ndifíciles','P','factor','Los trámites largos y difíciles son un motivo de no denuncia incluido por ENVIPE.','envipe'),
- N('p3','Trato hostil de\nla autoridad','P','factor','La actitud hostil de la autoridad figura entre los motivos reportados.','envipe'),
- N('p4','Miedo a que la\nautoridad extorsione','P','factor','ENVIPE incluye miedo a extorsión por la autoridad entre causas de no denuncia.','envipe'),
- N('s1','No confían en\nla autoridad','S','factor','INEGI agrupa cinco motivos de no denuncia bajo la etiqueta «causas atribuibles a la autoridad»: miedo a que lo extorsionaran, pérdida de tiempo, trámites largos y difíciles, desconfianza en la autoridad y actitud hostil de la autoridad. Sólo dos de esos cinco ya suman 47.3% en Jalisco, 2024. LECTURA DEL EQUIPO: la gente no denuncia porque no confía, y esa desconfianza es la lectura acumulada de un sistema que no responde. ENVIPE mide los motivos declarados; no mide si las víctimas conocen el desenlace de los casos, así que ese eslabón es interpretación nuestra, no medición. ENVIPE 2025.','envipe'),
- N('s2','Miedo\nal agresor','S','factor','ENVIPE reconoce temor al agresor como razón para no denunciar.','envipe'),
- N('s3','Delito visto\ncomo menor','S','factor','Percibir el hecho como de poca importancia aparece entre los motivos de no denuncia.','envipe'),
- N('l1','Creer que no\nhay pruebas','L','factor','No tener pruebas es un motivo declarado para no denunciar, no un requisito que aquí se afirme obligatorio.','envipe'),
- N('l2','Denunció y no\nhubo carpeta','L','factor','La cifra oculta incluye delitos denunciados en los que no se abrió carpeta.','envipe'),
- N('t1','Robo de identidad\nen línea','T','factor','La Fiscalía identifica apropiación de identidad mediante servicios digitales. Sin tasa local en esta fuente.','cyber'),
- N('t2','Fraude\npor internet','T','factor','La orientación de Fiscalía reconoce fraude mediante internet. No explica por sí solo la cifra oculta.','cyber'),
- N('t3','Amenazas\ndigitales','T','factor','La Fiscalía menciona amenazas y extorsión mediante internet.','cyber'),
- N('f1','Queda fuera\ndel sistema','L','effect','91.7% de los delitos ocurridos en Jalisco durante 2024. INEGI define la cifra oculta como los delitos no denunciados, más los denunciados sin carpeta de investigación, más aquellos en los que no se especificó si se denunció o se inició carpeta. Verificado contra la presentación ENVIPE 2025 de Jalisco.','envipe'),
- N('f2','Pérdidas\neconómicas','E','effect','El costo total de la inseguridad y el delito en hogares de Jalisco fue de 25.8 mil millones de pesos en 2024, un promedio de 9,100 pesos por persona afectada. Los montos se deflactaron con 2018 como año base. ENVIPE 2025.','envipe'),
- N('f3','Gasto en\nprotección','E','effect','Las medidas preventivas son parte del costo de la inseguridad.','envipe'),
- N('f4','Daño\nemocional','S','effect','La encuesta incluye afectaciones emocionales y psicológicas entre los daños.','envipe'),
- N('f5','Daño\nfísico','S','effect','ENVIPE también registra daños físicos por victimización.','envipe'),
- N('f6','Menores ya no\nsalen solos','S','effect','57% de la población de 18 años y más dejó de permitir que los menores del hogar salgan solos. Es la actividad que MÁS se dejó de hacer por miedo al delito en Jalisco, 2024. El informante pudo elegir varias respuestas, así que los porcentajes no suman 100. ENVIPE 2025.','envipe'),
- N('f7','Dejar de ver\na la familia','S','effect','27.1% dejó de visitar parientes o amistades por miedo. Es la séptima actividad más abandonada en Jalisco, 2024, de una lista donde el informante pudo elegir varias respuestas. ENVIPE 2025.','envipe'),
- N('f8','Perder días\nde trabajo','E','effect','ENVIPE reconoce daño laboral entre las consecuencias de victimización.','envipe'),
- N('c1','Ministerio\nPúblico','L','context','La denuncia y la apertura de carpeta son momentos diferentes del proceso institucional.','envipe'),
- N('c2','Orientación de la\nPolicía Cibernética','T','context','Fiscalía orienta a víctimas de delitos mediante internet. La orientación no sustituye la denuncia.','cyber')],
+ N('p1','Denunciar\nquita tiempo','P','factor','Denunciar exige presentarse en persona, en horario de oficina. Para quien trabaja, significa perder el día. El trámite compite directamente con el ingreso.','envipe'),
+ N('p2','Trámites\ndifíciles','P','factor','El proceso es largo y poco claro. Nadie explica los pasos completos, y la víctima descubre sobre la marcha qué documento le falta.','envipe'),
+ N('p3','Trato hostil de\nla autoridad','P','factor','La persona llega a denunciar un delito y sale sintiéndose sospechosa. El trato que recibe en la ventanilla define si vuelve o no.','envipe'),
+ N('p4','Miedo a que la\nautoridad extorsione','P','factor','Una parte de las víctimas teme que acercarse a la autoridad la exponga a esa misma autoridad. Es un motivo declarado en la encuesta, no una acusación probada.','envipe'),
+ N('s1','No confían en\nla autoridad','S','factor','No es apatía. Es la conclusión de haber visto que las denuncias no avanzan: si no va a servir de nada, no vale la pena empezar.','envipe'),
+ N('s2','Miedo\nal agresor','S','factor','Denunciar implica quedar identificable frente a quien cometió el delito, y esa exposición pesa más que la posibilidad de justicia.','envipe'),
+ N('s3','Delito visto\ncomo menor','S','factor','Cuando el daño parece pequeño, el costo de denunciar se siente más grande que el delito mismo.','envipe'),
+ N('l1','Creer que no\nhay pruebas','L','factor','La víctima asume que sin evidencia no la van a atender, y se ahorra el intento antes de hacerlo.','envipe'),
+ N('l2','Denunció y no\nhubo carpeta','L','factor','Hay quien sí denuncia y aun así el caso nunca se abre formalmente. La denuncia existe; la investigación no.','envipe'),
+ N('t1','Robo de identidad\nen línea','T','factor','Alguien usa la identidad de otra persona en servicios digitales. El daño aparece después, cuando ya se usó para algo.','cyber'),
+ N('t2','Fraude\npor internet','T','factor','El engaño ocurre en línea y el dinero se va rápido. Para cuando se identifica, el rastro ya se enfrió.','cyber'),
+ N('t3','Amenazas\ndigitales','T','factor','Las amenazas y la extorsión llegan por mensaje. No dejan una escena física a la que llegar.','cyber'),
+ N('f1','Queda fuera\ndel sistema','L','effect','El delito ocurrió, pero para el Estado no existe: nunca entró a una investigación. No aparece en ninguna estadística de casos abiertos.','envipe'),
+ N('f2','Pérdidas\neconómicas','E','effect','El hogar pierde lo robado o dañado, y esa pérdida rara vez se recupera.','envipe'),
+ N('f3','Gasto en\nprotección','E','effect','Ante la falta de respuesta, la familia paga su propia seguridad: cerraduras, rejas, cámaras.','envipe'),
+ N('f4','Daño\nemocional','S','effect','El miedo y la ansiedad quedan mucho después del hecho, y no tienen a dónde reportarse.','envipe'),
+ N('f5','Daño\nfísico','S','effect','Cuando hay lesión, el costo médico se suma al daño y también lo cubre el hogar.','envipe'),
+ N('f6','Menores ya no\nsalen solos','S','effect','Es lo primero que cambia una familia con miedo: los hijos dejan de moverse solos por su propia colonia.','envipe'),
+ N('f7','Dejar de ver\na la familia','S','effect','Se deja de visitar a la familia y a los amigos. El miedo achica el mundo y disuelve la red que protegía.','envipe'),
+ N('f8','Perder días\nde trabajo','E','effect','Faltar al trabajo por el delito, por el trámite o por el daño emocional cuesta ingreso. Y ese costo empuja a no denunciar la próxima vez.','envipe'),
+ N('c1','Ministerio\nPúblico','L','context','Es la puerta de entrada al sistema de justicia. Denunciar y abrir carpeta son dos momentos distintos, y entre uno y otro se pierde la mayoría de los casos.','envipe'),
+ N('c2','Orientación de la\nPolicía Cibernética','T','context','Orienta y recibe reportes, pero para que el delito entre a investigación sigue habiendo que acudir en persona.','cyber')],
  relations:[R('p1','f1','La pérdida de tiempo se reporta como motivo de no denuncia.','envipe'),R('p2','f1','Los trámites difíciles contribuyen a la decisión de no denunciar según las respuestas.','envipe'),R('p3','s1','El trato institucional puede erosionar confianza.'),R('p4','s1','El temor a una respuesta dañina se relaciona con confianza.'),R('s1','f1','La desconfianza es motivo reportado para no denunciar.','envipe'),R('s2','f1','El temor al agresor se vincula a no denunciar.','envipe'),R('s3','f1','La valoración de poca importancia es otro motivo declarado.','envipe'),R('l1','f1','La falta percibida de pruebas aparece entre los motivos.','envipe'),R('l2','f1','Ausencia de carpeta después de denunciar forma parte de la cifra oculta.','envipe'),R('c1','l2','El Ministerio Público interviene en la apertura de investigación.','envipe'),R('p2','c1','La experiencia de trámite se sitúa en la entrada institucional.'),R('p3','c1','El trato recibido ocurre en la interacción con autoridades.'),R('t1','t2','La suplantación puede facilitar engaños digitales.'),R('t2','f2','Los fraudes pueden generar pérdidas patrimoniales.'),R('t3','s2','Las amenazas pueden aumentar temor al agresor.'),R('t3','f4','Las amenazas pueden afectar el bienestar emocional.'),R('c2','t1','La orientación cibernética atiende problemas de identidad.','cyber'),R('c2','t2','La Fiscalía orienta sobre fraude mediante internet.','cyber'),R('c2','c1','Orientación y denuncia se conectan en la ruta institucional.','cyber'),R('s2','f6','El miedo al delito puede modificar las salidas del hogar.'),R('s2','f7','El miedo puede restringir la convivencia.'),R('f4','f7','Daño emocional y repliegue social se leen como efectos relacionados.'),R('f2','f3','Pérdidas y prevención integran el costo económico.','envipe'),R('f5','f8','Un daño físico puede afectar la actividad laboral.'),R('f8','f2','La afectación laboral puede sumar pérdidas de ingreso.'),R('f1','s1','Hipótesis de retroalimentación: poca respuesta visible puede erosionar confianza.'),R('f6','f7','Ambas son restricciones de actividades por temor al delito.','envipe'),R('p1','f8','El tiempo que exige denunciar compite con la jornada laboral; ENVIPE registra ambos como costos que enfrenta la víctima.'),R('f4','f8','El daño emocional puede afectar la asistencia y el desempeño en el trabajo.'),R('f6','f8','Restringir salidas modifica traslados y horarios, y eso alcanza la actividad laboral.'),R('l2','f8','Sin carpeta de investigación no queda constancia oficial del hecho, lo que puede dificultar acreditar la afectación ante terceros.'),R('f8','f3','La pérdida de ingreso y el gasto en protección compiten por el mismo presupuesto del hogar.'),R('f8','s1','Hipótesis de retroalimentación: el costo laboral que implica denunciar puede reforzar la decisión de no denunciar.'),R('p3','f4','El trato hostil de la autoridad puede sumarse al daño emocional de la victimización.'),R('t2','f1','Los delitos cometidos por internet también pueden quedar sin denuncia o sin carpeta; la Fiscalía no estima qué proporción de la cifra oculta representan.'),R('c1','f1','La apertura de carpeta por el Ministerio Público es el punto donde un delito denunciado entra o no a la cifra oculta.','envipe'),R('p4','s1','El miedo a la extorsión por parte de la autoridad y la desconfianza institucional son motivos de no denuncia que se refuerzan entre sí.'),R('f7','s2','Hipótesis de retroalimentación: dejar de visitar a la red cercana puede aumentar el aislamiento y el temor al agresor.'),R('s3','l1','Percibir el delito como menor y creer que no hay pruebas son dos motivos declarados que llevan a la misma decisión.')],
  causeIds:['p1','s1','p2','s2'],effectIds:['f1','f2','f6'],gap:'La red distingue causas reportadas de no denuncia, riesgos digitales y efectos de victimización. No atribuye todos los costos del delito a la cifra oculta. Sin factor ecológico específico acreditado en este recorte.'},
  juventud:{bg:'#e9ddae',ink:'#493917',mapBg:'#342e17',mapAccent:'#e8d28f',summary:'La dimensión económica reúne más barreras identificadas: ingreso, ahorro, vivienda, renta y crédito. La protección laboral y el contexto social amplifican esas dificultades.',
@@ -451,25 +458,20 @@ const SeccionCausas=({p,abrirNodo,abrirFuente})=>{
     return()=>removeEventListener('resize',r)},[dibujar]);
   return(
     <section className="chapter-opening wrap reveal" id={p.id+'-causas'}>
-      <div className="chapter-heading">
+      <div className="chapter-heading solo">
         <div><div className="eyebrow">{p.n} · {p.name}</div>
           <h2>{lineas(p.headline).map((t,i)=>(<React.Fragment key={i}>{t}<br/></React.Fragment>))}</h2></div>
-        <div className="hero-stat">
-          <div className="big claim">{lineas(p.claimLong).map((t,i)=><span key={i}>{t}</span>)}</div>
-          <p>{p.claimFoot}</p>
-          <button className="ref" onClick={()=>abrirFuente(p.metricSource)}>Ver el respaldo empírico ↗</button>
-        </div>
       </div>
       <div className="cause-layout" ref={caja}>
         <svg className="causal-wires" ref={svg} aria-hidden="true"></svg>
-        <div className="cause-column"><p className="col-label">Factores y causas</p>
+        <div className="cause-column"><p className="col-label">Causas</p>
           {p.causes.map(n=><NodoCausa key={n.id} n={n} p={p} abrirNodo={abrirNodo}/>)}</div>
         <div className="causal-center"><span>La problemática</span><h3>{plain(p.center)}</h3></div>
-        <div className="cause-column"><p className="col-label">Efectos e implicaciones</p>
+        <div className="cause-column"><p className="col-label">Efectos</p>
           {p.effects.map(n=><NodoCausa key={n.id} n={n} p={p} abrirNodo={abrirNodo}/>)}</div>
       </div>
       <div className="takeaway"><p>{p.takeaway}</p>
-        <span>Esta es la síntesis. {p.id===ELEGIDA?`El mapa PESTEL reúne ${p.nodes.length} factores, efectos y elementos de contexto.`:'El mapa conceptual se construye sólo para la problemática elegida.'}</span></div>
+        </div>
     </section>);
 };
 
@@ -479,37 +481,34 @@ const Actores=({p,abrirActor})=>{
   return(
     <section className="stake-section wrap reveal" id={p.id+'-actores'}>
       <div className="section-heading">
-        <h2>¿Quién causa, quién<br/>combate y quién lo vive?</h2>
-        <p>Los stakeholders se clasifican en tres categorías. Un mismo actor puede ocupar dos a la vez, y eso se declara con el contexto en que ocurre cada una.</p>
+        <h2>Stakeholders</h2>
       </div>
       <div className="role-legend" role="list" aria-label="Categorías de stakeholder">
         {ROLE_ORDER.map(c=>(
           <span className="role-key" role="listitem" key={c} style={{'--role':ROLE[c].light,'--role-bright':ROLE[c].color}}>
             <i></i><b>{ROLE[c].name}</b><small>{ROLE[c].desc}</small></span>))}
-        <span className="role-key dual-key" role="listitem"><i></i><b>Doble categoría</b><small>Cambia según el contexto</small></span>
       </div>
       <div className="stake-layout">
         <div className="actors" role="group" aria-label={'Stakeholders de '+p.name}>
           {p.roles.map((x,i)=>(
-            <button key={i} className={'actor'+(x.cats.length>1?' is-dual':'')} aria-pressed={i===activo}
+            <button key={i} className="actor" aria-pressed={i===activo}
               onClick={()=>setActivo(i)}
-              style={{'--role':ROLE[x.cats[0]].light,'--role-bright':ROLE[x.cats[0]].color,
-                      '--role2':ROLE[x.cats[x.cats.length-1]].light,'--role2-bright':ROLE[x.cats[x.cats.length-1]].color}}>
-              <span className="actor-cats">{x.cats.map(c=>ROLE[c].name).join(' + ')}</span>
+              style={{'--role':ROLE[x.cat].light,'--role-bright':ROLE[x.cat].color}}>
+              <span className="actor-cats">{ROLE[x.cat].name}</span>
               <h3>{x.name}</h3>
               <span className="actor-verb">{x.verb}<span>↗</span></span>
             </button>))}
         </div>
         <aside className="stake-detail" aria-live="polite">
-          <div className="eyebrow">{r.role}</div><h3>{r.verb}.</h3>
-          <div className="role-chips">{r.cats.map(c=>(
-            <span className="role-chip" key={c} style={{'--role':ROLE[c].light,'--role-bright':ROLE[c].color}}>{ROLE[c].name}</span>))}</div>
-          {r.dual&&<p className="dual-note"><strong>Doble categoría.</strong> {r.dual}</p>}
-          <ul>{r.bullets.map((b,i)=><li key={i}>{b}</li>)}</ul>
-          <button className="ref" onClick={()=>abrirActor(p,activo)}>Ver función y respaldo ↗</button>
+          <div className="eyebrow">{r.name}</div>
+          <div className="role-chips">
+            <span className="role-chip" style={{'--role':ROLE[r.cat].light,'--role-bright':ROLE[r.cat].color}}>{ROLE[r.cat].name}</span></div>
+          <p className="por-que">{r.porQue}</p>
+          {r.nota&&<p className="rol-nota">{r.nota}</p>}
+          <button className="ref" onClick={()=>abrirActor(p,activo)}>Ver el respaldo ↗</button>
         </aside>
       </div>
-      <p className="stake-note">Ser stakeholder describe una relación con el problema; no implica causarlo intencionalmente. «Perpetrador» nombra la posición en la cadena causal, incluida la omisión, no una intención probada.</p>
+      <p className="stake-note">La categoría describe la posición en la cadena causal, incluida la omisión. No afirma intención.</p>
     </section>);
 };
 
@@ -524,53 +523,12 @@ const Capitulo=({p,abrirNodo,abrirFuente,abrirActor})=>{
         <nav aria-label={'Secciones de '+p.name}>
           <a href={'#'+p.id+'-causas'}>Causas y efectos</a>
           <a href={'#'+p.id+'-actores'}>Stakeholders</a>
-          {yo&&<a href="#decision">Por qué esta</a>}
         </nav>
       </header>
       <SeccionCausas p={p} abrirNodo={abrirNodo} abrirFuente={abrirFuente}/>
       <Actores p={p} abrirActor={abrirActor}/>
     </article>);
 };
-
-/* ── Bloque 1b · la decisión ──────────────────────────────────────────────── */
-const FILTRO=[['Wicked','El problema no se resuelve, se incide en él: variables interconectadas, sin solución correcta y sin regla de paro.'],
-['Cercanía','El equipo puede acercarse al fenómeno sin intermediarios.'],
-['Conducta accionable','Existe una conducta concreta que una campaña puede mover.'],
-['Fuentes primarias','Hay medición oficial con metodología pública, no sólo notas de prensa.'],
-['Stakeholders claros','Se puede nombrar quién causa, quién combate y quién lo vive.'],
-['Seguridad y ética','Se puede investigar sin poner en riesgo a nadie ni producir un manual del delito.']];
-const RAZONES={salud:'Su núcleo es financiero y administrativo, no wicked. La cercanía del equipo con el fenómeno es prestada.',
-juventud:'Acceso inmejorable a fuentes primarias, pero no aparece una conducta concreta que una campaña pueda cambiar.'};
-
-const Decision=({abrirFuente})=>{
-  const el=PROBLEMS.find(p=>p.id===ELEGIDA);
-  return(
-  <section className="decision-section" id="decision"><div className="wrap">
-    <div className="section-heading">
-      <div className="eyebrow">Del bloque 1 al bloque 2</div>
-      <h2>Tres candidatas.<br/><em>Una decisión.</em></h2>
-      <p>Las tres se investigaron con el mismo nivel: stakeholders, causas y efectos. Sólo una se lleva el mapa completo. Esta es la que se eligió y por qué las otras dos no.</p>
-    </div>
-    <div className="filtro"><h3>El filtro: seis criterios</h3>
-      <ol>{FILTRO.map(([t,d])=><li key={t}><strong>{t}</strong><span>{d}</span></li>)}</ol></div>
-    <div className="candidatas">
-      {PROBLEMS.map(p=>{const yo=p.id===ELEGIDA;return(
-        <article className={'candidata'+(yo?' gana':'')} key={p.id} style={{'--chapter':p.color}}>
-          <div className="cand-top"><span className="cand-num">{p.n}</span>
-            <span className="cand-veredicto">{yo?'Elegida':'Descartada'}</span></div>
-          <h3>{p.name}</h3>
-          <p>{yo?'Cumple los seis criterios. Es wicked de manual, tiene medición oficial de INEGI con metodología pública, stakeholders nombrables y una conducta sobre la que sí se puede incidir.':RAZONES[p.id]}</p>
-          {yo?(<React.Fragment>
-              <p className="cand-recorte"><strong>Con un recorte.</strong> El profesor señaló que «inseguridad» es un término paraguas. La problemática se recortó a <em>{plain(el.center)}</em>, que sí tiene medición oficial con metodología pública.</p>
-              <p className="cand-recorte"><button className="ref" onClick={()=>abrirFuente(el.metricSource)}>Ver el respaldo empírico ↗</button></p>
-            </React.Fragment>)
-            :<p className="cand-hereda">Se conserva en la entrega como problemática comparada, con sus stakeholders, causas y efectos. No se le construye mapa conceptual propio.</p>}
-        </article>)})}
-    </div>
-    <div className="hereda"><h3>La elegida hereda a las otras dos</h3>
-      <p>Descartarlas no las borra del análisis. La <strong>precariedad juvenil</strong> aparece como motor económico, la <strong>salud pública</strong> como ejemplo del mismo patrón —el hogar absorbiendo una falla del sistema— y ambas comparten el actor que atraviesa todo: un Estado que no registra.</p>
-      <p className="metadata">Marco del curso: roadmap de 10 pasos de marketing social (Kotler). Este bloque cubre los pasos 1 y 2: definir la problemática y analizar la situación.</p></div>
-  </div></section>)};
 
 /* ── Bloque 2 · el mapa interactivo ───────────────────────────────────────── */
 const SLOTS={P:[[430,130],[690,130],[540,255],[300,280],[750,330],[470,385]],E:[[1020,100],[1310,140],[1160,255],[1410,295],[1030,380],[1260,415],[1420,495],[1120,510],[870,210]],S:[[1290,650],[1060,680],[1430,805],[1170,825],[1310,970],[1050,1010],[1450,1100],[1190,1140]],T:[[800,870],[640,1020],[800,1090],[760,1170],[990,875]],K:[[280,930],[440,1070],[225,1120],[520,885]],L:[[150,490],[380,515],[180,660],[430,700],[240,800]]};
@@ -780,8 +738,7 @@ const Conexiones=({p,abrirNodo,abrirRelacion})=>{
 
 const MapaRuta=({p,abrirActor})=>{
   const rs=p.roles,cx=500,cy=330,rx=418,ry=238;
-  const lado=r=>{const viv=r.cats.includes('afectado'),act=r.cats.includes('perpetrador')||r.cats.includes('activista');
-    return viv&&act?'both':viv?'right':'left'};
+  const lado=r=>r.cat==='afectado'?'right':'left';
   const ANG={left:[205,155,232,128,250,110],right:[335,25,308,52,290,70],both:[270,90,262,98]};
   const usado={left:0,right:0,both:0};
   const pos=rs.map(r=>{const g=lado(r),a=(ANG[g][usado[g]++]||270)*Math.PI/180;
@@ -790,9 +747,7 @@ const MapaRuta=({p,abrirActor})=>{
   const cortar=(t,max,lineas=2)=>{const w=t.split(' '),out=[];let cur='';
     for(const x of w){if((cur+' '+x).trim().length>max){out.push(cur.trim());cur=x}else cur+=' '+x}
     if(cur.trim())out.push(cur.trim());return out.slice(0,lineas)};
-  const destino=r=>{const t=[];
-    if(r.cats.includes('perpetrador')||r.cats.includes('activista'))t.push(causa);
-    if(r.cats.includes('afectado'))t.push(efecto);return t.length?t:[{x:cx,y:cy}]};
+  const destino=r=>[r.cat==='afectado'?efecto:causa];
   const nucleo=cortar(plain(p.center),14,3);
   return(
   <figure className="route-figure">
@@ -801,7 +756,7 @@ const MapaRuta=({p,abrirActor})=>{
       <g aria-hidden="true">
         <ellipse className="route-orbit" cx={cx} cy={cy} rx={rx} ry={ry}/>
         {rs.map((r,i)=>destino(r).map((t,k)=>(
-          <path key={i+'-'+k} className="route-tie" style={{'--role':ROLE[r.cats[0]].light,'--role-bright':ROLE[r.cats[0]].color}}
+          <path key={i+'-'+k} className="route-tie" style={{'--role':ROLE[r.cat].light,'--role-bright':ROLE[r.cat].color}}
             d={`M${pos[i].x} ${pos[i].y}Q${(pos[i].x+t.x)/2} ${(pos[i].y+t.y)/2+(pos[i].y<cy?-34:34)} ${t.x} ${t.y}`}/>)))}
         <path className="route-spine" d={`M${causa.x+96} ${cy}H${cx-92}`}/>
         <path className="route-spine" d={`M${cx+92} ${cy}H${efecto.x-96}`}/>
@@ -820,16 +775,16 @@ const MapaRuta=({p,abrirActor})=>{
         {cortar(plain(p.criticalEffect.label),18).map((t,i)=>
           <text key={i} className="route-name" x={efecto.x} y={cy+4+i*24} textAnchor="middle">{t}</text>)}</g>
       {rs.map((r,i)=>{const ls=cortar(r.name,22),arriba=pos[i].y<cy;
-        return(<g key={i} className="route-actor" style={{'--role':ROLE[r.cats[0]].light,'--role-bright':ROLE[r.cats[0]].color}}
+        return(<g key={i} className="route-actor" style={{'--role':ROLE[r.cat].light,'--role-bright':ROLE[r.cat].color}}
           role="button" tabIndex="0" onClick={()=>abrirActor(p,i)}
           onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();abrirActor(p,i)}}}
-          aria-label={r.name+': '+r.cats.map(c=>ROLE[c].name).join(' y ')}>
+          aria-label={r.name+': '+ROLE[r.cat].name}>
           <circle cx={pos[i].x} cy={pos[i].y} r="13"/>
           {ls.map((t,j)=><text key={j} x={pos[i].x}
             y={pos[i].y+(arriba?-30-((ls.length-1-j)*19):34+j*19)} textAnchor="middle">{t}</text>)}
           <text className="actor-tag" x={pos[i].x}
             y={pos[i].y+(arriba?-30-(ls.length-1)*19-18:34+ls.length*19)} textAnchor="middle">
-            {r.cats.map(c=>ROLE[c].name).join(' + ')}</text>
+            {ROLE[r.cat].name}</text>
         </g>)})}
     </svg>
   </figure>)};
@@ -888,7 +843,7 @@ const Fuentes=({abrirFuente})=>{
 
 /* ── App ──────────────────────────────────────────────────────────────────── */
 const ANCLAS=[['inicio','Introducción'],...PROBLEMS.map(p=>[p.id,p.short]),
-  ['decision','Decisión'],[ELEGIDA+'-fondo','El mapa'],['fuentes','Fuentes']];
+  [ELEGIDA+'-fondo','El mapa'],['fuentes','Fuentes']];
 
 function App(){
   const [dialogo,setDialogo]=useState(null);
@@ -912,10 +867,11 @@ function App(){
     <React.Fragment><div className="eyebrow">{DIM[n.dim].name} · {kindName(n.kind)}</div>
       <h2>{plain(n.label)}</h2><p>{n.detail}</p><FichaFuente id={n.source}/></React.Fragment>)})};
   const abrirActor=(p,i)=>{const r=p.roles[i];setDialogo({titulo:'Evidencia y contexto',cuerpo:(
-    <React.Fragment><div className="eyebrow">Stakeholder · {r.role}</div><h2>{r.name}</h2>
-      <div className="role-chips">{r.cats.map(c=>(
-        <span className="role-chip" key={c} style={{'--role':ROLE[c].light,'--role-bright':ROLE[c].color}}>{ROLE[c].name}</span>))}</div>
-      <p>{r.detail}</p>{r.sources.map(id=><FichaFuente key={id} id={id}/>)}</React.Fragment>)})};
+    <React.Fragment><div className="eyebrow">Stakeholder</div><h2>{r.name}</h2>
+      <div className="role-chips">
+        <span className="role-chip" style={{'--role':ROLE[r.cat].light,'--role-bright':ROLE[r.cat].color}}>{ROLE[r.cat].name}</span></div>
+      <p>{r.porQue}</p>{r.nota&&<p className="metadata">{r.nota}</p>}
+      {r.sources.map(id=><FichaFuente key={id} id={id}/>)}</React.Fragment>)})};
   const abrirRelacion=(p,i)=>{const r=p.relations[i],a=p.nodes.find(n=>n.id===r.a),b=p.nodes.find(n=>n.id===r.b);
     setDialogo({titulo:'Una relación de la red',cuerpo:(
     <React.Fragment><div className="eyebrow">{r.status}</div>
@@ -936,7 +892,6 @@ function App(){
     <React.Fragment><h2>El recorrido.</h2><div className="contents-list">
       <a href="#inicio">Introducción</a>
       {PROBLEMS.map(p=><a key={p.id} href={'#'+p.id}>{p.n} · {p.name}</a>)}
-      <a href="#decision">Por qué elegimos delitos</a>
       <a href={'#'+ELEGIDA+'-fondo'}>El mapa a fondo</a>
       <a href={'#'+ELEGIDA+'-mapa'}>↳ Mapa PESTEL</a>
       <a href={'#'+ELEGIDA+'-conexiones'}>↳ Conexiones</a>
@@ -982,7 +937,6 @@ function App(){
       <main>
         <Portada abrirFuente={abrirFuente}/>
         {PROBLEMS.map(p=><Capitulo key={p.id} p={p} abrirNodo={abrirNodo} abrirFuente={abrirFuente} abrirActor={abrirActor}/>)}
-        <Decision abrirFuente={abrirFuente}/>
         <Fondo p={elegida} {...manejadores}/>
         <Fuentes abrirFuente={abrirFuente}/>
       </main>
