@@ -146,9 +146,9 @@
 .causal-wires .par{fill:none;stroke:var(--chapter-ink,var(--ink));stroke-width:1.2;opacity:.32}
 
 /* ── Mapa reorganizado: causas a la izquierda, efectos a la derecha ── */
-.lado-label{font:700 21px/1 var(--display);letter-spacing:.16em;fill:var(--map-accent);opacity:.85}
-.banda{fill:var(--sector);opacity:.055;stroke:var(--sector);stroke-opacity:.16;stroke-width:1}
-.map-section .sector-label{font:600 12.5px/1 var(--font);letter-spacing:.13em;text-transform:uppercase;fill:var(--sector);opacity:.9;text-anchor:start}
+.lado-label{font:700 19px/1 var(--display);letter-spacing:.18em;fill:var(--map-accent);opacity:.7}
+.map-section .orbit-guide{fill:none;stroke:var(--map-accent);stroke-opacity:.1;stroke-dasharray:2 10}
+.map-section .sector-label{font:600 12.5px/1 var(--font);letter-spacing:.13em;text-transform:uppercase;fill:var(--sector);opacity:.85}
 .neural-node .grado-num{font:700 14px/1 var(--font);fill:var(--node-color);opacity:.95;pointer-events:none;letter-spacing:.02em}
 .neural-node.manda .halo{opacity:.34}
 .neural-node.manda .point{stroke:var(--map-accent);stroke-width:2.5}
@@ -169,6 +169,11 @@
 .neural-edge.gruesa{stroke-width:2.2;opacity:.55}
 .map-section.reducido .inspector{margin-top:26px}
 @media(max-width:700px){.reduccion{gap:14px}.reduccion .flecha{display:none}.reduccion strong{font-size:2rem}}
+
+.network-key .sep{width:1px;height:16px;background:var(--line);opacity:.5}
+.network-key .key-dim{display:flex;align-items:center;gap:7px}
+.network-key .key-dim i{width:11px;height:11px;border-radius:3px;flex:none}
+.network-key .key-nota{opacity:.6;font-style:italic}
 @media(prefers-color-scheme:dark){
 :root:not([data-theme=light]) .chosen-tag,:root:not([data-theme=light]) .candidata.gana .cand-veredicto{color:#10201a}
 :root:not([data-theme=light]) .decision-section{background:var(--paper)}
@@ -280,9 +285,9 @@ const ROLE={perpetrador:{name:'Perpetrador',desc:'Causa la problemática',color:
 const ROLE_ORDER=['perpetrador','activista','afectado'];
 const DIM_ORDER=['P','E','S','T','K','L'];
 Object.assign(SOURCES,{
- rezago:{name:'INEGI · Censo de procuración de justicia',title:'Rezago de carpetas en las fiscalías estatales',year:'2025',scope:'Jalisco y México · carpetas pendientes',url:'https://www.informador.mx/jalisco/Fiscalia-de-Jalisco-la-mas-rezagada-del-pais-segun-el-Inegi-20251002-0189.html',page:'Nota de prensa sobre el censo del INEGI',note:'Jalisco concentra el mayor volumen de carpetas sin resolver del país y una de las tasas más altas de archivo temporal. ADVERTENCIA: la referencia es una nota de prensa que cita el censo. Antes de usar la cifra en la entrega hay que ir al documento original del INEGI.'},
- fiscalias:{name:'Causa en Común · Censo de fiscalías',title:'Carga de trabajo por agente del Ministerio Público',year:'2026',scope:'Jalisco y México · agentes ministeriales y carpetas',url:'https://www.informador.mx/mexico/fiscalias-acumulan-4.7-millones-de-carpetas-sin-resolver-en-mexico-causa-en-comun-20260529-0148.html',page:'Nota de prensa sobre el censo de fiscalías',note:'Documenta cuántas carpetas carga cada agente ministerial y el rezago acumulado nacional. ADVERTENCIA: nota de prensa que cita el censo. Verificar contra el documento de Causa en Común antes de la entrega.'},
- evalua:{name:'México Evalúa · Radiografía de la Impunidad',title:'Qué proporción de los delitos llega a resolverse',year:'2024',scope:'México · sistema de justicia penal',url:'https://www.proceso.com.mx/nacional/justicia/2026/3/17/el-9923-de-los-delitos-en-mexico-no-se-denuncian-quedan-impunes-mexico-evalua-370432.html',page:'Nota de prensa sobre el estudio',note:'Estima qué parte de los delitos no se denuncia y qué parte de lo denunciado se resuelve. ADVERTENCIA: nota de prensa. El estudio original de México Evalúa es la fuente que debe citarse.'},
+ rezago:{name:'INEGI · Censo de procuración de justicia',title:'Rezago de carpetas en las fiscalías estatales',year:'2025',scope:'Jalisco y México · carpetas pendientes',url:'https://www.inegi.org.mx/contenidos/programas/cnpje/2025/doc/cnpje_2025_resultados.pdf',page:'Determinaciones y conclusiones en la etapa de investigación inicial',note:'VERIFICADO contra el documento el 8 de septiembre de 2026. De 1,765,377 determinaciones de las fiscalías estatales en la etapa de investigación inicial durante 2024, el 39.9% fue archivo temporal, el 26.5% no ejercicio de la acción penal y sólo el 14.9% ejercicio de la acción penal. El archivo temporal guarda la carpeta sin cerrarla ni avanzarla. LÍMITE: la cifra es nacional; el censo no publica en este reporte el desglose de Jalisco.'},
+ fiscalias:{name:'INEGI · Censo Nacional de Procuración de Justicia',title:'Volumen de carpetas y personal de las fiscalías',year:'2025',scope:'México · fiscalías estatales, datos 2024',url:'https://www.inegi.org.mx/contenidos/programas/cnpje/2025/doc/cnpje_2025_resultados.pdf',page:'Carpetas de investigación abiertas y personal adscrito',note:'VERIFICADO contra el documento el 8 de septiembre de 2026. En 2024 se abrieron 2,139,228 carpetas de investigación. El personal de las instituciones estatales de procuración de justicia sumó 100,305 personas. LÍMITES: no incluye a la Ciudad de México, que no entregó el módulo completo, ni algunos datos de Guanajuato y San Luis Potosí, que negaron proporcionarlos.'},
+ evalua:{name:'México Evalúa · Radiografía de la Impunidad',title:'Qué proporción de los delitos llega a resolverse',year:'2024',scope:'México · sistema de justicia penal',url:'https://mexicoevalua.org/solo-1-de-cada-10-casos-se-resuelve-en-mexico-radiografia-de-la-impunidad-propone-soluciones-para-fortalecer-la-justicia-penal/',page:'Radiografía de la Impunidad 2024 · flujo procesal e IIPI',note:'VERIFICADO contra el documento el 8 de septiembre de 2026. El 93% de los delitos no se denuncia, dato que el estudio toma de la ENVIPE del INEGI. De las denuncias que sí ocurren, el 93.8% deriva en la apertura de una carpeta, pero sólo el 6.28% de los casos acumulados llega al ejercicio de la acción penal. El Índice de Impunidad Penal Institucional estima que el 89.42% de los casos que el sistema debía resolver en 2024 no obtuvo solución efectiva. Entre 2019 y 2024 los casos pendientes en fiscalías pasaron de 1.3 a 2.6 millones. CORRECCIÓN: la cifra de 99.23% que circuló en prensa NO aparece en el estudio.'},
 
  pestel:{name:'CIPD · PESTLE analysis',title:'El marco PESTEL',year:'2025',scope:'Marco metodológico · factores externos',url:'https://www.cipd.org/uk/knowledge/factsheets/pestle-analysis-factsheet/',page:'What is a PESTLE analysis?',note:'Clasifica seis dimensiones del entorno. Esta visualización adapta el marco al análisis de problemas sociales. No aporta una fórmula de ponderación causal.'},
  sector:{name:'DOF · Programa Sectorial de Salud',title:'Diagnóstico del sistema de salud',year:'2025–2030',scope:'México · diagnóstico de política pública',url:'https://sidof.segob.gob.mx/notas/docFuente/5767240',page:'Apartado 5 · diagnóstico; integración y modernización',note:'Documenta barreras de acceso, distribución de medicamentos y fragmentación de información. Las metas del programa no se presentan como resultados logrados.'},
@@ -295,30 +300,30 @@ const R=(a,b,why,source=null)=>({a,b,why,source,status:source?'Vínculo descrito
 const expanded={
  salud:{bg:'#cbe5d9',ink:'#133c32',mapBg:'#0b302b',mapAccent:'#abe1c2',summary:'La capacidad pública concentra más factores en este recorte. Los costos, la continuidad y la información clínica conectan distintas dimensiones.',
  nodes:[
- N('p1','Financiamiento\nlimitado','P','factor','Gasto total en salud: 5.9% del PIB frente a 9.3% OCDE. México; panorama 2025.','oecd'),
- N('p2','Personal\ninsuficiente','P','factor','México registra menos médicos y enfermeras por habitante que el promedio OCDE. Panorama 2025.','oecd'),
- N('p3','Capacidad\nhospitalaria','E','context','1.0 camas por mil habitantes frente a 4.2 OCDE; referencia nacional publicada en 2025. Corrección del profesor (1a revisión): no es un factor 100% político, es la consecuencia económica de decisiones de financiamiento y gestión. Se clasifica en económico y se declara su origen político.','oecd'),
- N('p4','Medicamento\nque no llega','P','factor','El diagnóstico sectorial identifica retrasos en la distribución de medicamentos.','sector'),
- N('p5','Coordinación\nentre servicios','P','factor','El programa reconoce fragmentación institucional y plantea integrar los servicios.','sector'),
- N('e1','Bajos\ningresos','E','factor','Las brechas socioeconómicas atraviesan la atención y el tratamiento de diabetes.','ensanut'),
- N('e2','Costo de\ntraslado','E','factor','Los costos para llegar a una unidad aparecen como barrera de acceso.','sector'),
- N('e3','Pago de\nmedicamentos','E','factor','La compra de medicamentos representa 38% del gasto familiar en salud; ENIGH 2024, análisis CIEP 2025.','ciep'),
- N('s1','Cuidado que\nse interrumpe','S','factor','El estudio recomienda fortalecer seguimiento y continuidad; el nodo nombra lo que falla cuando esa continuidad no ocurre.','ensanut'),
- N('s2','Uso irregular\ndel tratamiento','S','factor','77.4% reporta uso regular de fármacos; adultos diagnosticados, ENSANUT 2021–2024.','ensanut'),
- N('s3','Horarios\nincompatibles','S','factor','Los horarios de atención pueden ser incompatibles con la vida cotidiana.','sector'),
- N('s4','Barreras\nterritoriales','S','factor','Las distancias y la ubicación de las unidades dificultan el acceso efectivo.','sector'),
- N('t1','Expedientes\nfragmentados','T','factor','El diagnóstico reconoce sistemas y bases clínicas que operan por separado.','sector'),
- N('t2','Información\nno interoperable','T','factor','La falta de intercambio clínico puede producir registros duplicados e información incompleta.','sector'),
- N('k1','Contaminación\ndel aire','K','factor','La exposición atmosférica produce daños agudos y crónicos en salud.','air'),
- N('l1','Estándares\nde atención','L','context','La NOM-015 de 2010 establece prevención, tratamiento y control de diabetes. No mide cumplimiento.','nom'),
- N('l2','Derecho a\nla salud','L','context','El programa sectorial reconoce la protección de la salud como derecho constitucional.','sector'),
- N('f1','El padecimiento\nno se controla','S','effect','33.0% con control glucémico; adultos diagnosticados, ENSANUT 2021–2024.','ensanut'),
- N('f2','Lo que paga\nel hogar','E','effect','$6,421 anuales por hogar en 2024; estimación de CIEP sobre ENIGH.','ciep'),
- N('f3','Presión sobre\nel presupuesto','E','effect','El gasto de bolsillo aumentó 7.9% real entre 2022 y 2024.','ciep'),
- N('f4','Retrasos\nen atención','P','effect','El diagnóstico vincula barreras operativas e información incompleta con retrasos de atención.','sector'),
- N('f5','Registros\nduplicados','T','effect','Los sistemas independientes generan duplicidad y pérdida de información clínica.','sector'),
- N('f6','Daño\nrespiratorio','K','effect','La contaminación puede aumentar síntomas e infecciones respiratorias y hospitalizaciones por asma.','air'),
- N('f7','Daño\ncardiovascular','K','effect','La exposición prolongada se asocia con enfermedades cardiovasculares.','air')],
+ N('p1','Financiamiento\nlimitado','P','factor','México gasta en salud una proporción de su economía muy por debajo de los países con los que se compara. Ese techo no es un número abstracto: define cuántas personas atienden, con qué equipo y en cuántas horas. Todo lo demás se acomoda a lo que ese presupuesto permite.','oecd'),
+ N('p2','Personal\ninsuficiente','P','factor','No hay suficiente personal médico y de enfermería para la gente que llega. Eso se traduce en consultas más cortas, citas más separadas y menos tiempo para explicar cómo vivir con un padecimiento crónico, que es justo lo que decide si se controla.','oecd'),
+ N('p3','Capacidad\nhospitalaria','E','context','El número de camas por habitante está muy por debajo del referente internacional. No es una decisión clínica sino la consecuencia económica de años de financiamiento ajustado: se atiende lo urgente y el seguimiento se posterga.','oecd'),
+ N('p4','Medicamento\nque no llega','P','factor','El medicamento existe, está recetado, y aun así no está en el anaquel el día que la persona va por él. Cuando eso pasa, o lo compra por su cuenta o interrumpe el tratamiento. Ninguna de las dos salidas es gratis.','sector'),
+ N('p5','Servicios que no\nse hablan entre sí','P','factor','La persona pasa por el primer nivel, por el especialista y por urgencias, pero cada uno la atiende como si fuera la primera vez. Nadie tiene la película completa de su padecimiento, sólo fotos sueltas.','sector'),
+ N('e1','Ingresos\nque no alcanzan','E','factor','Cuando el ingreso apenas cubre lo básico, cualquier gasto de salud compite con la comida o la renta. La decisión de saltarse un estudio o media dosis no es descuido: es aritmética.','ensanut'),
+ N('e2','El traslado\ncuesta','E','factor','Ir a consulta implica pasaje, a veces varios camiones, y tiempo. Para un padecimiento que exige volver cada mes durante años, ese costo se acumula hasta volverse la razón por la que se deja de ir.','sector'),
+ N('e3','Pagar el\nmedicamento','E','factor','Lo que el sistema no surte, lo compra la familia. Es un gasto que se repite cada mes y que nadie presupuestó, y es de los primeros que se recorta cuando el dinero no alcanza.','ciep'),
+ N('s1','El seguimiento\nse pierde','S','factor','A una persona con diabetes le dan tratamiento y una cita de control, pero entre una consulta y la siguiente nadie la acompaña. Si falta, nadie la busca. El tratamiento sigue existiendo en el expediente y el control se pierde en la vida real.','ensanut'),
+ N('s2','El tratamiento\nse toma a medias','S','factor','Tomar medicamento todos los días durante años, sin sentirse mal, es difícil de sostener. Sin acompañamiento la persona ajusta la dosis por su cuenta, la espacia o la suspende cuando se siente bien.','ensanut'),
+ N('s3','El horario no\nembona con el trabajo','S','factor','La consulta es en horario laboral y la persona trabaja en horario laboral. Ir significa pedir permiso o perder el día, así que se pospone hasta que hay una urgencia.','sector'),
+ N('s4','La clínica\nqueda lejos','S','factor','Vivir lejos de donde se atiende convierte una consulta de veinte minutos en una salida de medio día. La distancia no impide ir una vez; impide ir todos los meses.','sector'),
+ N('t1','Cada institución\ntiene su expediente','T','factor','El historial de una persona está partido entre el IMSS, la clínica privada y el hospital al que llegó de urgencia. Cada quien guarda su pedazo y nadie ve el conjunto.','sector'),
+ N('t2','Los sistemas no\nse comunican','T','factor','Aunque exista el expediente electrónico, las instituciones no lo comparten entre sí. El resultado es que el médico de hoy no puede ver lo que hizo el de hace tres meses.','sector'),
+ N('k1','Aire\ncontaminado','K','factor','La mala calidad del aire agrava padecimientos respiratorios y cardiovasculares. Es una carga que llega a la misma consulta ya saturada, sin que nadie la haya provocado desde el consultorio.','air'),
+ N('l1','La norma dice\nqué hacer','L','context','Existe una norma oficial que establece cómo prevenir, tratar y controlar el padecimiento. Marca la obligación, pero no aporta el personal ni el tiempo para cumplirla.','nom'),
+ N('l2','El derecho\nexiste en papel','L','context','El derecho a la salud está reconocido y comprende el control efectivo, no sólo la puerta abierta. La distancia entre ese derecho y lo que ocurre en la consulta es exactamente el problema.','sector'),
+ N('f1','El padecimiento\nno se controla','S','effect','Tener tratamiento no es lo mismo que tener el padecimiento bajo control. La persona está diagnosticada y medicada, pero sus niveles siguen fuera de rango y el daño avanza en silencio, mientras el sistema la cuenta como atendida.','ensanut'),
+ N('f2','Lo que paga\nel hogar','E','effect','Consultas, estudios, traslados y medicamento que el sistema no cubrió. Es dinero que sale del gasto familiar cada mes, sin aparecer en ningún presupuesto público.','ciep'),
+ N('f3','El presupuesto\nfamiliar se aprieta','E','effect','Un gasto de salud recurrente desplaza a los demás. La familia deja de ahorrar, se endeuda o recorta en otra cosa, y ese apretón vuelve a hacer más difícil sostener el tratamiento.','ciep'),
+ N('f4','La atención\nllega tarde','P','effect','Cuando el seguimiento falla, la persona vuelve al sistema por urgencias y no por consulta. Se atiende la crisis, que cuesta más y llega peor, en vez del control que la habría evitado.','sector'),
+ N('f5','Se repiten\nlos estudios','T','effect','Sin historial compartido, el siguiente médico vuelve a pedir lo que ya se hizo. Se gasta dos veces lo mismo y la persona pierde otra vuelta.','sector'),
+ N('f6','Daño\nrespiratorio','K','effect','La exposición sostenida al aire contaminado deteriora las vías respiratorias y suma consultas a un sistema que ya no da abasto.','air'),
+ N('f7','Daño\ncardiovascular','K','effect','La misma exposición se asocia con daño al corazón y a los vasos sanguíneos, y agrava lo que un padecimiento crónico mal controlado ya venía haciendo.','air')],
  relations:[R('p1','p2','Los recursos condicionan la capacidad de contratar personal.'),R('p1','p3','El financiamiento se relaciona con la capacidad instalada.'),R('p1','p4','El presupuesto y la gestión se conectan con el abastecimiento.'),R('p2','s1','La capacidad de los equipos importa para sostener seguimiento.'),R('p3','f4','Capacidad insuficiente y atención oportuna están relacionadas.','sector'),R('p4','s2','La disponibilidad de medicamentos influye en sostener el tratamiento.'),R('p4','e3','La falta de suministro puede trasladar compras al hogar.'),R('p5','s1','Coordinar servicios favorece continuidad.','ensanut'),R('p5','t1','Integración institucional e integración de información forman parte de la respuesta.','sector'),R('t1','t2','Los sistemas aislados dificultan el intercambio.','sector'),R('t2','f5','La fragmentación genera duplicidad de registros.','sector'),R('t2','f4','La falta de información clínica puede retrasar atención.','sector'),R('t2','s1','Información disponible ayuda a dar continuidad.','sector'),R('e1','e2','Menor ingreso hace más difícil absorber traslados.'),R('e1','e3','El pago de insumos compite con el presupuesto disponible.'),R('e2','s4','Distancia y costo de traslado son barreras conectadas.','sector'),R('e3','f2','Los medicamentos componen el gasto de bolsillo.','ciep'),R('f2','f3','El aumento del gasto presiona el presupuesto familiar.','ciep'),R('s1','f1','El estudio relaciona seguimiento clínico con control.','ensanut'),R('s2','f1','El tratamiento regular es parte del manejo del padecimiento.','ensanut'),R('s3','s1','La incompatibilidad horaria dificulta sostener consultas.'),R('s4','s1','Las distancias pueden interrumpir el seguimiento.'),R('l1','s1','La norma enmarca prevención, tratamiento y control.','nom'),R('l2','p5','La coordinación del sistema busca dar cumplimiento al derecho.','sector'),R('k1','f6','La exposición al aire contaminado afecta el sistema respiratorio.','air'),R('k1','f7','La contaminación se asocia con daño cardiovascular.','air'),R('f6','p3','La carga respiratoria aumenta demanda de atención.'),R('f7','f2','Los problemas de salud pueden añadir costos al hogar.'),R('f4','s2','Los retrasos en la atención pueden interrumpir la regularidad del tratamiento.'),R('f4','e2','Un retraso obliga a repetir el traslado y suma costo al hogar.'),R('f6','s1','La carga respiratoria añade consultas y compite con el seguimiento de otro padecimiento.'),R('f5','p2','La duplicidad de registros consume tiempo de un personal ya insuficiente.'),R('f5','e2','Repetir estudios puede implicar traslados adicionales para el hogar.'),R('l2','f1','El derecho a la salud enmarca el control efectivo del padecimiento, no sólo el acceso a la consulta.'),R('e3','s2','Cuando el medicamento se paga de bolsillo, su uso puede volverse irregular.')],
  causeIds:['s1','e3','t2','k1'],effectIds:['f1','f2','f5','f6'],gap:'Salud se analiza como sistema; diabetes es un indicador de resultado. Los factores ambientales describen carga general de enfermedad, no una explicación del 33% de control.'},
  seguridad:{bg:'#eed1c0',ink:'#542a25',mapBg:'#402026',mapAccent:'#f3bba7',summary:'Los factores institucionales y sociales se entrelazan: tiempo, trato, confianza y miedo. Los efectos económicos son visibles, aunque no equivalen a las causas de no denuncia.',
@@ -331,7 +336,7 @@ const expanded={
  N('s2','Miedo\nal agresor','S','factor','Denunciar implica quedar identificable frente a quien cometió el delito, y esa exposición pesa más que la posibilidad de justicia.','envipe'),
  N('s3','Delito visto\ncomo menor','S','factor','Cuando el daño parece pequeño, el costo de denunciar se siente más grande que el delito mismo.','envipe'),
  N('l1','Creer que no\nhay pruebas','L','factor','La víctima asume que sin evidencia no la van a atender, y se ahorra el intento antes de hacerlo.','envipe'),
- N('l2','Denunció y no\nhubo carpeta','L','factor','Hay quien sí denuncia y aun así el caso nunca se abre formalmente. La denuncia existe; la investigación no.','envipe'),
+ N('l2','Denunció y no\nhubo carpeta','L','factor','Hay quien denuncia y el caso nunca se abre formalmente. Ocurre, pero es la fuga menor: la mayoría de las denuncias sí abre carpeta. El problema grande viene después.','evalua'),
  N('t1','Robo de identidad\nen línea','T','factor','Alguien usa la identidad de otra persona en servicios digitales. El daño aparece después, cuando ya se usó para algo.','cyber'),
  N('t2','Fraude\npor internet','T','factor','El engaño ocurre en línea y el dinero se va rápido. Para cuando se identifica, el rastro ya se enfrió.','cyber'),
  N('t3','Amenazas\ndigitales','T','factor','Las amenazas y la extorsión llegan por mensaje. No dejan una escena física a la que llegar.','cyber'),
@@ -349,8 +354,8 @@ const expanded={
  N('p6','Una sola sede,\nen horario de oficina','P','factor','Para denunciar hay que ir en persona, a una sede específica y en día hábil. Quien trabaja tiene que elegir entre denunciar y su jornada.','cyber'),
  N('e1','Pocos agentes\npara tantos casos','E','factor','Cada agente del Ministerio Público carga cientos de expedientes al mismo tiempo. Ninguna persona puede investigar esa cantidad en paralelo.','fiscalias'),
  N('e2','Falta de peritos\ny capacitación','E','factor','Sin peritaje ni policía investigadora capacitada, una carpeta abierta no avanza aunque exista.','rezago'),
- N('l3','Carpetas que\nse archivan','L','factor','El archivo temporal permite guardar una carpeta sin cerrarla ni avanzarla. Es la salida cuando no hay capacidad para investigarla.','rezago'),
- N('l4','Rezago\nacumulado','L','factor','Los casos que no avanzan se apilan. Cada denuncia nueva entra a una fila que ya venía llena.','fiscalias'),
+ N('l3','Carpetas que\nse archivan','L','factor','Aquí está la fuga real. El archivo temporal guarda la carpeta sin cerrarla ni avanzarla, y es el destino más frecuente de una investigación: cuatro de cada diez determinaciones. La carpeta se abrió, pero el caso no llega a ningún lado.','rezago'),
+ N('l4','Rezago\nacumulado','L','factor','Los casos que no avanzan se apilan, y la pila se duplicó en cinco años. Cada denuncia nueva entra a una fila que ya venía llena.','evalua'),
  N('t4','El canal digital\nno cierra el trámite','T','factor','Hay portal y correo para reportar, pero para que el delito entre a investigación sigue habiendo que presentarse. El canal orienta, no resuelve.','cyber'),
  N('f9','Menos información\npara prevenir','P','effect','Sin denuncia no hay registro, y sin registro la autoridad no sabe dónde ni cuándo actuar. La política de seguridad se diseña a ciegas.','evalua')],
  relations:[
@@ -360,8 +365,8 @@ const expanded={
  R('e2','l3','Sin peritaje que sostenga la investigación, la carpeta se guarda.'),
  R('e1','l4','La carga por agente y el rezago crecen juntos.','fiscalias'),
  R('l3','l4','Cada carpeta archivada se suma a la pila que nadie retoma.','rezago'),
- R('l4','l2','En una fila que ya venía llena, la denuncia nueva puede no llegar a convertirse en carpeta.'),
- R('l3','l2','Archivar es, en la práctica, denunciar sin que se investigue.','rezago'),
+ R('l4','l3','En una fila que ya venía llena, archivar es la única forma de darle salida a lo que entra.','rezago'),
+ R('l3','l2','La denuncia sí abrió carpeta, pero archivarla produce el mismo resultado para la víctima: nadie investiga.','evalua'),
  R('c1','l2','El Ministerio Público es donde se decide si la denuncia se convierte en carpeta.','envipe'),
  R('c1','l3','La decisión de archivar también ocurre ahí.'),
  R('l2','f1','Un delito denunciado sin carpeta queda igual de fuera que uno no denunciado.','envipe'),
@@ -404,31 +409,31 @@ const expanded={
  causeIds:['s1','p1','p3','s2','t2'],effectIds:['f1','f8','f4','f6','f2'],gap:'La red distingue causas reportadas de no denuncia, riesgos digitales y efectos de victimización. No atribuye todos los costos del delito a la cifra oculta. Sin factor ecológico específico acreditado en este recorte.'},
  juventud:{bg:'#e9ddae',ink:'#493917',mapBg:'#342e17',mapAccent:'#e8d28f',summary:'La dimensión económica reúne más barreras identificadas: ingreso, ahorro, vivienda, renta y crédito. La protección laboral y el contexto social amplifican esas dificultades.',
  nodes:[
- N('e1','Ingresos\ninsuficientes','E','factor','CONAVI identifica salario insuficiente y falta de oportunidades entre obstáculos para adquirir vivienda.','conavi'),
- N('e2','Ahorro\nlimitado','E','factor','La falta de ahorro es una barrera reportada por jóvenes con meta de comprar o pagar vivienda.','conavi'),
- N('e3','Crédito fuera\nde alcance','E','factor','El diagnóstico identifica falta de acceso a crédito entre las barreras habitacionales.','conavi'),
- N('e4','Vivienda\nmás cara','E','factor','+12.46% anual nominal en precios de vivienda ZMG, 1T 2026; IIEG / SHF.','housing'),
- N('e5','Renta poco\nasequible','E','factor','CONAVI describe insuficiencia de alternativas de alquiler asequible.','conavi'),
- N('e6','Deudas\npendientes','E','factor','Las deudas figuran como dificultad para comprar o terminar de pagar la vivienda.','conavi'),
- N('p1','Oferta de\nvivienda social','P','context','Los subsidios y programas públicos buscan atender el rezago habitacional.','conavi'),
- N('p2','Servicios\ndesiguales','P','factor','El diagnóstico identifica viviendas con carencias de servicios e infraestructura.','conavi'),
- N('s1','Inestabilidad\nlaboral','S','factor','La inestabilidad del trabajo dificulta costear una vivienda adecuada.','conavi'),
- N('s2','Educación\nfinanciera','S','factor','La falta de conocimiento de productos financieros aparece entre las dificultades reportadas.','conavi'),
- N('s3','Barreras de\naccesibilidad','S','factor','Las juventudes con discapacidad enfrentan barreras físicas en vivienda y entorno.','conavi'),
- N('s4','Vivienda lejos\nde oportunidades','S','factor','La falta de opciones céntricas puede alejar de empleo, transporte y servicios.','conavi'),
- N('l1','Trabajo\ninformal','L','factor','58.8% de informalidad juvenil nacional, 15–29 años; ENOE 1T 2025.','youth'),
- N('l2','Contratos\nde renta informales','L','factor','CONAVI identifica contratos informales y falta de seguridad de tenencia.','conavi'),
- N('l3','Incertidumbre\nde tenencia','L','factor','La falta de certeza legal limita el acceso a crédito o subsidios.','conavi'),
- N('t1','Brecha de\nconectividad','T','factor','Carencias de conectividad digital pueden afectar oportunidades educativas y laborales.','conavi'),
- N('t2','Trabajo mediante\nplataformas','T','context','La OIT documenta precariedad y falta de protección en una muestra regional de plataformas web, en 2025.','ilo'),
- N('f1','Acceso difícil\na vivienda','E','effect','El diagnóstico conecta ingreso, ahorro y crédito con las dificultades de acceso habitacional.','conavi'),
- N('f2','Presupuesto\ncomprometido','E','effect','El pago de alquiler puede absorber una parte importante del ingreso de hogares jóvenes.','conavi'),
- N('f3','Protección\nlaboral débil','L','effect','La informalidad implica inserción laboral sin el respaldo institucional correspondiente.','youth'),
- N('f4','Hacinamiento','S','effect','CONAVI documenta precariedad de espacios y hacinamiento entre juventudes.','conavi'),
- N('f5','Vivienda\ninadecuada','S','effect','El diagnóstico registra rezago en materiales, espacios y servicios de la vivienda.','conavi'),
- N('f6','Traslados\nmás costosos','E','effect','Residir lejos de oportunidades puede aumentar tiempos y costos de traslado.','conavi'),
- N('f7','Oportunidades\nrestringidas','T','effect','La falta de conectividad puede limitar estudio y trabajo.','conavi'),
- N('f8','Autonomía\ncondicionada','S','effect','Síntesis del equipo: barreras laborales y habitacionales condicionan la autonomía. No es una tasa de emancipación medida.','conavi')],
+ N('e1','Ingresos\nque no alcanzan','E','factor','El primer empleo paga poco y sube despacio, mientras el costo de vivir sube rápido. La diferencia entre lo que se gana y lo que cuesta independizarse se ensancha cada año.','conavi'),
+ N('e2','No se puede\nahorrar','E','factor','Sin excedente al final del mes no hay enganche posible. El ahorro es el requisito de entrada a la vivienda, y es justo lo que un ingreso apretado no deja formar.','conavi'),
+ N('e3','El crédito\nno abre','E','factor','Para dar un crédito piden comprobantes de ingreso formal y estable. Quien trabaja por su cuenta o en informalidad puede tener con qué pagar y aun así no calificar.','conavi'),
+ N('e4','La vivienda\nsube más rápido','E','factor','El precio de la vivienda en la zona metropolitana crece más rápido que los sueldos. Cada año que pasa sin comprar, la meta se aleja en lugar de acercarse.','housing'),
+ N('e5','La renta se\ncome el sueldo','E','factor','No hay suficiente oferta de renta a precio alcanzable. Rentar deja de ser el paso previo a comprar y se vuelve un gasto permanente que impide ahorrar.','conavi'),
+ N('e6','Deudas\nque arrastran','E','factor','Créditos de consumo, tarjetas o el préstamo escolar comprometen el ingreso antes de que llegue. Lo que queda no alcanza para construir nada.','conavi'),
+ N('p1','Los programas\nno cubren a todos','P','context','Existen programas de vivienda y de empleo, pero atienden segmentos específicos: cierta edad, cierta formalidad. Quien queda entre dos criterios no entra en ninguno.','conavi'),
+ N('p2','Servicios\ndesiguales','P','factor','La vivienda que sí es accesible suele estar donde faltan servicios. Se resuelve el techo y se hereda un problema distinto.','conavi'),
+ N('s1','El empleo\nno se sostiene','S','factor','Contratos cortos, rotación alta y periodos sin trabajo. La inestabilidad no sólo baja el ingreso: impide demostrar la constancia que piden para rentar o pedir crédito.','conavi'),
+ N('s2','Nadie enseñó\na manejar dinero','S','factor','Presupuesto, crédito, tasas de interés: se aprenden a golpes. Sin esa formación es más fácil endeudarse mal y más difícil salir.','conavi'),
+ N('s3','Barreras de\naccesibilidad','S','factor','La vivienda disponible no siempre es utilizable por personas con discapacidad. Para ellas la oferta real es todavía más pequeña.','conavi'),
+ N('s4','Vivir lejos\nde todo','S','factor','Lo asequible está en la periferia, lejos del trabajo y de la escuela. Se ahorra en renta y se paga en transporte y en horas.','conavi'),
+ N('l1','Trabajo\nsin protección','L','factor','Trabajar en informalidad significa quedar fuera del marco que protege el empleo y el ingreso: sin seguridad social, sin antigüedad y sin historial que sirva para nada más.','youth'),
+ N('l2','Contratos de\nrenta de palabra','L','factor','Muchos arrendamientos se hacen sin contrato. Sin papel no hay comprobante de domicilio, ni historial, ni defensa si el arrendador cambia las reglas.','conavi'),
+ N('l3','No hay certeza\nde permanencia','L','factor','Sin contrato firme, la permanencia depende de la voluntad del arrendador. Nadie invierte ni planea a mediano plazo en un lugar del que lo pueden sacar.','conavi'),
+ N('t1','Conectividad\ndesigual','T','factor','Sin conexión estable no hay educación en línea, ni trámites, ni buena parte de las vacantes. La brecha digital se traduce directo en oportunidades que no llegan.','conavi'),
+ N('t2','Trabajo por\nplataforma','T','context','Las plataformas abren ingreso rápido y flexible, pero trasladan el riesgo al trabajador: sin seguridad social, sin antigüedad y sin ingreso garantizado.','ilo'),
+ N('f1','La vivienda\nqueda fuera','E','effect','Ni comprar ni rentar algo adecuado resulta viable. No es falta de voluntad: es que ninguna de las dos puertas abre con los ingresos y los requisitos reales.','conavi'),
+ N('f2','El presupuesto\nya está comprometido','E','effect','Entre renta, transporte y deuda no queda margen. Cualquier imprevisto se cubre con más deuda, y el círculo se aprieta.','conavi'),
+ N('f3','Sin protección\nlaboral','L','effect','Sin seguridad social no hay incapacidad, ni pensión, ni respaldo si el trabajo se acaba. La precariedad deja de ser un momento y se vuelve una condición.','youth'),
+ N('f4','Hacinamiento','S','effect','Compartir espacio con más gente de la que cabe, por falta de alternativa. Afecta el descanso, el estudio y la salud, y no aparece en ninguna estadística de vivienda vacía.','conavi'),
+ N('f5','Vivienda\ninadecuada','S','effect','Espacio insuficiente, materiales precarios o falta de servicios. Se tiene techo, pero no las condiciones mínimas para vivir bien en él.','conavi'),
+ N('f6','El traslado\ncuesta más','E','effect','Vivir lejos convierte el transporte en un gasto fijo grande y en horas que no se recuperan. Es el precio oculto de la vivienda barata.','conavi'),
+ N('f7','Oportunidades\nque no llegan','T','effect','Sin conexión, sin tiempo y sin cercanía, las opciones de estudiar o mejorar de empleo se reducen. Y con menos opciones, el ingreso se estanca.','conavi'),
+ N('f8','La autonomía\nse aplaza','S','effect','Formar un hogar propio se pospone año con año. No es una elección generacional: es lo que queda cuando el empleo no da estabilidad y la vivienda no abre.','conavi')],
  relations:[R('e1','e2','El ingreso disponible condiciona la capacidad de ahorrar.'),R('e2','f1','El ahorro insuficiente es obstáculo reportado para acceder a vivienda.','conavi'),R('e3','f1','El acceso a financiamiento es una barrera identificada.','conavi'),R('e4','f1','Precios más altos pueden dificultar la compra.'),R('e5','f2','Una renta poco asequible compromete el presupuesto.','conavi'),R('e6','e2','Las obligaciones de deuda compiten con el ahorro.'),R('s1','e1','La inestabilidad laboral dificulta sostener ingresos.','conavi'),R('l1','f3','La protección institucional es parte de la definición de informalidad.','youth'),R('l1','e3','El tipo de inserción laboral puede limitar rutas de crédito.'),R('l2','l3','Contratos informales se relacionan con inseguridad de tenencia.','conavi'),R('l3','e3','La incertidumbre legal puede limitar acceso a financiamiento.','conavi'),R('s2','e3','El conocimiento de productos financieros se relaciona con acceso.'),R('p1','f5','Los programas de vivienda buscan reducir rezago.','conavi'),R('p2','f5','La falta de servicios es una dimensión de vivienda inadecuada.','conavi'),R('s3','f5','Las barreras físicas afectan adecuación para personas con discapacidad.','conavi'),R('s4','f6','La ubicación periférica puede aumentar costos y tiempos.','conavi'),R('f6','e2','Los traslados compiten con el ahorro disponible.'),R('t1','f7','La brecha digital afecta oportunidades educativas y laborales.','conavi'),R('t2','l1','El estudio regional documenta informalidad en su muestra; no una tasa de México.','ilo'),R('t2','f3','La OIT identifica falta de protección en la muestra regional.','ilo'),R('f1','f8','La dificultad de acceso habitacional condiciona la autonomía.'),R('f2','f8','Un presupuesto comprometido limita alternativas de vida.'),R('e5','f4','Opciones poco asequibles pueden relacionarse con compartir espacios.'),R('f4','f5','El hacinamiento es una dimensión de rezago habitacional.','conavi'),R('e1','e5','Asequibilidad depende de renta e ingreso.','conavi'),R('s4','t1','La ubicación y conectividad forman parte del acceso a oportunidades.'),R('f7','s1','Menos oportunidades pueden dificultar la estabilidad laboral.'),R('f3','f8','Sin protección laboral, la autonomía queda condicionada a la estabilidad del ingreso.'),R('f3','e3','La ausencia de comprobantes formales de ingreso puede limitar el acceso al crédito.'),R('f7','e1','Menos oportunidades educativas y laborales se reflejan en el nivel de ingreso.'),R('f4','f8','Compartir espacio sin alternativa aplaza la formación de un hogar propio.'),R('l3','f8','La inseguridad en la tenencia dificulta proyectar a mediano plazo.'),R('s2','e6','El conocimiento de productos financieros se relaciona con la gestión de obligaciones de deuda.')],
  causeIds:['e2','l1','s4','t1'],effectIds:['f1','f3','f6','f7'],gap:'El empleo juvenil es nacional y el precio de vivienda es de la ZMG. La evidencia OIT es contexto regional. No se inventa una causa ecológica ni se usa la ubicación urbana como sinónimo de ecología.'}
 };
@@ -635,29 +640,32 @@ const Capitulo=({p,abrirNodo,abrirFuente,abrirActor})=>{
 };
 
 /* ── Bloque 2 · el mapa interactivo ───────────────────────────────────────── */
-// Reparto: causas y contexto a la izquierda, efectos a la derecha.
-// Dentro de cada lado, los nodos se agrupan en bandas por dimensión PESTEL.
-// Se calcula, así que agregar un nodo nunca rompe el mapa.
-const ANCHO=1600, COL=3, CELDA_W=193, CELDA_H=132, X_IZQ=58, X_DER=968, Y0=104;
+// Las causas rodean el problema por la izquierda; los efectos, por la derecha.
+// Dentro de cada lado los nodos se ordenan por dimensión PESTEL, así que los
+// colores quedan juntos. Se calcula: agregar un nodo nunca rompe el mapa.
+const ANCHO=1900, ALTO=1400, CX=950, CY=700;
+const ANILLOS=[{rx:288,ry:200},{rx:459,ry:330},{rx:630,ry:460},{rx:800,ry:590}];
 function acomodar(p){
-  const nodos=[], bandas=[];
-  const lado=(lista,x0)=>{
-    let y=Y0;
-    for(const d of DIM_ORDER){
-      const g=lista.filter(n=>n.dim===d);
-      if(!g.length) continue;
-      const filas=Math.ceil(g.length/COL);
-      bandas.push({dim:d,x:x0-16,y:y-52,w:COL*CELDA_W+8,h:filas*CELDA_H+22});
-      g.forEach((n,i)=>nodos.push({...n,
-        x:x0+(i%COL)*CELDA_W+CELDA_W/2-16,
-        y:y+Math.floor(i/COL)*CELDA_H}));
-      y+=filas*CELDA_H+62;
+  const nodos=[], etiquetas=[];
+  const reparte=(lista,a0,a1,nAnillos)=>{
+    const orden=[]; for(const d of DIM_ORDER) orden.push(...lista.filter(n=>n.dim===d));
+    const n=orden.length; if(!n) return;
+    const usa=ANILLOS.slice(0,Math.min(nAnillos,Math.max(1,Math.ceil(n/3))));
+    const paso=(a1-a0)/n, vistos={};
+    orden.forEach((nodo,i)=>{
+      const gr=a0+paso*(i+0.5), ang=gr*Math.PI/180, an=usa[i%usa.length];
+      nodos.push({...nodo,x:CX+an.rx*Math.cos(ang),y:CY+an.ry*Math.sin(ang)});
+      (vistos[nodo.dim]=vistos[nodo.dim]||[]).push(gr);
+    });
+    const ext=ANILLOS[usa.length-1];
+    for(const d in vistos){
+      const as=vistos[d], medio=(as[0]+as[as.length-1])/2*Math.PI/180;
+      etiquetas.push({dim:d,x:CX+(ext.rx+96)*Math.cos(medio),y:CY+(ext.ry+78)*Math.sin(medio)});
     }
-    return y;
   };
-  const hIzq=lado(p.nodes.filter(n=>n.kind!=='effect'),X_IZQ);
-  const hDer=lado(p.nodes.filter(n=>n.kind==='effect'),X_DER);
-  return {nodos,bandas,alto:Math.max(hIzq,hDer)+40};
+  reparte(p.nodes.filter(n=>n.kind!=='effect'),94,266,4);
+  reparte(p.nodes.filter(n=>n.kind==='effect'),-76,76,3);
+  return {nodos,etiquetas};
 }
 const curva=(a,b,seed=0)=>{const mx=(a.x+b.x)/2,my=(a.y+b.y)/2,dx=b.x-a.x,dy=b.y-a.y,
   l=Math.hypot(dx,dy)||1,bend=(seed%2?1:-1)*Math.min(85,l*.14);
@@ -665,9 +673,9 @@ const curva=(a,b,seed=0)=>{const mx=(a.x+b.x)/2,my=(a.y+b.y)/2,dx=b.x-a.x,dy=b.y
 const CENTRO={salud:['Salud','sin continuidad'],seguridad:['Delitos sin','investigación'],juventud:['Autonomía','con barreras']};
 
 const Grafo=memo(({p,estado,seleccionar,reiniciar})=>{
-  const {nodos,bandas,alto}=acomodar(p);
+  const {nodos}=acomodar(p);
   const idx=Object.fromEntries(nodos.map(n=>[n.id,n]));
-  const hub={x:ANCHO/2,y:alto/2};
+  const hub={x:CX,y:CY};
   const activos=new Set();
   if(estado.selected){activos.add(estado.selected);
     p.relations.forEach(r=>{if(r.a===estado.selected)activos.add(r.b);if(r.b===estado.selected)activos.add(r.a)})}
@@ -676,15 +684,11 @@ const Grafo=memo(({p,estado,seleccionar,reiniciar})=>{
   const maxG=Math.max(...p.nodes.map(n=>p.degree[n.id]));
   return(
   <figure className="neural-figure" aria-label={'Mapa de causas y efectos de '+p.name}>
-    <svg className="neural-svg" viewBox={`0 0 ${ANCHO} ${alto}`} role="group" aria-label={'Mapa PESTEL interactivo de '+p.name}>
+    <svg className="neural-svg" viewBox={`0 0 ${ANCHO} ${ALTO}`} role="group" aria-label={'Mapa PESTEL interactivo de '+p.name}>
       <g aria-hidden="true">
-        <text className="lado-label" x={X_IZQ} y="56">CAUSAS</text>
-        <text className="lado-label" x={X_DER} y="56">EFECTOS</text>
-        {bandas.map((b,i)=>(
-          <g key={i}>
-            <rect className="banda" x={b.x} y={b.y} width={b.w} height={b.h} rx="16" style={{'--sector':DIM[b.dim].color}}/>
-            <text className="sector-label" x={b.x+16} y={b.y-10} style={{'--sector':DIM[b.dim].color}}>{DIM[b.dim].name}</text>
-          </g>))}
+        <text className="lado-label" x="44" y="58">CAUSAS</text>
+        <text className="lado-label der" x={ANCHO-44} y="58" textAnchor="end">EFECTOS</text>
+        {ANILLOS.slice(0,3).map((a,i)=><ellipse key={i} className="orbit-guide" cx={CX} cy={CY} rx={a.rx} ry={a.ry}/>)}
         {nodos.map((n,i)=><path key={'h'+n.id} className={at('neural-edge hub-edge',activos.has(n.id))+(estado.selected===n.id?' active':'')}
           d={curva(n,hub,i)} style={{'--edge-color':DIM[n.dim].color}}/>)}
         {p.relations.map((r,i)=>{const A=idx[r.a],B=idx[r.b]; if(!A||!B)return null;
@@ -801,8 +805,12 @@ const SeccionMapa=({p,abrirNodo,abrirRelacion,abrirMetodo})=>{
       </div>
       <Grafo p={p} estado={estado} seleccionar={seleccionar} reiniciar={reiniciar}/>
       <div className="network-key">
-        <span><i className="key-dot solid"></i>Factor / causa</span><span><i className="key-dot"></i>Efecto</span>
-        <span><i className="key-dot square"></i>Contexto</span><span>Color = dimensión PESTEL</span>
+        <span><i className="key-dot solid"></i>Causa</span><span><i className="key-dot"></i>Efecto</span>
+        <span><i className="key-dot square"></i>Contexto</span>
+        <span className="sep"></span>
+        {DIM_ORDER.map(d=>(
+          <span key={d} className="key-dim"><i style={{background:DIM[d].color}}></i>{DIM[d].name}</span>))}
+        <span className="key-nota">El número sobre cada nodo son sus conexiones.</span>
       </div>
       <details className="mobile-explorer"><summary>Explorar los {p.nodes.length} nodos</summary>
         <div className="mobile-node-list">{p.nodes.map(n=>(
@@ -826,9 +834,9 @@ const Conexiones=({p,abrirNodo,abrirRelacion})=>{
   const rels=p.relations.filter(r=>ids.has(r.a)&&ids.has(r.b));
   const sub={...p,nodes:dentro,relations:rels};
   const [sel,setSel]=useState(null);
-  const {nodos,bandas,alto}=acomodar(sub);
+  const {nodos}=acomodar(sub);
   const idx=Object.fromEntries(nodos.map(n=>[n.id,n]));
-  const hub={x:ANCHO/2,y:alto/2};
+  const hub={x:CX,y:CY};
   const activos=new Set();
   if(sel){activos.add(sel);rels.forEach(r=>{if(r.a===sel)activos.add(r.b);if(r.b===sel)activos.add(r.a)})}
   else dentro.forEach(n=>activos.add(n.id));
@@ -852,15 +860,12 @@ const Conexiones=({p,abrirNodo,abrirRelacion})=>{
       </div>
     </div>
     <figure className="neural-figure">
-      <svg className="neural-svg" viewBox={`0 0 ${ANCHO} ${alto}`} role="group"
+      <svg className="neural-svg" viewBox={`0 0 ${ANCHO} ${ALTO}`} role="group"
         aria-label={'Mapa reducido de '+p.name+': sólo las variables más conectadas'}>
         <g aria-hidden="true">
-          <text className="lado-label" x={X_IZQ} y="56">CAUSAS</text>
-          <text className="lado-label" x={X_DER} y="56">EFECTOS</text>
-          {bandas.map((b,i)=>(<g key={i}>
-            <rect className="banda" x={b.x} y={b.y} width={b.w} height={b.h} rx="16" style={{'--sector':DIM[b.dim].color}}/>
-            <text className="sector-label" x={b.x+16} y={b.y-10} style={{'--sector':DIM[b.dim].color}}>{DIM[b.dim].name}</text>
-          </g>))}
+          <text className="lado-label" x="44" y="58">CAUSAS</text>
+          <text className="lado-label der" x={ANCHO-44} y="58" textAnchor="end">EFECTOS</text>
+          {ANILLOS.slice(0,3).map((a,i)=><ellipse key={i} className="orbit-guide" cx={CX} cy={CY} rx={a.rx} ry={a.ry}/>)}
           {rels.map((r,i)=>{const A=idx[r.a],B=idx[r.b];if(!A||!B)return null;
             const on=sel?(r.a===sel||r.b===sel):true;
             return <path key={i} className={at('neural-edge inter gruesa',on)+(sel&&on?' active':'')}
