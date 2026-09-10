@@ -160,14 +160,12 @@
 .map-section .hub-action{fill:var(--map-bg);opacity:.75}
 
 /* Segundo mapa: el recorte de lo que carga. */
-.map-section.reducido{padding-top:70px}
 .reduccion{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin:34px 0 6px}
 .reduccion>div:not(.flecha){min-width:150px}
 .reduccion strong{display:block;font:700 2.6rem/1 var(--display);letter-spacing:-.03em;color:var(--map-accent)}
 .reduccion span{display:block;margin-top:6px;font-size:.84rem;line-height:1.4;color:var(--map-accent);opacity:.72;max-width:19ch}
 .reduccion .flecha{font-size:1.5rem;color:var(--map-accent);opacity:.45}
 .neural-edge.gruesa{stroke-width:2.2;opacity:.55}
-.map-section.reducido .inspector{margin-top:26px}
 @media(max-width:700px){.reduccion{gap:14px}.reduccion .flecha{display:none}.reduccion strong{font-size:2rem}}
 
 .network-key .sep{width:1px;height:16px;background:var(--line);opacity:.5}
@@ -215,13 +213,171 @@
 
 :root[data-theme=dark] .chosen-tag,:root[data-theme=dark] .candidata.gana .cand-veredicto{color:#10201a}
 :root[data-theme=dark] .decision-section{background:var(--paper)}
+
+/* ── Tarjeta flotante: la explicación dentro del mapa ─────────────────────── */
+/* Vive sobre el marco oscuro del mapa, en el hueco de arriba a la izquierda.
+   No empuja ningún nodo: entra y sale con opacidad y un desplazamiento corto. */
+.map-stage{position:relative}
+.map-card-slot{position:absolute;top:0;bottom:0;left:3%;width:min(376px,31%);z-index:3;pointer-events:none}
+.map-card-slot.derecha{left:auto;right:3%}
+.map-card{position:sticky;top:160px;pointer-events:auto;color:#f1f1e7;border-radius:16px;
+  opacity:0;visibility:hidden;transform:translateY(-10px) scale(.985);
+  transition:opacity .32s cubic-bezier(.2,.7,.25,1),transform .32s cubic-bezier(.2,.7,.25,1),visibility .32s}
+/* Fondo, borde y sombra sólo cuando está abierta: cerrada no debe quedar ni el
+   contorno flotando sobre el mapa. */
+.map-card.abierta{opacity:1;visibility:visible;transform:none;
+  background:color-mix(in srgb,var(--map-bg),#000 22%);border:1px solid #ffffff2e;
+  padding:22px 24px 20px;box-shadow:0 18px 46px #00000059;backdrop-filter:blur(9px)}
+.map-card-x{position:absolute;top:8px;right:10px;font-size:26px;line-height:1;
+  width:38px;height:38px;border-radius:50%;color:#e6ece0;opacity:.6}
+.map-card-x:hover{opacity:1;background:#ffffff1a}
+.map-card h3{font-size:1.42rem;line-height:1.12;margin:8px 0 12px;padding-right:26px}
+.map-card p{font-size:.95rem;line-height:1.52;margin:0 0 12px;color:#e2e8db}
+.card-kind{display:flex;align-items:center;gap:9px;font:600 .72rem/1.3 var(--font);
+  letter-spacing:.06em;text-transform:uppercase;color:var(--map-accent)}
+.card-kind i{width:11px;height:11px;border-radius:3px;flex:none}
+.card-nota{font-size:.86rem!important;color:#c9d3c4!important;font-style:italic}
+.card-flecha{opacity:.55}
+.card-links{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 14px}
+.card-links button{font-size:.8rem;line-height:1.25;text-align:left;padding:7px 11px;
+  border:1px solid #ffffff33;border-left:3px solid var(--edge-color,#fff);border-radius:6px;color:#e8eee2}
+.card-links button:hover{background:#ffffff1c}
+.card-ref{font-size:.84rem;color:var(--map-accent);text-decoration:underline;text-underline-offset:4px;text-align:left}
+@media(prefers-reduced-motion:reduce){.map-card{transition:none}}
+
+/* ── Leyendas de color: una por familia, nunca mezcladas ──────────────────── */
+.mapa-key{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;
+  margin:6px 0 0;padding:15px 0;border-top:1px solid var(--line);font-size:.86rem;color:#dbe3d6}
+.mapa-key+.mapa-key{border-top:0;padding-top:0}
+.mapa-key .key-titulo{font:600 .72rem/1 var(--font);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--map-accent);width:100%}
+.mapa-key>span:not(.key-titulo){display:flex;align-items:center;gap:8px}
+.mapa-key i{width:12px;height:12px;border-radius:3px;flex:none}
+.mapa-key i.pastilla{width:26px;height:13px;border-radius:99px}
+.mapa-key b{font-weight:600;opacity:.62;font-family:var(--display)}
+.mapa-key small{opacity:.62}
+.key-forma{gap:7px!important;opacity:.72;margin-left:auto}
+.key-forma .key-dot{margin-left:6px}
+
+/* Cuánto pesa cada dimensión dentro del recorte. */
+.carga-dim{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin:22px 0 0;
+  padding-top:18px;border-top:1px solid var(--line)}
+.carga-dim>span{display:flex;align-items:baseline;gap:8px;font-size:.88rem;color:var(--sector)}
+.carga-dim b{font:600 1.7rem/1 var(--display);letter-spacing:-.03em}
+.carga-dim em{flex:1;min-width:280px;font-size:.82rem;color:#c9d3c4;font-style:italic;line-height:1.5}
+
+/* ── Replanteamiento: variables por dimensión, stakeholders por rol ───────── */
+.map-section.replanteo{padding-top:70px;border-top:1px solid #ffffff1a}
+.orbit-guide.externa{stroke-dasharray:2 16;stroke-opacity:.13}
+/* La ruta crítica sigue dentro del diagrama: causa crítica → problema → efecto. */
+.espina{fill:none;stroke:var(--map-accent);stroke-width:9;opacity:.42;stroke-linecap:round;
+  transition:opacity .3s}
+.espina.dim{opacity:.08}
+.neural-node.espinal .point{stroke:var(--map-accent);stroke-width:3.5}
+/* Vínculo stakeholder → variable: punteado y en color de rol, nunca de dimensión. */
+.lazo{fill:none;stroke:var(--role);stroke-width:2;stroke-dasharray:7 7;opacity:.62;
+  transition:opacity .3s,stroke-width .3s}
+.lazo.dim{opacity:.06}
+.lazo.active{stroke-width:3.6;opacity:1;stroke-dasharray:none;filter:drop-shadow(0 0 5px var(--role))}
+.lazo-hit{fill:none;stroke:transparent;stroke-width:20;cursor:pointer}
+.lazo-hit:focus-visible{stroke:#ffffff5c}
+.actor-nodo{cursor:pointer;transition:opacity .3s}
+.actor-nodo .pastilla{fill:var(--role);opacity:.92}
+.actor-nodo .actor-nombre{font:600 17px/1 var(--font);fill:#1a1210}
+.actor-nodo .actor-cat{font:600 11px/1 var(--font);letter-spacing:.09em;
+  text-transform:uppercase;fill:#1a1210;opacity:.72}
+.actor-nodo.dim{opacity:.14}
+.actor-nodo:hover .pastilla,.actor-nodo.manda .pastilla{opacity:1;filter:brightness(1.12)}
+.actor-nodo.manda .pastilla{stroke:#fff;stroke-width:2.5}
+.actor-nodo:focus-visible{outline:none}
+.actor-nodo:focus-visible .pastilla{stroke:#fff;stroke-width:3}
+.espina-nota{font-size:.9rem;line-height:1.6;color:#cfd8ca;margin:16px 0 0;max-width:920px}
+.espina-nota strong{color:var(--map-accent);font-weight:600}
+
+/* ── La lectura textual: los bullets que explican la relación ─────────────── */
+.lectura{margin-top:44px;padding-top:34px;border-top:1px solid var(--line)}
+.lectura h3{font-size:clamp(30px,3.4vw,46px);letter-spacing:-.04em;margin:0 0 26px}
+.lectura-bullets{list-style:none;margin:0;padding:0;display:grid;gap:16px;
+  grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
+.lectura-bullets li{border-left:3px solid var(--map-accent);padding:2px 0 4px 18px;
+  font-size:1rem;line-height:1.55;color:#e2e8db}
+.lectura-bullets strong{display:block;font-family:var(--display);font-size:1.1rem;
+  font-weight:600;letter-spacing:-.02em;color:#fff;margin-bottom:6px}
+.lectura-cierre{margin:30px 0 0;max-width:1000px;font-size:1.22rem;line-height:1.5;
+  letter-spacing:-.02em;font-family:var(--display);font-weight:500}
+.lectura .metadata{margin:18px 0 0;max-width:1000px;font-size:.82rem;line-height:1.6;color:#bcc7b9}
+
+@media(max-width:1100px){
+  .map-card-slot{position:static;width:auto}
+  .map-card{position:static;width:auto;margin:0 4% 18px;transform:none;
+    opacity:1;visibility:visible;max-height:0;padding-top:0;padding-bottom:0;
+    border-width:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
+  .map-card.abierta{max-height:760px;padding:22px 24px 20px;border-width:1px}
+}
+@media(max-width:700px){
+  .carga-dim b{font-size:1.35rem}
+  .key-forma{margin-left:0}
+  .lectura-bullets{grid-template-columns:1fr}
+  .lectura-cierre{font-size:1.08rem}
+  .actor-nodo .actor-nombre{font-size:22px}
+  .actor-nodo .actor-cat{font-size:14px}
+}
+
+/* Los dos mapas reducidos controlan su propio radio, para que la regla móvil
+   general (pensada para el mapa de 30 nodos) no les aplaste los nodos. */
+.map-section.replanteo .neural-node .point{r:var(--r)}
+@media(max-width:800px){
+  /* Patrón del proyecto: el diagrama scrollea dentro de su contenedor, y la
+     página no. Así las etiquetas se leen en vez de encogerse a nada. */
+  .map-section.replanteo .neural-figure{overflow-x:auto;width:100%;margin:10px 0}
+  .map-section.replanteo .neural-svg{height:auto;min-width:1000px}
+  .map-section.replanteo .neural-node text{display:block}
+  .map-section.replanteo .neural-edge{stroke-width:1.6}
+  .map-section.replanteo .neural-edge.inter{stroke-width:2.2}
+  .map-section.replanteo .hub .hub-core{r:99px}
+  .map-section.replanteo .hub .hub-ring{r:112px}
+  .map-section.replanteo .hub text{font-size:28px;display:block}
+  .map-section.replanteo .hub .hub-label{display:block;font-size:13px}
+  .map-section.replanteo .lado-label{display:block}
+}
+
+/* ── La red sintetizada: un botón, no otra sección ────────────────────────── */
+/* Los nodos no se mueven al sintetizar: se apagan los que no llegan al umbral.
+   Por eso se lee como el mismo diagrama filtrado y no como uno nuevo. */
+.map-toggles{flex-wrap:wrap}
+.sintesis-btn{border-color:var(--map-accent)!important;color:var(--map-accent)!important}
+.sintesis-btn[aria-pressed=true]{background:var(--map-accent)!important;color:var(--map-bg)!important}
+.sintesis-btn .role-symbol{border-color:currentColor}
+.map-section.es-sintesis .reduccion{margin:30px 0 4px}
+.map-section.es-sintesis .distribution{animation:reveal .45s cubic-bezier(.2,.6,.2,1) both}
+.map-section.es-sintesis .neural-node text{font-size:14px}
+@media(prefers-reduced-motion:reduce){.map-section.es-sintesis .distribution{animation:none}}
+@media(max-width:800px){
+  /* La síntesis es donde se hace el análisis visual, así que en móvil no se
+     encoge a nada: scrollea dentro de su contenedor y conserva las etiquetas. */
+  .map-section.es-sintesis .neural-figure{overflow-x:auto;width:100%;margin:10px 0}
+  .map-section.es-sintesis .neural-svg{height:auto;min-width:940px}
+  .map-section.es-sintesis .neural-node text{display:block}
+  .map-section.es-sintesis .neural-node .point{r:var(--r)}
+  .map-section.es-sintesis .hub .hub-core{r:104px}
+  .map-section.es-sintesis .hub .hub-ring{r:118px}
+  .map-section.es-sintesis .hub text{font-size:30px;display:block}
+  .map-section.es-sintesis .hub .hub-label{display:block;font-size:13px}
+  .map-section.es-sintesis .lado-label{display:block}
+  .map-section.es-sintesis .neural-edge{stroke-width:1.6}
+  .map-section.es-sintesis .neural-edge.gruesa{stroke-width:2.4}
+}
 </style></head><body>
 <div id="raiz"></div>
 <noscript><p style="padding:40px">Activa JavaScript para explorar los mapas.</p></noscript>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js" crossorigin></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js" crossorigin></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.4/babel.min.js" crossorigin></script>
-<script>const SOURCES = {
+<script>/* Fuentes, dimensiones PESTEL y categorías de stakeholder
+   Aquí se agregan fuentes nuevas y se editan sus notas de verificación.
+   Generado por separar-datos. Editar aquí y correr ./construir-react.sh */
+
+const SOURCES = {
  ensanut:{name:'INSP · ENSANUT 2021–2024',title:'Diabetes tipo 2: diagnóstico, tratamiento y control',year:'2025',scope:'México · adultos con diagnóstico previo',url:'https://ensanut.insp.mx/encuestas/ensanutcontinua2024/doctos/analiticos/17286-Texto%20del%20art%C3%ADculo-92190-1-10-20251118.pdf',page:'Cuadro II, p. 629; discusión, p. 630',note:'33.0% con control glucémico; 90.9% con tratamiento. Son indicadores de la misma población, no una trayectoria individual. El control no se estima a nivel estatal.'},
  oecd:{name:'OCDE · Panorama de la salud',title:'Recursos del sistema de salud en México',year:'2025',scope:'México · comparación internacional',url:'https://www.oecd.org/es/publications/panorama-de-la-salud-2025_5345f1bd-es/mexico_42bdb5b4-es.html',page:'Recursos del sistema de salud',note:'Gasto total: 5.9% del PIB frente a 9.3% OCDE. No equivale a gasto público ni a presupuesto exclusivo del IMSS. Año de publicación del panorama.'},
  ciep:{name:'CIEP · análisis de ENIGH 2024',title:'Gasto de bolsillo en salud',year:'2025',scope:'México · hogares, datos 2024',url:'https://ciep.mx/gasto-de-bolsillo-en-salud-resultados-de-la-enigh-2024/',page:'Cuadro 2 y conclusiones',note:'Análisis de un centro de investigación sobre datos de INEGI: promedio anual de $6,421 por hogar y crecimiento real de 7.9% entre 2022 y 2024.'},
@@ -233,6 +389,11 @@
 };
 const DIM={P:{name:'Político',color:'#8bb7f0',light:'#315fa3'},E:{name:'Económico',color:'#e6be61',light:'#805b12'},S:{name:'Sociocultural',color:'#ee97ae',light:'#a84262'},L:{name:'Legal',color:'#7fd4be',light:'#267761'}};
 // Edges express an analytical reading, not an estimated causal effect.
+
+/* Los tres capítulos: identidad, insight, stakeholders y qué par de causa-efecto se muestra
+   Aquí se editan los roles (cat, porQue, nota) y los causeIds/effectIds.
+   Generado por separar-datos. Editar aquí y correr ./construir-react.sh */
+
 const PROBLEMS=[
  {id:'salud',name:'Salud pública / IMSS',short:'Salud pública',n:'01',color:'#287f75',light:'#287f75',pale:'#dcece6',insight:'Tratar no garantiza controlar.\nEl hogar paga parte de la brecha.',headline:'Del tratamiento\nal control hay una brecha.',claim:'Tratar no es controlar',claimLong:'El tratamiento llega.\nEl control, no.',claimFoot:'La diferencia la absorbe el hogar.',metric:'33%',metricLabel:'con control glucémico',metricContext:'INSP · ENSANUT 2021–2024 · México',metricSource:'ensanut',stat:'33%',center:'Atención sin\ncontrol suficiente',takeaway:'El seguimiento importa tanto como el acceso.',causeTitle:'Factores del problema',effectTitle:'Lo que se observa',
  causes:[{label:'Recursos limitados',dim:'P',detail:'5.9% del PIB en gasto total de salud; 9.3% en el promedio OCDE. La comparación describe recursos, no demuestra por sí sola por qué falla el control.',source:'oecd'},{label:'Seguimiento clínico',dim:'S',detail:'El estudio recomienda continuidad y coordinación del primer nivel para mejorar el control. El mecanismo es una interpretación apoyada por su discusión, no un efecto causal estimado.',source:'ensanut'},{label:'Cuidado discontinuo',dim:'S',detail:'77.4% reportó uso regular de fármacos. La adherencia se mide por autorreporte y convive con barreras de acceso y atención.',source:'ensanut'}],
@@ -301,8 +462,15 @@ Object.assign(SOURCES,{
 });
 const N=(id,label,dim,kind,detail,source)=>({id,label,dim,kind,detail,source});
 const R=(a,b,why,source=null)=>({a,b,why,source,status:source?'Vínculo descrito en la fuente':'Lectura del equipo'});
-const expanded={
- salud:{bg:'#cbe5d9',ink:'#133c32',mapBg:'#0b302b',mapAccent:'#abe1c2',summary:'La capacidad pública concentra más factores en este recorte. Los costos, la continuidad y la información clínica conectan distintas dimensiones.',
+// SL(): vínculo de un stakeholder con una variable crítica. Misma regla que R():
+// con `source` es vínculo descrito en la fuente; sin él, lectura del equipo.
+const SL=(to,why,source=null)=>({to,why,source,status:source?'Vínculo descrito en la fuente':'Lectura del equipo'});
+
+/* Mapa de Salud pública: variables y relaciones
+   Un N(...) por variable, un R(...) por relación. Es lo que más se edita.
+   Editar aquí y correr ./construir-react.sh */
+
+const EXP_SALUD={bg:'#cbe5d9',ink:'#133c32',mapBg:'#0b302b',mapAccent:'#abe1c2',summary:'La capacidad pública concentra más factores en este recorte. Los costos, la continuidad y la información clínica conectan distintas dimensiones.',
  nodes:[
  N('p1','El gasto en salud\nse queda corto','P','factor','México gasta en salud una proporción de su economía muy por debajo de los países con los que se compara. Ese techo no es un número abstracto: define cuántas personas atienden, con qué equipo y en cuántas horas. Todo lo demás se acomoda a lo que ese presupuesto permite.','oecd'),
  N('p2','Faltan médicos\ny enfermeras','P','factor','No hay suficiente personal médico y de enfermería para la gente que llega. Eso se traduce en consultas más cortas, citas más separadas y menos tiempo para explicar cómo vivir con un padecimiento crónico, que es justo lo que decide si se controla.','oecd'),
@@ -330,8 +498,13 @@ const expanded={
  N('f7','Se acumula daño\ncardiovascular','K','effect','La misma exposición se asocia con daño al corazón y a los vasos sanguíneos, y agrava lo que un padecimiento crónico mal controlado ya venía haciendo.','air'),
  N('f8','Se muere de algo que\nse podía controlar','S','effect','En Jalisco la diabetes está entre las primeras causas de muerte, sólo por debajo de las enfermedades del corazón y los tumores. Es el desenlace de un padecimiento que, controlado a tiempo, no tendría por qué llegar hasta ahí.','diabjal')],
  relations:[R('p1','p2','Los recursos condicionan la capacidad de contratar personal.'),R('p1','p3','El financiamiento se relaciona con la capacidad instalada.'),R('p1','p4','El presupuesto y la gestión se conectan con el abastecimiento.'),R('p2','s1','La capacidad de los equipos importa para sostener seguimiento.'),R('p3','f4','Capacidad insuficiente y atención oportuna están relacionadas.','sector'),R('p4','s2','La disponibilidad de medicamentos influye en sostener el tratamiento.'),R('p4','e3','La falta de suministro puede trasladar compras al hogar.'),R('p5','s1','Coordinar servicios favorece continuidad.','ensanut'),R('p5','t1','Integración institucional e integración de información forman parte de la respuesta.','sector'),R('t1','t2','Los sistemas aislados dificultan el intercambio.','sector'),R('t2','f5','La fragmentación genera duplicidad de registros.','sector'),R('t2','f4','La falta de información clínica puede retrasar atención.','sector'),R('t2','s1','Información disponible ayuda a dar continuidad.','sector'),R('e1','e2','Menor ingreso hace más difícil absorber traslados.'),R('e1','e3','El pago de insumos compite con el presupuesto disponible.'),R('e2','s4','Distancia y costo de traslado son barreras conectadas.','sector'),R('e3','f2','Los medicamentos componen el gasto de bolsillo.','ciep'),R('f2','f3','El aumento del gasto presiona el presupuesto familiar.','ciep'),R('s1','f1','El estudio relaciona seguimiento clínico con control.','ensanut'),R('s2','f1','El tratamiento regular es parte del manejo del padecimiento.','ensanut'),R('s3','s1','La incompatibilidad horaria dificulta sostener consultas.'),R('s4','s1','Las distancias pueden interrumpir el seguimiento.'),R('l1','s1','La norma enmarca prevención, tratamiento y control.','nom'),R('l2','p5','La coordinación del sistema busca dar cumplimiento al derecho.','sector'),R('k1','f6','La exposición al aire contaminado afecta el sistema respiratorio.','air'),R('k1','f7','La contaminación se asocia con daño cardiovascular.','air'),R('f6','p3','La carga respiratoria aumenta demanda de atención.'),R('f7','f2','Los problemas de salud pueden añadir costos al hogar.'),R('f4','s2','Los retrasos en la atención pueden interrumpir la regularidad del tratamiento.'),R('f4','e2','Un retraso obliga a repetir el traslado y suma costo al hogar.'),R('f6','s1','La carga respiratoria añade consultas y compite con el seguimiento de otro padecimiento.'),R('f5','p2','La duplicidad de registros consume tiempo de un personal ya insuficiente.'),R('f5','e2','Repetir estudios puede implicar traslados adicionales para el hogar.'),R('l2','f1','El derecho a la salud enmarca el control efectivo del padecimiento, no sólo el acceso a la consulta.'),R('e3','s2','Cuando el medicamento se paga de bolsillo, su uso puede volverse irregular.'),R('f1','f8','Un padecimiento que avanza sin control termina en complicaciones graves, y en Jalisco eso lo coloca entre las principales causas de muerte.','diabjal'),R('f4','f8','Llegar por urgencias en vez de por control significa llegar cuando el daño ya está hecho.'),R('s1','f8','Sin acompañamiento entre consultas, el padecimiento avanza en silencio hasta que ya no se puede revertir.')],
- causeIds:['s1','e3','t2','k1'],effectIds:['f1','f2','f5','f6'],gap:'Salud se analiza como sistema; diabetes es un indicador de resultado. Los factores ambientales describen carga general de enfermedad, no una explicación del 33% de control.'},
- seguridad:{bg:'#eed1c0',ink:'#542a25',mapBg:'#402026',mapAccent:'#f3bba7',summary:'Los factores institucionales y sociales se entrelazan: tiempo, trato, confianza y miedo. Los efectos económicos son visibles, aunque no equivalen a las causas de no denuncia.',
+ causeIds:['s1','e3','t2','k1'],effectIds:['f1','f2','f5','f6'],gap:'Salud se analiza como sistema; diabetes es un indicador de resultado. Los factores ambientales describen carga general de enfermedad, no una explicación del 33% de control.'};
+
+/* Mapa de Delitos fuera de investigación: variables y relaciones
+   Un N(...) por variable, un R(...) por relación. Es lo que más se edita.
+   Editar aquí y correr ./construir-react.sh */
+
+const EXP_SEGURIDAD={bg:'#eed1c0',ink:'#542a25',mapBg:'#402026',mapAccent:'#f3bba7',summary:'Los factores institucionales y sociales se entrelazan: tiempo, trato, confianza y miedo. Los efectos económicos son visibles, aunque no equivalen a las causas de no denuncia.',
  nodes:[
  N('p1','Denunciar cuesta\nun día de trabajo','P','factor','Denunciar exige presentarse en persona, en horario de oficina. Para quien trabaja, significa perder el día. El trámite compite directamente con el ingreso.','envipe'),
  N('p2','El trámite no está\nclaro para nadie','P','factor','El proceso es largo y poco claro. Nadie explica los pasos completos, y la víctima descubre sobre la marcha qué documento le falta.','envipe'),
@@ -411,8 +584,32 @@ const expanded={
  R('f4','f8','El daño emocional se nota en la asistencia y el desempeño en el trabajo.'),
  R('f5','f8','Una lesión aparta del trabajo mientras dura.'),
  R('f8','f2','Los días de trabajo perdidos son también pérdida económica.','envipe')],
- causeIds:['s1','p1','p3','s2','t2'],effectIds:['f1','f8','f4','f6','f2'],gap:'La red distingue causas reportadas de no denuncia, riesgos digitales y efectos de victimización. No atribuye todos los costos del delito a la cifra oculta. Sin factor ecológico específico acreditado en este recorte.'},
- juventud:{bg:'#e9ddae',ink:'#493917',mapBg:'#342e17',mapAccent:'#e8d28f',summary:'La dimensión económica reúne más barreras identificadas: ingreso, ahorro, vivienda, renta y crédito. La protección laboral y el contexto social amplifican esas dificultades.',
+  // Vínculos de stakeholder con variable: cada uno con la fuente que lo describe.
+ // Se validan en 90-calculos.js contra nodes[]: un id inexistente lanza excepción.
+ roleLinks:{
+ 'Víctimas y hogares':[
+  SL('p1','ENVIPE clasifica la pérdida de tiempo como el motivo de no denuncia más citado en Jalisco: 31.4% de los casos. Es el cálculo que hace la víctima antes de decidir.','envipe'),
+  SL('s1','La desconfianza en la autoridad aparece en 15.9% de los casos. INEGI la clasifica, junto con la pérdida de tiempo, como causa atribuible a la autoridad.','envipe'),
+  SL('s2','El miedo al agresor está entre los motivos declarados para no denunciar: denunciar implica quedar identificable frente a quien cometió el delito.','envipe'),
+  SL('f2','El costo del delito en los hogares de Jalisco fue de 25.8 mil millones de pesos, 9,100 por persona afectada.','envipe')],
+ 'Agresores':[
+  SL('f1','México Evalúa documenta que sólo 6.28% de los casos acumulados llega al ejercicio de la acción penal: quien cometió el delito casi nunca enfrenta una consecuencia.','evalua'),
+  SL('s2','El temor a quedar identificable frente al agresor es uno de los motivos declarados de no denuncia.','envipe')],
+ 'Fiscalía y Ministerio Público':[
+  SL('e1','El censo de procuración de justicia registra 504,184 carpetas pendientes y 701 agentes del Ministerio Público en Jalisco: 719 carpetas por agente, cinco veces el promedio nacional.','fiscalias'),
+  SL('l3','De las 145,780 determinaciones que Jalisco tomó en investigación inicial durante 2024, 93,048 fueron archivo temporal: 63.8%, contra 37.9% del promedio nacional.','rezago'),
+  SL('l2','El Ministerio Público decide si la denuncia se convierte en carpeta. México Evalúa mide que 93.8% de las denuncias sí abre carpeta, así que ésta es la fuga menor.','evalua')],
+ 'Policías':[
+  SL('s1','ENVIPE incluye la actitud hostil de la autoridad y el miedo a la extorsión entre los motivos de no denuncia. Son percepciones reportadas por las víctimas, no una acusación probada contra la institución.','envipe')],
+ 'Comunidad y redes vecinales':[
+  SL('s2','Los cambios de conducta que ENVIPE mide en Jalisco —dejar de permitir que los menores salgan solos, dejar de visitar a la familia— son la respuesta al miedo a quedar expuesto.','envipe')]},
+ causeIds:['s1','p1','p3','s2','t2'],effectIds:['f1','f8','f4','f6','f2'],gap:'La red distingue causas reportadas de no denuncia, riesgos digitales y efectos de victimización. No atribuye todos los costos del delito a la cifra oculta. Sin factor ecológico específico acreditado en este recorte.'};
+
+/* Mapa de Precariedad juvenil: variables y relaciones
+   Un N(...) por variable, un R(...) por relación. Es lo que más se edita.
+   Editar aquí y correr ./construir-react.sh */
+
+const EXP_JUVENTUD={bg:'#e9ddae',ink:'#493917',mapBg:'#342e17',mapAccent:'#e8d28f',summary:'La dimensión económica reúne más barreras identificadas: ingreso, ahorro, vivienda, renta y crédito. La protección laboral y el contexto social amplifican esas dificultades.',
  nodes:[
  N('e1','El sueldo no sigue\nel costo de vivir','E','factor','El primer empleo paga poco y sube despacio, mientras el costo de vivir sube rápido. La diferencia entre lo que se gana y lo que cuesta independizarse se ensancha cada año.','conavi'),
  N('e2','No queda nada\npara ahorrar','E','factor','Sin excedente al final del mes no hay enganche posible. El ahorro es el requisito de entrada a la vivienda, y es justo lo que un ingreso apretado no deja formar.','conavi'),
@@ -442,8 +639,13 @@ const expanded={
  N('e7','El empleo empeoró\nen un solo año','E','factor','En Jalisco, la proporción de gente que trabaja en condiciones críticas —muy por debajo del salario mínimo o con jornadas largas mal pagadas— dio un salto fuerte en un solo año. No es un deterioro lento de fondo: es un empeoramiento reciente y medible.','enoejal'),
  N('e8','La vivienda sube más\nque en casi todo el país','E','factor','El precio de la vivienda en la zona metropolitana de Guadalajara crece bastante más rápido que el promedio nacional, y Jalisco está entre las entidades donde más sube. Mientras alguien ahorra para el enganche, la meta se aleja.','iiegviv')],
  relations:[R('e1','e2','El ingreso disponible condiciona la capacidad de ahorrar.'),R('e2','f1','El ahorro insuficiente es obstáculo reportado para acceder a vivienda.','conavi'),R('e3','f1','El acceso a financiamiento es una barrera identificada.','conavi'),R('e4','f1','Precios más altos pueden dificultar la compra.'),R('e5','f2','Una renta poco asequible compromete el presupuesto.','conavi'),R('e6','e2','Las obligaciones de deuda compiten con el ahorro.'),R('s1','e1','La inestabilidad laboral dificulta sostener ingresos.','conavi'),R('l1','f3','La protección institucional es parte de la definición de informalidad.','youth'),R('l1','e3','El tipo de inserción laboral puede limitar rutas de crédito.'),R('l2','l3','Contratos informales se relacionan con inseguridad de tenencia.','conavi'),R('l3','e3','La incertidumbre legal puede limitar acceso a financiamiento.','conavi'),R('s2','e3','El conocimiento de productos financieros se relaciona con acceso.'),R('p1','f5','Los programas de vivienda buscan reducir rezago.','conavi'),R('p2','f5','La falta de servicios es una dimensión de vivienda inadecuada.','conavi'),R('s3','f5','Las barreras físicas afectan adecuación para personas con discapacidad.','conavi'),R('s4','f6','La ubicación periférica puede aumentar costos y tiempos.','conavi'),R('f6','e2','Los traslados compiten con el ahorro disponible.'),R('t1','f7','La brecha digital afecta oportunidades educativas y laborales.','conavi'),R('t2','l1','El estudio regional documenta informalidad en su muestra; no una tasa de México.','ilo'),R('t2','f3','La OIT identifica falta de protección en la muestra regional.','ilo'),R('f1','f8','La dificultad de acceso habitacional condiciona la autonomía.'),R('f2','f8','Un presupuesto comprometido limita alternativas de vida.'),R('e5','f4','Opciones poco asequibles pueden relacionarse con compartir espacios.'),R('f4','f5','El hacinamiento es una dimensión de rezago habitacional.','conavi'),R('e1','e5','Asequibilidad depende de renta e ingreso.','conavi'),R('s4','t1','La ubicación y conectividad forman parte del acceso a oportunidades.'),R('f7','s1','Menos oportunidades pueden dificultar la estabilidad laboral.'),R('f3','f8','Sin protección laboral, la autonomía queda condicionada a la estabilidad del ingreso.'),R('f3','e3','La ausencia de comprobantes formales de ingreso puede limitar el acceso al crédito.'),R('f7','e1','Menos oportunidades educativas y laborales se reflejan en el nivel de ingreso.'),R('f4','f8','Compartir espacio sin alternativa aplaza la formación de un hogar propio.'),R('l3','f8','La inseguridad en la tenencia dificulta proyectar a mediano plazo.'),R('s2','e6','El conocimiento de productos financieros se relaciona con la gestión de obligaciones de deuda.'),R('e7','e1','Cuando el empleo se degrada, el sueldo pierde terreno frente al costo de vivir.','enoejal'),R('e7','l1','El deterioro de las condiciones de trabajo y la informalidad se mueven juntos.','enoejal'),R('e7','e2','Con condiciones críticas de ocupación no queda excedente que ahorrar.'),R('e8','e4','El precio de la vivienda en la ZMG sube más rápido que el ingreso de quien la busca.','iiegviv'),R('e8','f1','Con los precios subiendo a ese ritmo, comprar deja de ser una opción realista.','iiegviv'),R('e8','e5','Cuando comprar se aleja, la presión se traslada al mercado de renta.')],
- causeIds:['e2','l1','s4','t1'],effectIds:['f1','f3','f6','f7'],gap:'El empleo juvenil es nacional y el precio de vivienda es de la ZMG. La evidencia OIT es contexto regional. No se inventa una causa ecológica ni se usa la ubicación urbana como sinónimo de ecología.'}
-};
+ causeIds:['e2','l1','s4','t1'],effectIds:['f1','f3','f6','f7'],gap:'El empleo juvenil es nacional y el precio de vivienda es de la ZMG. La evidencia OIT es contexto regional. No se inventa una causa ecológica ni se usa la ubicación urbana como sinónimo de ecología.'};
+
+/* Ensamblado y cálculo
+   No se edita a mano: aquí se calculan grados, ranking y ruta crítica.
+   Generado por separar-datos. Editar aquí y correr ./construir-react.sh */
+
+const expanded={salud:EXP_SALUD,seguridad:EXP_SEGURIDAD,juventud:EXP_JUVENTUD};
 for(const p of PROBLEMS){Object.assign(p,expanded[p.id]);p.causes=p.causeIds.map(id=>p.nodes.find(n=>n.id===id));p.effects=p.effectIds.map(id=>p.nodes.find(n=>n.id===id));p.counts=Object.fromEntries(DIM_ORDER.map(d=>[d,p.nodes.filter(n=>n.dim===d&&n.kind==='factor').length]));p.factorCount=p.nodes.filter(n=>n.kind==='factor').length;p.effectCount=p.nodes.filter(n=>n.kind==='effect').length;p.dominant=DIM_ORDER.reduce((best,d)=>p.counts[d]>p.counts[best]?d:best,'P');
  // Conectividad: se CALCULA desde relations[]. Nunca se escribe a mano (AGENTS.md §3.5).
  const near=id=>p.relations.filter(r=>r.a===id||r.b===id);
@@ -454,10 +656,32 @@ for(const p of PROBLEMS){Object.assign(p,expanded[p.id]);p.causes=p.causeIds.map
  p.ranked=[...p.nodes].sort(rank);
  p.criticalCause=p.ranked.filter(n=>n.kind==='factor')[0];
  p.criticalEffect=p.ranked.filter(n=>n.kind==='effect')[0];
+ // Criticidad: UNA sola regla, calculada una vez y compartida por las dos secciones,
+ // para que el mapa reducido y el replanteamiento no puedan discrepar.
+ // Umbral = 40% del grado máximo, nunca menor a 4 conexiones.
+ p.umbral=Math.max(4,Math.round(p.degree[p.ranked[0].id]*0.4));
+ p.critical=p.ranked.filter(n=>p.degree[n.id]>=p.umbral);
+ p.criticalRel=(()=>{const ids=new Set(p.critical.map(n=>n.id));
+  return p.relations.filter(r=>ids.has(r.a)&&ids.has(r.b))})();
+ p.criticalDims=DIM_ORDER.map(d=>[d,p.critical.filter(n=>n.dim===d).length]).filter(x=>x[1]);
+ // Vínculos de stakeholder con variable. Se validan contra nodes[]: un id que no
+ // existe lanza excepción y deja la página en blanco, igual que un slot faltante.
+ p.roles.forEach(r=>{r.links=(p.roleLinks&&p.roleLinks[r.name])||[];
+  r.links.forEach(l=>{if(!p.nodes.some(n=>n.id===l.to))
+   throw new Error('roleLinks: "'+r.name+'" apunta a "'+l.to+'", que no existe en '+p.id)});
+  r.linkDegree=r.links.length});
+ p.linkedRoles=p.roles.filter(r=>r.linkDegree);
+ p.roleLinkCount=p.roles.reduce((a,r)=>a+r.linkDegree,0);
+ p.docRoleLinks=p.roles.reduce((a,r)=>a+r.links.filter(l=>l.source).length,0);
+ // El replanteamiento muestra las críticas MÁS cualquier variable que un stakeholder
+ // toque: así un vínculo con fuente nunca se queda fuera del diagrama.
+ const tocadas=new Set(p.roles.flatMap(r=>r.links.map(l=>l.to)));
+ p.replanteo=p.ranked.filter(n=>p.degree[n.id]>=p.umbral||tocadas.has(n.id));
+ p.replanteoRel=(()=>{const ids=new Set(p.replanteo.map(n=>n.id));
+  return p.relations.filter(r=>ids.has(r.a)&&ids.has(r.b))})();
  p.docRelations=p.relations.filter(r=>r.source).length;
  p.loopRelations=p.relations.filter(r=>/^Hipótesis de retroalimentación/.test(r.why)).length;
  p.crossRelations=p.relations.filter(r=>{const a=p.nodes.find(n=>n.id===r.a),b=p.nodes.find(n=>n.id===r.b);return a&&b&&a.dim!==b.dim}).length;}
-
 </script>
 <script type="text/babel" data-presets="react">/* ── Presentación en React · componentes sobre los mismos datos y el mismo CSS ──
    No hay build. React y Babel se cargan por CDN y el archivo se abre con doble clic.
@@ -680,33 +904,53 @@ const curva=(a,b,seed=0)=>{const mx=(a.x+b.x)/2,my=(a.y+b.y)/2,dx=b.x-a.x,dy=b.y
 const CENTRO={salud:['Salud','sin continuidad'],seguridad:['Delitos sin','investigación'],juventud:['Autonomía','con barreras']};
 
 const Grafo=memo(({p,estado,seleccionar,reiniciar})=>{
+  // Las posiciones SIEMPRE se calculan sobre el mapa completo. La síntesis no
+  // reacomoda nada: sólo deja de dibujar lo que no llega al umbral, así que se
+  // ve como lo que es, un filtrado del mismo diagrama.
   const {nodos}=acomodar(p);
   const idx=Object.fromEntries(nodos.map(n=>[n.id,n]));
   const hub={x:CX,y:CY};
+  const vis=estado.sint?new Set(p.critical.map(n=>n.id)):null;
+  const dibujados=vis?nodos.filter(n=>vis.has(n.id)):nodos;
+  const relaciones=vis?p.relations.filter(r=>vis.has(r.a)&&vis.has(r.b)):p.relations;
+  const caja=(()=>{
+    if(!vis)return {x:0,y:0,w:ANCHO,h:ALTO};
+    const pad=190;
+    const xs=dibujados.map(n=>n.x).concat([CX-130,CX+130]);
+    const ys=dibujados.map(n=>n.y).concat([CY-130,CY+130]);
+    const x0=Math.min(...xs)-pad,x1=Math.max(...xs)+pad;
+    const y0=Math.min(...ys)-pad*1.25,y1=Math.max(...ys)+pad*1.15;
+    let w=x1-x0; const h=y1-y0;
+    // Se recorta para ganar escala, pero nunca al punto de volver el mapa vertical:
+    // el encuadre no puede crecer más de 15% en alto respecto al mapa completo.
+    const minW=h*(ANCHO/ALTO)/1.15;
+    const x=w<minW?x0-(minW-w)/2:x0; if(w<minW)w=minW;
+    return {x,y:y0,w,h}})();
   const activos=new Set();
   if(estado.selected){activos.add(estado.selected);
-    p.relations.forEach(r=>{if(r.a===estado.selected)activos.add(r.b);if(r.b===estado.selected)activos.add(r.a)})}
-  else p.nodes.forEach(n=>{if((estado.mode==='all'||n.kind===estado.mode)&&(estado.dimension==='all'||n.dim===estado.dimension))activos.add(n.id)});
+    relaciones.forEach(r=>{if(r.a===estado.selected)activos.add(r.b);if(r.b===estado.selected)activos.add(r.a)})}
+  else dibujados.forEach(n=>{if((estado.mode==='all'||n.kind===estado.mode)&&(estado.dimension==='all'||n.dim===estado.dimension))activos.add(n.id)});
   const at=(base,on)=>base+(on?'':' dim');
   const maxG=Math.max(...p.nodes.map(n=>p.degree[n.id]));
   return(
   <figure className="neural-figure" aria-label={'Mapa de causas y efectos de '+p.name}>
-    <svg className="neural-svg" viewBox={`0 0 ${ANCHO} ${ALTO}`} role="group" aria-label={'Mapa PESTEL interactivo de '+p.name}>
+    <svg className="neural-svg" viewBox={`${caja.x} ${caja.y} ${caja.w} ${caja.h}`} role="group"
+      aria-label={(estado.sint?'Red sintetizada de ':'Mapa PESTEL interactivo de ')+p.name}>
       <g aria-hidden="true">
-        <text className="lado-label" x="44" y="58">CAUSAS</text>
-        <text className="lado-label der" x={ANCHO-44} y="58" textAnchor="end">EFECTOS</text>
+        <text className="lado-label" x={caja.x+44} y={caja.y+58}>CAUSAS</text>
+        <text className="lado-label der" x={caja.x+caja.w-44} y={caja.y+58} textAnchor="end">EFECTOS</text>
         {ANILLOS.slice(0,3).map((a,i)=><ellipse key={i} className="orbit-guide" cx={CX} cy={CY} rx={a.rx} ry={a.ry}/>)}
-        {nodos.map((n,i)=><path key={'h'+n.id} className={at('neural-edge hub-edge',activos.has(n.id))+(estado.selected===n.id?' active':'')}
+        {dibujados.map((n,i)=><path key={'h'+n.id} className={at('neural-edge hub-edge',activos.has(n.id))+(estado.selected===n.id?' active':'')}
           d={curva(n,hub,i)} style={{'--edge-color':DIM[n.dim].color}}/>)}
-        {p.relations.map((r,i)=>{const A=idx[r.a],B=idx[r.b]; if(!A||!B)return null;
+        {relaciones.map((r,i)=>{const A=idx[r.a],B=idx[r.b]; if(!A||!B)return null;
           const d=curva(A,B,i);
           const on=estado.selected?(r.a===estado.selected||r.b===estado.selected):(activos.has(r.a)&&activos.has(r.b));
           return(<React.Fragment key={'r'+i}>
-            <path className={at('neural-edge inter',on)+(estado.selected&&on?' active':'')} d={d} style={{'--edge-color':DIM[A.dim].color}}/>
+            <path className={at('neural-edge inter'+(estado.sint?' gruesa':''),on)+(estado.selected&&on?' active':'')} d={d} style={{'--edge-color':DIM[A.dim].color}}/>
             {i%4===0&&<circle className={at('signal',on)} r="3"><animateMotion dur={(7+i%5)+'s'} begin={'-'+(i%7)+'s'} repeatCount="indefinite" path={d}/></circle>}
           </React.Fragment>)})}
       </g>
-      {nodos.map((n,i)=>{const g=p.degree[n.id],sel=estado.selected===n.id,manda=g>=maxG*0.7;
+      {dibujados.map((n,i)=>{const g=p.degree[n.id],sel=estado.selected===n.id,manda=g>=maxG*0.7;
         return(<g key={n.id} className={'neural-node'+(activos.has(n.id)?'':' dim')+(estado.selected&&activos.has(n.id)&&!sel?' related':'')+(manda?' manda':'')}
           role="button" tabIndex="0" aria-pressed={sel}
           aria-label={`${plain(n.label)} · ${kindName(n.kind)} · ${DIM[n.dim].name} · ${g} conexiones`}
@@ -714,7 +958,11 @@ const Grafo=memo(({p,estado,seleccionar,reiniciar})=>{
           onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();seleccionar(n.id)}}}
           transform={`translate(${n.x} ${n.y})`} style={{'--node-color':DIM[n.dim].color}}>
           <circle className="halo" r="30"/>
-          {n.kind==='context'?<rect className="point" x="-9" y="-9" width="18" height="18" rx="2"/>:<circle className="point" r={8+Math.min(g,7)*1.6}/>}
+          {n.kind==='context'?<rect className="point" x="-9" y="-9" width="18" height="18" rx="2"/>
+            :(()=>{const rr=estado.sint?11+Math.min(g,10)*1.5:8+Math.min(g,7)*1.6;
+               // El radio va también como variable CSS: en la síntesis manda sobre la
+               // regla móvil general, que está pensada para el mapa de 30 nodos.
+               return <circle className="point" r={rr} style={{'--r':rr+'px'}}/>})()}
           <text className="grado-num" x="0" y="-26" textAnchor="middle">{g}</text>
           {lineas(n.label).map((t,k)=><text key={k} x="0" y={38+k*20} textAnchor="middle">{t}</text>)}
         </g>)})}
@@ -722,29 +970,18 @@ const Grafo=memo(({p,estado,seleccionar,reiniciar})=>{
          onClick={reiniciar} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();reiniciar()}}}
          transform={`translate(${hub.x} ${hub.y})`}>
         <circle className="hub-ring" r="118"/><circle className="hub-core" r="104"/>
-        <text className="hub-label" x="0" y="-46" textAnchor="middle">{p.n} · PROBLEMA</text>
+        <text className="hub-label" x="0" y="-46" textAnchor="middle">{p.n} · {estado.sint?'LA PROBLEMÁTICA':'PROBLEMA'}</text>
         {lineas(p.center).map((t,i)=><text key={i} x="0" y={-10+i*30} textAnchor="middle">{t}</text>)}
-        <text className="hub-action" x="0" y="72" textAnchor="middle">Ver toda la red ↗</text>
+        {(!estado.sint||estado.selected)&&
+          <text className="hub-action" x="0" y="72" textAnchor="middle">{estado.sint?'Quitar la selección ↗':'Ver toda la red ↗'}</text>}
       </g>
     </svg>
   </figure>)});
 
 /* ── Inspector, controles y sección del mapa ──────────────────────────────── */
+// La explicación de un nodo ya no vive aquí abajo: vive en la tarjeta flotante
+// dentro del mapa. Este panel se queda con el estado general de la selección.
 const Inspector=({p,estado,activos,seleccionar,reiniciar,abrirNodo,abrirRelacion,abrirMetodo})=>{
-  if(estado.selected){
-    const n=p.nodes.find(x=>x.id===estado.selected);
-    const rels=p.relations.filter(r=>r.a===n.id||r.b===n.id);
-    return(<React.Fragment>
-      <div><div className="detail-kind">{DIM[n.dim].name} · {kindName(n.kind)}</div>
-        <h3>{plain(n.label)}</h3>
-        <button className="ref" onClick={()=>abrirNodo(p,n.id)}>{SOURCES[n.source].name} · {SOURCES[n.source].year} ↗</button></div>
-      <div><p>{n.detail}</p>
-        <div className="related-links" aria-label={'Relaciones de '+plain(n.label)}>
-          {rels.map(r=>{const otro=p.nodes.find(x=>x.id===(r.a===n.id?r.b:r.a));
-            return <button key={r.a+r.b} onClick={()=>abrirRelacion(p,p.relations.indexOf(r))}>{plain(otro.label)} ↗</button>})}
-        </div>
-        <p className="relation-detail">{rels.length} conexiones directas. Toca una para consultar la relación y seguir hacia el otro nodo.</p></div>
-    </React.Fragment>)}
   if(estado.dimension!=='all'||estado.mode!=='all'){
     const d=estado.dimension!=='all'?DIM[estado.dimension].name:estado.mode==='effect'?'Efectos':'Factores y causas';
     return(<React.Fragment>
@@ -753,6 +990,15 @@ const Inspector=({p,estado,activos,seleccionar,reiniciar,abrirNodo,abrirRelacion
       <div><p>{activos.size?'Selecciona un nodo iluminado para explorar cómo se relaciona con el resto.':'No hay factores incluidos en esta dimensión para el recorte actual.'}</p>
         <div className="related-links">{p.nodes.filter(n=>activos.has(n.id)).map(n=>
           <button key={n.id} onClick={()=>seleccionar(n.id)}>{plain(n.label)} ↗</button>)}</div></div>
+    </React.Fragment>)}
+  if(estado.sint){
+    const rels=p.criticalRel;
+    return(<React.Fragment>
+      <div><div className="detail-kind">Umbral calculado: {p.umbral} conexiones o más</div>
+        <h3>{p.critical.length} variables<br/>sostienen el resto.</h3>
+        <button className="ref" onClick={()=>abrirMetodo(p)}>Cómo se calcula el umbral ↗</button></div>
+      <div><p>De {p.nodes.length} variables quedan {p.critical.length}, con {rels.length} relaciones entre ellas. Ninguna se movió de lugar: las demás simplemente se apagaron, así que la forma que ves es la del mapa completo.</p>
+        <p className="relation-detail">La carga se concentra en {p.criticalDims.map(([d,c])=>DIM[d].name.toLowerCase()+' '+c).join(' · ')}. Más conexiones significa más presencia en este recorte, no mayor peso causal comprobado.</p></div>
     </React.Fragment>)}
   return(<React.Fragment>
     <div><div className="detail-kind">{p.nodes.length} nodos · {p.relations.length} relaciones entre nodos</div>
@@ -763,229 +1009,376 @@ const Inspector=({p,estado,activos,seleccionar,reiniciar,abrirNodo,abrirRelacion
   </React.Fragment>)};
 
 const SeccionMapa=({p,abrirNodo,abrirRelacion,abrirMetodo})=>{
-  const [estado,setEstado]=useState({selected:null,mode:'all',dimension:'all',
+  // `sint` es la síntesis: se quedan sólo las variables con más conexiones, EN SU
+  // MISMA POSICIÓN del mapa completo. Por eso se lee como un filtrado del diagrama
+  // y no como otro diagrama: los nodos no se mueven, desaparecen los demás.
+  const [estado,setEstado]=useState({selected:null,mode:'all',dimension:'all',sint:false,
     paused:matchMedia('(prefers-reduced-motion:reduce)').matches});
   const svgRef=useRef(null);
-  const seleccionar=id=>setEstado({selected:id,mode:'all',dimension:'all',paused:estado.paused});
+  const seleccionar=id=>setEstado(s=>({...s,selected:id,mode:'all',dimension:'all'}));
   const reiniciar=()=>setEstado(s=>({...s,selected:null,mode:'all',dimension:'all'}));
+  const sint=estado.sint;
+  // Todo lo de arriba se recalcula sobre lo que se está viendo, no sobre el total.
+  const base=sint?p.critical:p.nodes;
+  const visibles=new Set(base.map(n=>n.id));
+  const rels=p.relations.filter(r=>visibles.has(r.a)&&visibles.has(r.b));
+  const counts=Object.fromEntries(DIM_ORDER.map(d=>[d,
+    base.filter(n=>n.dim===d&&(sint||n.kind==='factor')).length]));
+  const factorCount=base.filter(n=>n.kind==='factor').length;
+  const effectCount=base.filter(n=>n.kind==='effect').length;
+  const total=Object.values(counts).reduce((a,b)=>a+b,0);
+  const max=Math.max(1,...Object.values(counts));
+  const cima=Math.max(...Object.values(counts));
+  const manda=DIM_ORDER.filter(d=>counts[d]===cima);
+  const unidad=sint?'variables críticas':'factores';
   const activos=new Set();
   if(estado.selected){activos.add(estado.selected);
-    p.relations.forEach(r=>{if(r.a===estado.selected)activos.add(r.b);if(r.b===estado.selected)activos.add(r.a)})}
-  else p.nodes.forEach(n=>{if((estado.mode==='all'||n.kind===estado.mode)&&(estado.dimension==='all'||n.dim===estado.dimension))activos.add(n.id)});
+    rels.forEach(r=>{if(r.a===estado.selected)activos.add(r.b);if(r.b===estado.selected)activos.add(r.a)})}
+  else base.forEach(n=>{if((estado.mode==='all'||n.kind===estado.mode)&&(estado.dimension==='all'||n.dim===estado.dimension))activos.add(n.id)});
   useEffect(()=>{const svg=svgRef.current&&svgRef.current.querySelector('.neural-svg');if(!svg)return;
     if(estado.paused||matchMedia('(prefers-reduced-motion:reduce)').matches)svg.pauseAnimations&&svg.pauseAnimations();
     else svg.unpauseAnimations&&svg.unpauseAnimations()},[estado.paused]);
-  const max=Math.max(...Object.values(p.counts));
+  // Cambiar de vista limpia la selección: un nodo escondido no puede seguir elegido.
+  const verTodo=()=>setEstado(s=>({...s,sint:false,mode:'all',dimension:'all',selected:null}));
+  const verSintesis=()=>setEstado(s=>({...s,sint:true,mode:'all',dimension:'all',selected:null}));
   return(
-    <section className={'map-section'+(estado.paused?' paused':'')} id={p.id+'-mapa'} ref={svgRef}
+    <section className={'map-section'+(estado.paused?' paused':'')+(sint?' es-sintesis':'')} id={p.id+'-mapa'} ref={svgRef}
       style={{'--map-bg':p.mapBg,'--map-accent':p.mapAccent}}>
       <div className="wrap">
         <div className="map-heading">
-          <div><div className="eyebrow">{p.n} · El mapa de {p.short.toLowerCase()}</div>
-            <h2>Una problemática.<br/><em>Muchas conexiones.</em></h2></div>
-          <p>{p.summary}</p>
+          <div><div className="eyebrow">{p.n} · {sint?'De lo general a lo particular':'El mapa de '+p.short.toLowerCase()}</div>
+            {sint
+              ?<h2>Lo que de verdad<br/><em>carga el sistema.</em></h2>
+              :<h2>Una problemática.<br/><em>Muchas conexiones.</em></h2>}</div>
+          <p>{sint
+            ?'Las mismas variables, en la misma posición: sólo se apagaron las que menos conectan. Lo que queda encendido es lo que sostiene la red, y las barras de arriba ya no cuentan el inventario completo sino este recorte.'
+            :p.summary}</p>
         </div>
-        <div className="distribution" role="group" aria-label={'Factores identificados por dimensión en '+p.name}>
+        {sint&&(
+          <div className="reduccion">
+            <div><strong>{p.nodes.length}</strong><span>variables en el mapa completo</span></div>
+            <div className="flecha">→</div>
+            <div><strong>{p.critical.length}</strong><span>con {p.umbral} conexiones o más</span></div>
+            <div className="flecha">→</div>
+            <div><strong>{rels.length}</strong><span>relaciones que sobreviven entre ellas</span></div>
+          </div>)}
+        <div className="distribution" role="group" aria-label={(sint?'Variables críticas':'Factores identificados')+' por dimensión en '+p.name}>
           {DIM_ORDER.map(d=>(
             <button key={d} className="dimension" aria-pressed={estado.dimension===d}
-              style={{'--sector':DIM[d].color,'--amount':(p.counts[d]/max*100)+'%'}}
-              aria-label={DIM[d].name+': '+p.counts[d]+' factores'}
-              onClick={()=>setEstado(s=>({...s,dimension:s.dimension===d?'all':d,selected:null,mode:'factor'}))}>
-              <span>{DIM[d].name}</span><strong>{p.counts[d]}</strong><span className="track"><i></i></span>
-              <small>{p.counts[d]?'factores identificados':p.nodes.some(n=>n.dim===d)?'solo contexto / efectos':'sin evidencia en el recorte'}</small>
+              style={{'--sector':DIM[d].color,'--amount':(counts[d]/max*100)+'%'}}
+              aria-label={DIM[d].name+': '+counts[d]+' '+unidad}
+              onClick={()=>setEstado(s=>({...s,dimension:s.dimension===d?'all':d,selected:null,mode:sint?'all':'factor'}))}>
+              <span>{DIM[d].name}</span><strong>{counts[d]}</strong><span className="track"><i></i></span>
+              <small>{counts[d]?unidad:sint?'ninguna llega al umbral':p.nodes.some(n=>n.dim===d)?'solo contexto / efectos':'sin evidencia en el recorte'}</small>
             </button>))}
         </div>
         <div className="distribution-note">
-          <span>Concentración del inventario: <strong>{DIM[p.dominant].name.toLowerCase()}</strong> ({p.counts[p.dominant]} de {p.factorCount} factores). No es una ponderación causal.</span>
+          <span>{sint?'La carga se concentra en lo ':'Concentración del inventario: '}
+            <strong>{manda.map(d=>DIM[d].name.toLowerCase()).join(' y lo ')}</strong>
+            {' ('+cima+' de '+total+' '+unidad+')'}. No es una ponderación causal.</span>
           <button onClick={()=>abrirMetodo(p)}>¿Qué mide PESTEL? ↗</button>
         </div>
         <div className="map-controls">
-          <div className="map-toggles" role="group" aria-label={'Activar causas y efectos de '+p.name}>
-            <button aria-pressed={estado.mode==='all'} onClick={()=>setEstado(s=>({...s,mode:'all',selected:null,dimension:'all'}))}>Toda la red</button>
-            <button aria-pressed={estado.mode==='factor'} onClick={()=>setEstado(s=>({...s,mode:'factor',selected:null,dimension:'all'}))}><i className="role-symbol solid"></i>Factores · {p.factorCount}</button>
-            <button aria-pressed={estado.mode==='effect'} onClick={()=>setEstado(s=>({...s,mode:'effect',selected:null,dimension:'all'}))}><i className="role-symbol"></i>Efectos · {p.effectCount}</button>
+          <div className="map-toggles" role="group" aria-label={'Filtrar el mapa de '+p.name}>
+            <button aria-pressed={!sint&&estado.mode==='all'&&estado.dimension==='all'} onClick={verTodo}>Toda la red · {p.nodes.length}</button>
+            <button className="sintesis-btn" aria-pressed={sint&&estado.mode==='all'&&estado.dimension==='all'} onClick={verSintesis}>
+              <i className="role-symbol solid"></i>Red sintetizada · {p.critical.length}</button>
+            <button aria-pressed={estado.mode==='factor'} onClick={()=>setEstado(s=>({...s,mode:'factor',selected:null,dimension:'all'}))}>Factores · {factorCount}</button>
+            <button aria-pressed={estado.mode==='effect'} onClick={()=>setEstado(s=>({...s,mode:'effect',selected:null,dimension:'all'}))}>Efectos · {effectCount}</button>
             <button aria-pressed={estado.paused} aria-label={(estado.paused?'Activar':'Pausar')+' animación de '+p.name}
               onClick={()=>setEstado(s=>({...s,paused:!s.paused}))}><Icon name={estado.paused?'play':'pause'}/></button>
           </div>
-          <p className="map-help">Toca el centro o cualquier nodo.</p>
+          <p className="map-help">{sint?'Cada nodo conserva su lugar del mapa completo.':'Toca el centro o cualquier nodo.'}</p>
         </div>
       </div>
-      <Grafo p={p} estado={estado} seleccionar={seleccionar} reiniciar={reiniciar}/>
+      <div className="map-stage">
+        <Grafo p={p} estado={estado} seleccionar={seleccionar} reiniciar={reiniciar}/>
+        <Tarjeta abierta={!!estado.selected} cerrar={reiniciar}>
+          {estado.selected&&<FichaVariable p={p} n={p.nodes.find(x=>x.id===estado.selected)}
+            abrirNodo={abrirNodo} abrirRelacion={abrirRelacion} seleccionar={seleccionar}/>}
+        </Tarjeta>
+      </div>
       <div className="network-key">
         <span><i className="key-dot solid"></i>Causa</span><span><i className="key-dot"></i>Efecto</span>
-        <span><i className="key-dot square"></i>Contexto</span>
+        {!sint&&<span><i className="key-dot square"></i>Contexto</span>}
         <span className="sep"></span>
-        {DIM_ORDER.map(d=>(
+        {DIM_ORDER.filter(d=>!sint||counts[d]).map(d=>(
           <span key={d} className="key-dim"><i style={{background:DIM[d].color}}></i>{DIM[d].name}</span>))}
-        <span className="key-nota">El número sobre cada nodo son sus conexiones.</span>
+        <span className="key-nota">El número sobre cada nodo son sus conexiones en el mapa completo.</span>
       </div>
-      <details className="mobile-explorer"><summary>Explorar los {p.nodes.length} nodos</summary>
-        <div className="mobile-node-list">{p.nodes.map(n=>(
+      <details className="mobile-explorer"><summary>Explorar {sint?'las '+p.critical.length+' variables críticas':'los '+p.nodes.length+' nodos'}</summary>
+        <div className="mobile-node-list">{base.map(n=>(
           <button key={n.id} aria-pressed={estado.selected===n.id} hidden={!estado.selected&&!activos.has(n.id)}
             onClick={()=>seleccionar(n.id)}>
-            <small>{DIM[n.dim].name} · {kindName(n.kind)}</small>{plain(n.label)}</button>))}</div>
+            <small>{DIM[n.dim].name} · {sint?p.degree[n.id]+' conexiones':kindName(n.kind)}</small>{plain(n.label)}</button>))}</div>
       </details>
       <aside className="inspector" aria-live="polite">
         <Inspector p={p} estado={estado} activos={activos} seleccionar={seleccionar} reiniciar={reiniciar}
           abrirNodo={abrirNodo} abrirRelacion={abrirRelacion} abrirMetodo={abrirMetodo}/>
       </aside>
-      <p className="map-limit wrap">Los vínculos son una lectura del equipo apoyada en las fuentes; no equivalen a efectos causales estimados. Los factores de una misma fuente no son evidencias independientes.</p>
+      <p className="map-limit wrap">Los vínculos son una lectura del equipo apoyada en las fuentes; no equivalen a efectos causales estimados. Los factores de una misma fuente no son evidencias independientes. El umbral de la síntesis se calcula: {p.umbral} conexiones o más, que es el 40% del grado máximo.</p>
     </section>)};
 
-/* ── Conexiones y ruta crítica ────────────────────────────────────────────── */
-const Conexiones=({p,abrirNodo,abrirRelacion})=>{
-  // De lo general a lo particular: se conservan sólo los nodos que más conectan.
-  const umbral=Math.max(4,Math.round(p.degree[p.ranked[0].id]*0.4));
-  const dentro=p.nodes.filter(n=>p.degree[n.id]>=umbral);
-  const ids=new Set(dentro.map(n=>n.id));
-  const rels=p.relations.filter(r=>ids.has(r.a)&&ids.has(r.b));
-  const sub={...p,nodes:dentro,relations:rels};
-  const [sel,setSel]=useState(null);
-  const {nodos}=acomodar(sub);
+/* ── Tarjeta flotante: la explicación vive DENTRO del mapa ────────────────── */
+// Aparece en el hueco superior del marco, no mueve un solo nodo al abrirse y
+// respeta prefers-reduced-motion. Se usa igual en los tres mapas.
+const Tarjeta=({abierta,children,cerrar,lado=''})=>(
+  // El carril ocupa todo el alto del mapa y la tarjeta se pega dentro de él:
+  // así queda siempre a la vista, sin importar por dónde vaya el scroll.
+  <div className={'map-card-slot '+lado} aria-hidden={!abierta}>
+    <div className={'map-card'+(abierta?' abierta':'')} aria-live="polite">
+      {abierta&&(<React.Fragment>
+        <button className="map-card-x" onClick={cerrar} aria-label="Cerrar la explicación">×</button>
+        {children}</React.Fragment>)}
+    </div>
+  </div>);
+
+// Ficha de una variable: dimensión, grado, el texto de la leyenda y sus vecinos.
+const FichaVariable=({p,n,abrirNodo,abrirRelacion,seleccionar})=>{
+  const rels=p.relations.filter(r=>r.a===n.id||r.b===n.id);
+  return(<React.Fragment>
+    <div className="card-kind"><i style={{background:DIM[n.dim].color}}></i>
+      {DIM[n.dim].name} · {kindName(n.kind)} · {p.degree[n.id]} conexiones</div>
+    <h3>{plain(n.label)}</h3>
+    <p>{n.detail}</p>
+    <div className="card-links">
+      {rels.slice(0,6).map(r=>{const o=p.nodes.find(x=>x.id===(r.a===n.id?r.b:r.a));
+        return <button key={r.a+r.b} onClick={()=>abrirRelacion(p,p.relations.indexOf(r))}
+          style={{'--edge-color':DIM[o.dim].color}}>{plain(o.label)} ↗</button>})}
+    </div>
+    <button className="card-ref" onClick={()=>abrirNodo(p,n.id)}>
+      {SOURCES[n.source].name} · {SOURCES[n.source].year} ↗</button>
+  </React.Fragment>)};
+
+// Ficha de un stakeholder: categoría, por qué está ahí y con qué variables se liga.
+const FichaActor=({p,r,abrirActor,i,seleccionar})=>(
+  <React.Fragment>
+    <div className="card-kind"><i style={{background:ROLE[r.cat].color}}></i>
+      Stakeholder · {ROLE[r.cat].name} · {r.linkDegree} {r.linkDegree===1?'variable crítica':'variables críticas'}</div>
+    <h3>{r.name}</h3>
+    <p>{r.porQue}</p>
+    {r.nota&&<p className="card-nota">{r.nota}</p>}
+    <div className="card-links">
+      {r.links.map(l=>{const o=p.nodes.find(x=>x.id===l.to);
+        return <button key={l.to} onClick={()=>seleccionar(l.to)}
+          style={{'--edge-color':DIM[o.dim].color}}>{plain(o.label)} ↗</button>})}
+    </div>
+    <button className="card-ref" onClick={()=>abrirActor(p,i)}>Ver el respaldo del actor ↗</button>
+  </React.Fragment>);
+
+// Ficha de un vínculo stakeholder → variable: la frase que lo justifica y su fuente.
+const FichaVinculo=({p,r,l,abrirFuente})=>{const o=p.nodes.find(x=>x.id===l.to);
+  return(<React.Fragment>
+    <div className="card-kind"><i style={{background:ROLE[r.cat].color}}></i>{l.status}</div>
+    <h3>{r.name} <span className="card-flecha">→</span> {plain(o.label)}</h3>
+    <p>{l.why}</p>
+    {l.source
+      ?<button className="card-ref" onClick={()=>abrirFuente(l.source)}>{SOURCES[l.source].name} · {SOURCES[l.source].year} ↗</button>
+      :<p className="card-nota">Lectura del equipo apoyada en la evidencia de los nodos; no es un efecto causal estimado.</p>}
+  </React.Fragment>)};
+
+/* ── Geometría compartida por los dos mapas reducidos ─────────────────────── */
+// Reparto en arco por dimensión: los colores quedan juntos y agregar un nodo
+// nunca rompe el mapa, porque las posiciones se calculan, no se escriben.
+function enArco(lista,cx,cy,rx,ry,a0,a1){
+  const orden=[]; for(const d of DIM_ORDER) orden.push(...lista.filter(n=>n.dim===d));
+  const n=orden.length, paso=n?(a1-a0)/n:0;
+  return orden.map((nodo,i)=>{const gr=a0+paso*(i+0.5), a=gr*Math.PI/180;
+    return {...nodo,ang:gr,x:cx+rx*Math.cos(a),y:cy+ry*Math.sin(a)}})}
+
+// Causas a la izquierda, efectos a la derecha: la misma convención del mapa grande.
+const acomodarCriticas=(lista,cx,cy,rx,ry)=>[
+  ...enArco(lista.filter(n=>n.kind!=='effect'),cx,cy,rx,ry,102,258),
+  ...enArco(lista.filter(n=>n.kind==='effect'),cx,cy,rx,ry,-78,78)];
+
+// Cada stakeholder se coloca frente a las variables que toca: se promedia el
+// ángulo de sus vínculos y luego se separan los que quedarían encimados.
+function acomodarActores(roles,idx,cx,cy,rx,ry,MIN=58){
+  const crudo=roles.map((r,i)=>{
+    const pts=r.links.map(l=>idx[l.to]).filter(Boolean);
+    if(!pts.length)return {i,ang:270};
+    let sx=0,sy=0;
+    for(const q of pts){const a=Math.atan2(q.y-cy,q.x-cx); sx+=Math.cos(a); sy+=Math.sin(a)}
+    let g=Math.atan2(sy,sx)*180/Math.PI; if(g<0)g+=360;
+    return {i,ang:g}});
+  const orden=[...crudo].sort((a,b)=>a.ang-b.ang);
+  for(let vuelta=0;vuelta<80;vuelta++){let movio=false;
+    for(let k=0;k<orden.length;k++){const a=orden[k],b=orden[(k+1)%orden.length];
+      let d=b.ang-a.ang; if(d<0)d+=360;
+      if(d<MIN-0.01){const emp=(MIN-d)/2; a.ang-=emp; b.ang+=emp; movio=true}}
+    if(!movio)break}
+  const out=[];
+  for(const o of orden){const a=o.ang*Math.PI/180;
+    out[o.i]={ang:((o.ang%360)+360)%360,x:cx+rx*Math.cos(a),y:cy+ry*Math.sin(a)}}
+  return out}
+
+// Leyenda de dimensiones: sólo las que de verdad aparecen en este recorte.
+const LeyendaDim=({dims,conteo=true})=>(
+  <div className="mapa-key" role="list" aria-label="Color por dimensión PESTEL">
+    <span className="key-titulo">Variables · dimensión PESTEL</span>
+    {dims.map(([d,c])=>(
+      <span key={d} role="listitem"><i style={{background:DIM[d].color}}></i>{DIM[d].name}
+        {conteo&&<b>{c}</b>}</span>))}
+    <span className="key-forma"><i className="key-dot solid"></i>causa<i className="key-dot"></i>efecto</span>
+  </div>);
+
+// Leyenda de roles: el color de stakeholder vive con su propia clave, nunca mezclado.
+const LeyendaRol=({roles})=>(
+  <div className="mapa-key roles" role="list" aria-label="Color por categoría de stakeholder">
+    <span className="key-titulo">Stakeholders · categoría</span>
+    {ROLE_ORDER.filter(c=>roles.some(r=>r.cat===c)).map(c=>(
+      <span key={c} role="listitem"><i className="pastilla" style={{background:ROLE[c].color}}></i>
+        {ROLE[c].name}<small>{ROLE[c].desc}</small></span>))}
+  </div>);
+
+/* ── Mapa 2 · el replanteamiento ──────────────────────────────────────────── */
+// Lo que pide la tarea en un solo diagrama: la problemática al centro, las
+// variables críticas alrededor y los stakeholders en el círculo exterior,
+// cada uno ligado a las variables que la fuente sí describe.
+const ANCHO3=1700, ALTO3=1120, CX3=850, CY3=540;
+const Replanteamiento=({p,abrirNodo,abrirRelacion,abrirActor,abrirFuente})=>{
+  const [sel,setSel]=useState(null);      // {t:'nodo'|'actor'|'vinculo', ...}
+  const nodos=acomodarCriticas(p.replanteo,CX3,CY3,392,262);
   const idx=Object.fromEntries(nodos.map(n=>[n.id,n]));
-  const hub={x:CX,y:CY};
-  const activos=new Set();
-  if(sel){activos.add(sel);rels.forEach(r=>{if(r.a===sel)activos.add(r.b);if(r.b===sel)activos.add(r.a)})}
-  else dentro.forEach(n=>activos.add(n.id));
+  const hub={x:CX3,y:CY3};
+  const rels=p.replanteoRel;
+  const anchoPastilla=t=>Math.max(150,Math.min(268,t.length*10.4+34));
+  // Se calcula la órbita y luego se mete cada pastilla dentro del lienzo: una
+  // etiqueta larga nunca puede quedar cortada por el borde.
+  const pos=acomodarActores(p.roles,idx,CX3,CY3,700,462).map((a,i)=>{
+    const m=anchoPastilla(p.roles[i].name)/2+14;
+    return {...a,x:Math.max(m,Math.min(ANCHO3-m,a.x)),y:Math.max(40,Math.min(ALTO3-40,a.y))}});
+  const espina=[p.criticalCause.id,p.criticalEffect.id];
+  // Qué queda encendido: un nodo enciende sus vecinos y sus actores; un actor,
+  // sus variables. Sin selección, todo está encendido.
+  const vivos=new Set(), actoresVivos=new Set();
+  if(sel&&sel.t==='nodo'){vivos.add(sel.id);
+    rels.forEach(r=>{if(r.a===sel.id)vivos.add(r.b);if(r.b===sel.id)vivos.add(r.a)});
+    p.roles.forEach((r,i)=>{if(r.links.some(l=>l.to===sel.id))actoresVivos.add(i)})}
+  else if(sel&&sel.t==='actor'){actoresVivos.add(sel.i);p.roles[sel.i].links.forEach(l=>vivos.add(l.to))}
+  else if(sel&&sel.t==='vinculo'){actoresVivos.add(sel.i);vivos.add(sel.l.to)}
+  else{nodos.forEach(n=>vivos.add(n.id));p.roles.forEach((r,i)=>actoresVivos.add(i))}
   const at=(b,on)=>b+(on?'':' dim');
-  const dims=[...new Set(dentro.map(n=>n.dim))];
+  const orden=[...p.roles].map((r,i)=>({r,i})).sort((a,b)=>b.r.linkDegree-a.r.linkDegree);
+  // De qué lado de la cadena actúa cada vínculo: se cuenta, no se afirma.
+  const ladoCausa=p.roles.reduce((a,r)=>a+r.links.filter(l=>{
+    const o=p.nodes.find(n=>n.id===l.to); return o&&o.kind!=='effect'}).length,0);
   return(
-  <section className="map-section reducido" id={p.id+'-conexiones'}
+  <section className="map-section replanteo" id={p.id+'-replanteo'}
     style={{'--map-bg':p.mapBg,'--map-accent':p.mapAccent}}>
     <div className="wrap">
       <div className="map-heading">
-        <div><div className="eyebrow">{p.n} · De lo general a lo particular</div>
-          <h2>Lo que de verdad<br/><em>carga el sistema.</em></h2></div>
-        <p>Del mapa completo se conservan sólo las variables con más conexiones. Las demás no se descartan: dejan de ser el foco. Esto es lo que queda cuando se filtra el ruido.</p>
+        <div><div className="eyebrow">{p.n} · El replanteamiento</div>
+          <h2>La problemática,<br/><em>con quién la sostiene.</em></h2></div>
+        <p>El mismo problema, replanteado en un solo diagrama: al centro la problemática, alrededor las variables críticas y en el círculo exterior los stakeholders. Un stakeholder sólo se conecta con una variable cuando hay una fuente que describe ese vínculo.</p>
       </div>
       <div className="reduccion">
-        <div><strong>{p.nodes.length}</strong><span>variables en el mapa completo</span></div>
+        <div><strong>{p.replanteo.length}</strong><span>variables críticas en el diagrama</span></div>
         <div className="flecha">→</div>
-        <div><strong>{dentro.length}</strong><span>que concentran las conexiones</span></div>
+        <div><strong>{p.roles.length}</strong><span>stakeholders identificados</span></div>
         <div className="flecha">→</div>
-        <div><strong>{dims.length}</strong><span>dimensiones PESTEL que siguen pesando</span></div>
+        <div><strong>{p.docRoleLinks}/{p.roleLinkCount}</strong><span>vínculos descritos por su fuente</span></div>
       </div>
     </div>
-    <figure className="neural-figure">
-      <svg className="neural-svg" viewBox={`0 0 ${ANCHO} ${ALTO}`} role="group"
-        aria-label={'Mapa reducido de '+p.name+': sólo las variables más conectadas'}>
-        <g aria-hidden="true">
-          <text className="lado-label" x="44" y="58">CAUSAS</text>
-          <text className="lado-label der" x={ANCHO-44} y="58" textAnchor="end">EFECTOS</text>
-          {ANILLOS.slice(0,3).map((a,i)=><ellipse key={i} className="orbit-guide" cx={CX} cy={CY} rx={a.rx} ry={a.ry}/>)}
-          {rels.map((r,i)=>{const A=idx[r.a],B=idx[r.b];if(!A||!B)return null;
-            const on=sel?(r.a===sel||r.b===sel):true;
-            return <path key={i} className={at('neural-edge inter gruesa',on)+(sel&&on?' active':'')}
-              d={curva(A,B,i)} style={{'--edge-color':DIM[A.dim].color}}/>})}
-        </g>
-        {nodos.map(n=>{const g=p.degree[n.id];
-          return(<g key={n.id} className={'neural-node'+(activos.has(n.id)?'':' dim')+(sel===n.id?' manda':'')}
-            role="button" tabIndex="0" aria-pressed={sel===n.id}
-            aria-label={`${plain(n.label)} · ${g} conexiones en el mapa completo`}
-            onClick={()=>setSel(sel===n.id?null:n.id)}
-            onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setSel(sel===n.id?null:n.id)}}}
-            transform={`translate(${n.x} ${n.y})`} style={{'--node-color':DIM[n.dim].color}}>
-            <circle className="halo" r="34"/>
-            {n.kind==='context'?<rect className="point" x="-11" y="-11" width="22" height="22" rx="3"/>:<circle className="point" r={10+Math.min(g,10)*1.7}/>}
-            <text className="grado-num" x="0" y="-30" textAnchor="middle">{g}</text>
-            {lineas(n.label).map((t,k)=><text key={k} x="0" y={42+k*20} textAnchor="middle">{t}</text>)}
-          </g>)})}
-        <g className="hub" transform={`translate(${hub.x} ${hub.y})`} aria-hidden="true">
-          <circle className="hub-ring" r="112"/><circle className="hub-core" r="98"/>
-          <text className="hub-label" x="0" y="-40" textAnchor="middle">RUTA CRÍTICA</text>
-          {lineas(p.center).map((t,i)=><text key={i} x="0" y={-6+i*30} textAnchor="middle">{t}</text>)}
-        </g>
-      </svg>
-    </figure>
+    <div className="map-stage">
+      <figure className="neural-figure">
+        <svg className="neural-svg" viewBox={`0 0 ${ANCHO3} ${ALTO3}`} role="group"
+          aria-label={'Replanteamiento de '+p.name+': problemática, variables críticas y stakeholders'}>
+          <g aria-hidden="true">
+            <text className="lado-label" x="30" y="44">CAUSAS</text>
+            <text className="lado-label der" x={ANCHO3-30} y="44" textAnchor="end">EFECTOS</text>
+            <ellipse className="orbit-guide" cx={CX3} cy={CY3} rx="392" ry="262"/>
+            <ellipse className="orbit-guide externa" cx={CX3} cy={CY3} rx="742" ry="470"/>
+            {/* la ruta crítica sigue ahí: causa crítica → problemática → efecto crítico */}
+            {espina.map(id=>idx[id]&&<path key={'e'+id} className={'espina'+(sel?' dim':'')}
+              d={`M${idx[id].x} ${idx[id].y}L${hub.x} ${hub.y}`}/>)}
+            {nodos.map((n,i)=><path key={'h'+n.id}
+              className={at('neural-edge hub-edge',vivos.has(n.id))} d={curva(n,hub,i)}
+              style={{'--edge-color':DIM[n.dim].color}}/>)}
+            {rels.map((r,i)=>{const A=idx[r.a],B=idx[r.b]; if(!A||!B)return null;
+              const on=vivos.has(r.a)&&vivos.has(r.b);
+              return <path key={i} className={at('neural-edge inter',on)} d={curva(A,B,i)}
+                style={{'--edge-color':DIM[A.dim].color}}/>})}
+          </g>
+          {/* vínculos stakeholder → variable: punteados y en color de rol */}
+          {p.roles.map((r,i)=>r.links.map((l,k)=>{const o=idx[l.to]; if(!o)return null;
+            const a=pos[i], on=actoresVivos.has(i)&&vivos.has(l.to);
+            const act=sel&&sel.t==='vinculo'&&sel.i===i&&sel.l===l;
+            const d=`M${a.x} ${a.y}Q${(a.x+o.x)/2+(CX3-(a.x+o.x)/2)*0.18} ${(a.y+o.y)/2} ${o.x} ${o.y}`;
+            return(<React.Fragment key={i+'-'+k}>
+              <path className={at('lazo',on)+(act?' active':'')} d={d} style={{'--role':ROLE[r.cat].color}}/>
+              <path className="lazo-hit" d={d} role="button" tabIndex="0"
+                aria-label={`Vínculo de ${r.name} con ${plain(o.label)}`}
+                onClick={()=>setSel({t:'vinculo',i,l})}
+                onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setSel({t:'vinculo',i,l})}}}/>
+            </React.Fragment>)}))}
+          {nodos.map(n=>{const g=p.degree[n.id], esEspina=espina.includes(n.id);
+            const on=vivos.has(n.id);
+            return(<g key={n.id} className={'neural-node'+(on?'':' dim')+(sel&&sel.t==='nodo'&&sel.id===n.id?' manda':'')+(esEspina?' espinal':'')}
+              data-kind={n.kind} role="button" tabIndex="0" aria-pressed={!!(sel&&sel.t==='nodo'&&sel.id===n.id)}
+              aria-label={`${plain(n.label)} · ${DIM[n.dim].name} · ${g} conexiones`}
+              onClick={()=>setSel(sel&&sel.t==='nodo'&&sel.id===n.id?null:{t:'nodo',id:n.id})}
+              onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setSel(sel&&sel.t==='nodo'&&sel.id===n.id?null:{t:'nodo',id:n.id})}}}
+              transform={`translate(${n.x} ${n.y})`} style={{'--node-color':DIM[n.dim].color}}>
+              <circle className="halo" r="38"/>
+              <circle className="point" style={{'--r':(12+Math.min(g,10)*1.4)+'px'}}/>
+              <text className="grado-num" x="0" y={-18-Math.min(g,10)*1.4} textAnchor="middle">{g}</text>
+              {lineas(n.label).map((t,k)=><text key={k} x="0" y={28+Math.min(g,10)*1.4+k*21} textAnchor="middle">{t}</text>)}
+            </g>)})}
+          {/* stakeholders: pastilla, no círculo. La forma los separa del color de dimensión. */}
+          {p.roles.map((r,i)=>{const a=pos[i], w=anchoPastilla(r.name), h=54, on=actoresVivos.has(i);
+            return(<g key={'a'+i} className={'actor-nodo'+(on?'':' dim')+(sel&&sel.t==='actor'&&sel.i===i?' manda':'')}
+              role="button" tabIndex="0" aria-pressed={!!(sel&&sel.t==='actor'&&sel.i===i)}
+              aria-label={`${r.name} · ${ROLE[r.cat].name} · ${r.linkDegree} variables críticas`}
+              onClick={()=>setSel(sel&&sel.t==='actor'&&sel.i===i?null:{t:'actor',i})}
+              onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setSel(sel&&sel.t==='actor'&&sel.i===i?null:{t:'actor',i})}}}
+              transform={`translate(${a.x} ${a.y})`} style={{'--role':ROLE[r.cat].color}}>
+              <rect className="pastilla" x={-w/2} y={-h/2} width={w} height={h} rx="27"/>
+              <text className="actor-nombre" x="0" y="-2" textAnchor="middle">{r.name}</text>
+              <text className="actor-cat" x="0" y="16" textAnchor="middle">
+                {ROLE[r.cat].name} · {r.linkDegree}</text>
+            </g>)})}
+          <g className="hub" role="button" tabIndex="0" aria-label="Quitar la selección"
+            onClick={()=>setSel(null)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setSel(null)}}}
+            transform={`translate(${hub.x} ${hub.y})`}>
+            <circle className="hub-ring" r="112"/><circle className="hub-core" r="99"/>
+            <text className="hub-label" x="0" y="-44" textAnchor="middle">{p.n} · LA PROBLEMÁTICA</text>
+            {lineas(p.center).map((t,i)=><text key={i} x="0" y={-6+i*30} textAnchor="middle">{t}</text>)}
+          </g>
+        </svg>
+      </figure>
+      <Tarjeta abierta={!!sel} cerrar={()=>setSel(null)} lado="derecha">
+        {sel&&sel.t==='nodo'&&<FichaVariable p={p} n={p.nodes.find(x=>x.id===sel.id)}
+          abrirNodo={abrirNodo} abrirRelacion={abrirRelacion} seleccionar={id=>setSel({t:'nodo',id})}/>}
+        {sel&&sel.t==='actor'&&<FichaActor p={p} r={p.roles[sel.i]} i={sel.i}
+          abrirActor={abrirActor} seleccionar={id=>setSel({t:'nodo',id})}/>}
+        {sel&&sel.t==='vinculo'&&<FichaVinculo p={p} r={p.roles[sel.i]} l={sel.l} abrirFuente={abrirFuente}/>}
+      </Tarjeta>
+    </div>
     <div className="wrap">
-      <aside className="inspector">
-        {sel?(()=>{const n=p.nodes.find(x=>x.id===sel);
-          const rr=p.relations.filter(r=>r.a===n.id||r.b===n.id);
-          return(<React.Fragment>
-            <div><div className="detail-kind">{DIM[n.dim].name} · {p.degree[n.id]} conexiones · toca {p.crossDim[n.id]} dimensiones</div>
-              <h3>{plain(n.label)}</h3>
-              <button className="ref" onClick={()=>abrirNodo(p,n.id)}>Ver la evidencia ↗</button></div>
-            <div><p>{n.detail}</p>
-              <div className="related-links">{rr.map(r=>{const o=p.nodes.find(x=>x.id===(r.a===n.id?r.b:r.a));
-                return <button key={r.a+r.b} onClick={()=>abrirRelacion(p,p.relations.indexOf(r))}>{plain(o.label)} ↗</button>})}</div></div>
-          </React.Fragment>)})():(
-          <React.Fragment>
-            <div><div className="detail-kind">Umbral: {umbral} conexiones o más</div>
-              <h3>Nueve variables<br/>sostienen el resto.</h3></div>
-            <div><p>Toca cualquiera para ver con qué se conecta y por qué. Cada nodo muestra arriba su número de conexiones en el mapa completo.</p>
-              <p className="relation-detail">El tamaño del círculo también crece con las conexiones. Más conexiones significa más presencia en este recorte, no mayor peso causal comprobado.</p></div>
-          </React.Fragment>)}
-      </aside>
+      <LeyendaDim dims={p.criticalDims}/>
+      <LeyendaRol roles={p.roles}/>
+      <p className="espina-nota">El trazo grueso que cruza el centro es la ruta crítica: <strong>{plain(p.criticalCause.label)}</strong> → la problemática → <strong>{plain(p.criticalEffect.label)}</strong>. Son la causa y el efecto de mayor grado, y siguen dentro del diagrama en vez de vivir aparte.</p>
+      <details className="mobile-explorer"><summary>Explorar los {p.roles.length} stakeholders y sus vínculos</summary>
+        <div className="mobile-node-list">{p.roles.map((r,i)=>(
+          <button key={i} aria-pressed={!!(sel&&sel.t==='actor'&&sel.i===i)}
+            onClick={()=>setSel(sel&&sel.t==='actor'&&sel.i===i?null:{t:'actor',i})}>
+            <small>{ROLE[r.cat].name} · {r.linkDegree} vínculos</small>{r.name}</button>))}</div>
+      </details>
+    </div>
+    <div className="wrap lectura">
+      <h3>La relación entre ellos, en corto.</h3>
+      <ul className="lectura-bullets">
+        <li><strong>El nodo que más carga la red es un efecto, no una causa.</strong> «{plain(p.criticalEffect.label)}» concentra {p.degree[p.criticalEffect.id]} conexiones, {p.docDegree[p.criticalEffect.id]} de ellas descritas por su fuente, y toca {p.crossDim[p.criticalEffect.id]} de las dimensiones PESTEL. Que el delito no se investigue no es el final de la cadena: es lo que la vuelve a alimentar.</li>
+        <li><strong>La causa más conectada es política, no cultural.</strong> «{plain(p.criticalCause.label)}» acumula {p.degree[p.criticalCause.id]} conexiones. No denunciar no aparece como desinterés sino como un costo: ENVIPE clasifica la pérdida de tiempo y la desconfianza como motivos atribuibles a la autoridad, no a la víctima.</li>
+        <li><strong>Dos stakeholders concentran la mayoría de los vínculos.</strong> {orden[0].r.name} ({orden[0].r.linkDegree}) y {orden[1].r.name} ({orden[1].r.linkDegree}) suman {orden[0].r.linkDegree+orden[1].r.linkDegree} de los {p.roleLinkCount} vínculos del diagrama. Uno decide si se denuncia; el otro, si se investiga. Entre los dos se define casi todo lo demás.</li>
+        <li><strong>La cadena de la Fiscalía es la única sostenida por censo.</strong> Carga por agente, archivo temporal y rezago vienen del Censo Nacional de Procuración de Justicia y de México Evalúa, no de percepción: son registros administrativos del propio sistema.</li>
+        <li><strong>Un hueco declarado, no rellenado.</strong> Las dos variables propias del trato policial —el trato a la víctima y el miedo a la extorsión— no alcanzan el umbral de {p.umbral} conexiones con la evidencia recogida. Por eso Policías aparece con un solo vínculo. Se declara en vez de inflarse.</li>
+      </ul>
+      <p className="lectura-cierre">Leído junto, el diagrama dice una cosa: la cifra oculta no se sostiene por la decisión de las víctimas, sino por el costo que el sistema les cobra por denunciar y por la capacidad que no tiene para investigar lo que sí recibe. Los stakeholders no rodean la problemática de adorno: {ladoCausa} de los {p.roleLinkCount} vínculos caen del lado de las causas y sólo {p.roleLinkCount-ladoCausa} del lado de los efectos que ya ocurrieron. Se actúa —o se deja de actuar— antes de que el delito quede fuera, no después.</p>
+      <p className="metadata">El grado, el ranking, la ruta crítica y la posición de cada stakeholder se calculan desde las relaciones declaradas. No son una jerarquía causal medida. Cada vínculo con fuente recupera una relación descrita por esa fuente; los demás se marcan como lectura del equipo.</p>
     </div>
   </section>)};
-
-const MapaRuta=({p,abrirActor})=>{
-  const rs=p.roles,cx=500,cy=330,rx=418,ry=238;
-  const lado=r=>r.cat==='afectado'?'right':'left';
-  const ANG={left:[205,155,232,128,250,110],right:[335,25,308,52,290,70],both:[270,90,262,98]};
-  const usado={left:0,right:0,both:0};
-  const pos=rs.map(r=>{const g=lado(r),a=(ANG[g][usado[g]++]||270)*Math.PI/180;
-    return {x:cx+rx*Math.cos(a),y:cy+ry*Math.sin(a)}});
-  const causa={x:150,y:cy},efecto={x:850,y:cy};
-  const cortar=(t,max,lineas=2)=>{const w=t.split(' '),out=[];let cur='';
-    for(const x of w){if((cur+' '+x).trim().length>max){out.push(cur.trim());cur=x}else cur+=' '+x}
-    if(cur.trim())out.push(cur.trim());return out.slice(0,lineas)};
-  const destino=r=>[r.cat==='afectado'?efecto:causa];
-  const nucleo=cortar(plain(p.center),14,3);
-  return(
-  <figure className="route-figure">
-    <svg viewBox="0 0 1000 640" role="img"
-      aria-label={'Mapa simplificado de '+p.name+': causa crítica, problemática central, efecto crítico y anillo de stakeholders'}>
-      <g aria-hidden="true">
-        <ellipse className="route-orbit" cx={cx} cy={cy} rx={rx} ry={ry}/>
-        {rs.map((r,i)=>destino(r).map((t,k)=>(
-          <path key={i+'-'+k} className="route-tie" style={{'--role':ROLE[r.cat].light,'--role-bright':ROLE[r.cat].color}}
-            d={`M${pos[i].x} ${pos[i].y}Q${(pos[i].x+t.x)/2} ${(pos[i].y+t.y)/2+(pos[i].y<cy?-34:34)} ${t.x} ${t.y}`}/>)))}
-        <path className="route-spine" d={`M${causa.x+96} ${cy}H${cx-92}`}/>
-        <path className="route-spine" d={`M${cx+92} ${cy}H${efecto.x-96}`}/>
-        <path className="route-head" d={`m${cx-104} ${cy-8} 12 8-12 8z`}/>
-        <path className="route-head" d={`m${efecto.x-108} ${cy-8} 12 8-12 8z`}/>
-      </g>
-      <g className="route-link"><rect x={causa.x-96} y={cy-52} width="192" height="104" rx="14"/>
-        <text className="route-kind" x={causa.x} y={cy-24} textAnchor="middle">CAUSA CRÍTICA · grado {p.degree[p.criticalCause.id]}</text>
-        {cortar(plain(p.criticalCause.label),18).map((t,i)=>
-          <text key={i} className="route-name" x={causa.x} y={cy+4+i*24} textAnchor="middle">{t}</text>)}</g>
-      <g className="route-core"><circle cx={cx} cy={cy} r="92"/>
-        <text className="route-kind" x={cx} y={cy-58} textAnchor="middle">{p.n} · PROBLEMÁTICA</text>
-        {nucleo.map((t,i)=><text key={i} className="route-name lg" x={cx} y={cy+12-(nucleo.length-1)*13+i*26} textAnchor="middle">{t}</text>)}</g>
-      <g className="route-link"><rect x={efecto.x-96} y={cy-52} width="192" height="104" rx="14"/>
-        <text className="route-kind" x={efecto.x} y={cy-24} textAnchor="middle">EFECTO CRÍTICO · grado {p.degree[p.criticalEffect.id]}</text>
-        {cortar(plain(p.criticalEffect.label),18).map((t,i)=>
-          <text key={i} className="route-name" x={efecto.x} y={cy+4+i*24} textAnchor="middle">{t}</text>)}</g>
-      {rs.map((r,i)=>{const ls=cortar(r.name,22),arriba=pos[i].y<cy;
-        return(<g key={i} className="route-actor" style={{'--role':ROLE[r.cat].light,'--role-bright':ROLE[r.cat].color}}
-          role="button" tabIndex="0" onClick={()=>abrirActor(p,i)}
-          onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();abrirActor(p,i)}}}
-          aria-label={r.name+': '+ROLE[r.cat].name}>
-          <circle cx={pos[i].x} cy={pos[i].y} r="13"/>
-          {ls.map((t,j)=><text key={j} x={pos[i].x}
-            y={pos[i].y+(arriba?-30-((ls.length-1-j)*19):34+j*19)} textAnchor="middle">{t}</text>)}
-          <text className="actor-tag" x={pos[i].x}
-            y={pos[i].y+(arriba?-30-(ls.length-1)*19-18:34+ls.length*19)} textAnchor="middle">
-            {ROLE[r.cat].name}</text>
-        </g>)})}
-    </svg>
-  </figure>)};
-
-const Ruta=({p,abrirActor})=>(
-  <section className="route-section wrap reveal" id={p.id+'-ruta'}>
-    <div className="section-heading">
-      <h2>La ruta crítica.<br/><em>Sólo lo más conectado.</em></h2>
-      <p>Se conservan tres eslabones: el factor de mayor grado, la problemática central y el efecto de mayor grado. Alrededor, el círculo exterior de stakeholders. El mapa PESTEL completo queda como borrador de trabajo.</p>
-    </div>
-    <MapaRuta p={p} abrirActor={abrirActor}/>
-    <div className="route-legend">
-      {ROLE_ORDER.map(c=><span key={c} style={{'--role':ROLE[c].light,'--role-bright':ROLE[c].color}}><i></i>{ROLE[c].name}</span>)}
-      <span className="route-rule">Quien causa y quien combate se conectan a la causa crítica; quien la vive, al efecto crítico.</span>
-    </div>
-    <div className="route-read"><p>{p.mapInsight}</p>
-      <p className="metadata">La ruta se calcula por número de conexiones declaradas, con desempate por respaldo documental y por número de dimensiones que toca. No es una jerarquía causal medida.</p></div>
-  </section>);
 
 const Fondo=({p,...h})=>(
   <article className="chapter deep-dive" id={p.id+'-fondo'}
@@ -993,12 +1386,12 @@ const Fondo=({p,...h})=>(
     <header className="chapter-nav">
       <a className="chapter-name" href={'#'+p.id+'-fondo'}><span className="num">{p.n}</span>{p.name} · a fondo</a>
       <nav aria-label="Secciones del mapa">
-        <a href={'#'+p.id+'-mapa'}>Mapa PESTEL</a><a href={'#'+p.id+'-conexiones'}>Conexiones</a><a href={'#'+p.id+'-ruta'}>Ruta crítica</a>
+        <a href={'#'+p.id+'-mapa'}>Mapa y síntesis</a><a href={'#'+p.id+'-replanteo'}>Replanteamiento</a>
       </nav>
     </header>
     <SeccionMapa p={p} abrirNodo={h.abrirNodo} abrirRelacion={h.abrirRelacion} abrirMetodo={h.abrirMetodo}/>
-    <Conexiones p={p} abrirNodo={h.abrirNodo} abrirRelacion={h.abrirRelacion}/>
-    <Ruta p={p} abrirActor={h.abrirActor}/>
+    <Replanteamiento p={p} abrirNodo={h.abrirNodo} abrirRelacion={h.abrirRelacion}
+      abrirActor={h.abrirActor} abrirFuente={h.abrirFuente}/>
   </article>);
 
 /* ── Fuentes ──────────────────────────────────────────────────────────────── */
@@ -1076,9 +1469,8 @@ function App(){
       <a href="#inicio">Introducción</a>
       {PROBLEMS.map(p=><a key={p.id} href={'#'+p.id}>{p.n} · {p.name}</a>)}
       <a href={'#'+ELEGIDA+'-fondo'}>El mapa a fondo</a>
-      <a href={'#'+ELEGIDA+'-mapa'}>↳ Mapa PESTEL</a>
-      <a href={'#'+ELEGIDA+'-conexiones'}>↳ Conexiones</a>
-      <a href={'#'+ELEGIDA+'-ruta'}>↳ Ruta crítica</a>
+      <a href={'#'+ELEGIDA+'-mapa'}>↳ Mapa PESTEL y red sintetizada</a>
+      <a href={'#'+ELEGIDA+'-replanteo'}>↳ Replanteamiento</a>
       <a href="#fuentes">Fuentes y método</a>
     </div></React.Fragment>)});
 
@@ -1102,7 +1494,7 @@ function App(){
     requestAnimationFrame(()=>{const e=document.getElementById(location.hash.slice(1));
       if(e)e.scrollIntoView({behavior:'instant'})})},[]);
 
-  const manejadores={abrirNodo,abrirRelacion,abrirMetodo,abrirActor};
+  const manejadores={abrirNodo,abrirRelacion,abrirMetodo,abrirActor,abrirFuente};
   return(
     <React.Fragment>
       <a className="sr-only" href="#inicio">Saltar al contenido</a>
