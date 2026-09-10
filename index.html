@@ -367,6 +367,49 @@
   .map-section.es-sintesis .neural-edge{stroke-width:1.6}
   .map-section.es-sintesis .neural-edge.gruesa{stroke-width:2.4}
 }
+
+/* ── La lectura: el cierre en palabras ────────────────────────────────────── */
+/* Va sobre el fondo claro del capítulo, después de los dos mapas oscuros: el
+   contraste es lo que la hace leer como conclusión y no como una sección más. */
+.lectura-section{padding:86px 0 96px;border-top:1px solid var(--line)}
+.lectura-marco{max-width:1240px;display:grid;align-items:start;gap:16px 78px;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)}
+.lectura-section .eyebrow,.lectura-remate{grid-column:1/-1}
+.lectura-section .eyebrow{color:var(--chapter,var(--ink));opacity:.72;margin-bottom:26px}
+.lectura-parrafo{font-size:clamp(21px,1.62vw,26px);line-height:1.54;letter-spacing:-.018em;
+  max-width:27em;margin:0;text-wrap:pretty}
+.lectura-parrafo strong{font-weight:650}
+/* Cada lado se nombra en su color del mapa, para amarrar el texto al diagrama. */
+.dim-word{font-weight:650;white-space:nowrap;color:color-mix(in srgb,var(--dim),#000 12%)}
+.giro{margin:8px 0 0;max-width:560px;display:grid;gap:13px;align-content:start}
+.giro-titulo{font:600 .8rem/1.4 var(--font);letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 10px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.giro-fila{display:grid;grid-template-columns:minmax(96px,auto) 1fr minmax(76px,auto);
+  align-items:center;gap:18px}
+.giro-dim{font-size:1.05rem;font-weight:600;
+  /* Etiqueta chica: no alcanza el umbral de "texto grande", así que se oscurece
+     el color de dimensión para llegar a 4.5:1 contra el fondo del capítulo. */
+  color:color-mix(in srgb,var(--dim),#000 22%)}
+.giro-barra{height:9px;border-radius:99px;overflow:hidden;
+  background:color-mix(in srgb,var(--chapter-ink,var(--ink)),transparent 86%)}
+.giro-barra i{display:block;height:100%;width:var(--parte);border-radius:99px;background:var(--dim)}
+.giro-cifra{font-size:1.02rem;color:var(--muted);text-align:right;white-space:nowrap}
+.giro-cifra strong{font:600 1.35rem/1 var(--display);color:var(--dim);margin-right:2px}
+.lectura-remate{margin:58px 0 0;font:600 clamp(30px,3.6vw,52px)/1.08 var(--display);
+  letter-spacing:-.045em;max-width:16em}
+.lectura-remate em{font-family:Newsreader,Georgia,serif;font-weight:400;font-style:italic;
+  color:var(--chapter,var(--ink))}
+@media(max-width:800px){
+  .lectura-section{padding:56px 0 64px}
+  .lectura-marco{grid-template-columns:1fr;gap:0}
+  .lectura-parrafo{font-size:20px;max-width:none}
+  .giro{margin-top:40px}
+  .giro-fila{grid-template-columns:1fr auto;gap:6px 14px}
+  .giro-barra{grid-column:1/-1;order:3}
+  .lectura-remate{margin-top:40px;max-width:none}
+}
+/* Sin variante oscura a propósito: el fondo de esta sección no cambia con el
+   tema, así que cambiarle el color al texto sólo bajaría el contraste. */
 </style></head><body>
 <div id="raiz"></div>
 <noscript><p style="padding:40px">Activa JavaScript para explorar los mapas.</p></noscript>
@@ -1380,18 +1423,69 @@ const Replanteamiento=({p,abrirNodo,abrirRelacion,abrirActor,abrirFuente})=>{
     </div>
   </section>)};
 
+/* ── La lectura: lo que dicen los dos mapas leídos juntos ─────────────────── */
+// El único lugar de la pieza donde el hallazgo se dice con palabras. Los números
+// y los nombres salen del cálculo, así que el texto no puede contradecir al mapa.
+const Palabra=({d,children})=>(
+  <b className="dim-word" style={{'--dim':DIM[d].light,'--dim-bright':DIM[d].color}}>{children}</b>);
+
+const Lectura=({p})=>{
+  const criticas=Object.fromEntries(p.criticalDims);
+  // Cuánto sobrevive de cada lado. Se compara variable contra variable: no se
+  // mezclan causas con efectos, porque no serían cifras comparables.
+  const filas=DIM_ORDER
+    .map(d=>({d,total:p.nodes.filter(n=>n.dim===d).length,vive:criticas[d]||0}))
+    .filter(f=>f.total)
+    .sort((a,b)=>b.vive/b.total-a.vive/a.total||b.vive-a.vive);
+  const cima=Math.max(...p.criticalDims.map(x=>x[1]));
+  const lideres=p.criticalDims.filter(x=>x[1]===cima).map(x=>DIM[x[0]].name.toLowerCase());
+  const politicas=p.critical.filter(n=>n.dim==='P');
+  const top=p.criticalEffect;
+  return(
+  <section className="lectura-section wrap reveal" id={p.id+'-lectura'}>
+    <div className="lectura-marco">
+      <div className="eyebrow">{p.n} · La lectura</div>
+      <p className="lectura-parrafo">
+        Visto completo, el problema parece <Palabra d="P">político</Palabra>, porque de ahí salen más
+        causas que de ningún otro lado —{p.counts.P} de las {p.factorCount} del mapa— y son de las que
+        cualquiera reconoce, como el miedo a que la propia autoridad extorsione, el día de trabajo que
+        se pierde al ir a denunciar o el presupuesto que no alcanza para investigar. Pero tener muchas
+        causas no es lo mismo que sostener el problema. Al dejar en el mapa sólo lo que más se conecta,
+        de todo lo político aguanta {politicas.length===1?'una sola cosa':politicas.length+' cosas'}
+        {politicas.length===1&&<React.Fragment> —{plain(politicas[0].label).toLowerCase()}—</React.Fragment>} y
+        lo que queda en pie es <Palabra d="E">{lideres[0]}</Palabra> y <Palabra d="L">{lideres[1]}</Palabra>,
+        porque lo que más carga la red es que el agresor no enfrente ninguna consecuencia —lo más
+        conectado de todo el mapa, con {p.degree[top.id]} relaciones—, que se denuncie y el caso nunca
+        se abra y que se pierdan días de trabajo. Ahí está la raíz.
+      </p>
+      <div className="giro" role="group" aria-label="Cuánto queda de cada lado al reducir el mapa">
+        <p className="giro-titulo">Cuánto queda de cada lado cuando el mapa se reduce</p>
+        {filas.map(f=>(
+          <div className="giro-fila" key={f.d} style={{'--dim':DIM[f.d].light,'--dim-bright':DIM[f.d].color,
+            '--parte':(f.vive/f.total*100)+'%'}}>
+            <span className="giro-dim">{DIM[f.d].name}</span>
+            <span className="giro-barra"><i></i></span>
+            <span className="giro-cifra"><strong>{f.vive}</strong> de {f.total}</span>
+          </div>))}
+      </div>
+      <p className="lectura-remate">La raíz no está donde<br/>hay más causas.<br/>
+        <em>Está donde más cosas se conectan.</em></p>
+    </div>
+  </section>)};
+
 const Fondo=({p,...h})=>(
   <article className="chapter deep-dive" id={p.id+'-fondo'}
     style={{'--chapter':p.color,'--chapter-bg':p.bg,'--chapter-ink':p.ink,'--dark-bg':p.mapBg,'--dark-ink':p.mapAccent}}>
     <header className="chapter-nav">
       <a className="chapter-name" href={'#'+p.id+'-fondo'}><span className="num">{p.n}</span>{p.name} · a fondo</a>
       <nav aria-label="Secciones del mapa">
-        <a href={'#'+p.id+'-mapa'}>Mapa y síntesis</a><a href={'#'+p.id+'-replanteo'}>Replanteamiento</a>
+        <a href={'#'+p.id+'-mapa'}>Mapa y síntesis</a><a href={'#'+p.id+'-replanteo'}>Replanteamiento</a><a href={'#'+p.id+'-lectura'}>La lectura</a>
       </nav>
     </header>
     <SeccionMapa p={p} abrirNodo={h.abrirNodo} abrirRelacion={h.abrirRelacion} abrirMetodo={h.abrirMetodo}/>
     <Replanteamiento p={p} abrirNodo={h.abrirNodo} abrirRelacion={h.abrirRelacion}
       abrirActor={h.abrirActor} abrirFuente={h.abrirFuente}/>
+    <Lectura p={p}/>
   </article>);
 
 /* ── Fuentes ──────────────────────────────────────────────────────────────── */
@@ -1471,6 +1565,7 @@ function App(){
       <a href={'#'+ELEGIDA+'-fondo'}>El mapa a fondo</a>
       <a href={'#'+ELEGIDA+'-mapa'}>↳ Mapa PESTEL y red sintetizada</a>
       <a href={'#'+ELEGIDA+'-replanteo'}>↳ Replanteamiento</a>
+      <a href={'#'+ELEGIDA+'-lectura'}>↳ La lectura</a>
       <a href="#fuentes">Fuentes y método</a>
     </div></React.Fragment>)});
 
