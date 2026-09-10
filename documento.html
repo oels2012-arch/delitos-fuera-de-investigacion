@@ -1,0 +1,668 @@
+<title>Delitos fuera de investigación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+:root{
+ color-scheme:light;
+ --paper:#f5f1e8; --raise:#fbf8f2; --ink:#222b25; --muted:#637066; --line:#d2d8cd; --hair:#e3e6dc;
+ --acc:#c45237; --acc-soft:#f3e4dc; --focus:#0b7960;
+ --P:#315fa3; --E:#805b12; --S:#a84262; --T:#6b48aa; --K:#547728; --L:#267761;
+ --perpetrador:#a3371a; --activista:#0f6b7a; --afectado:#8a5c0a;
+ --disp:'Bricolage Grotesque',Georgia,serif; --body:'DM Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){
+ color-scheme:dark;
+ --paper:#171d1a; --raise:#1f2723; --ink:#eef0e8; --muted:#a9b5aa; --line:#3b4740; --hair:#2b332e;
+ --acc:#e8825f; --acc-soft:#3a231b; --focus:#7fd4be;
+ --P:#8bb7f0; --E:#e6be61; --S:#ee97ae; --T:#b8a0ff; --K:#b3d777; --L:#7fd4be;
+ --perpetrador:#f08a70; --activista:#5fc9d8; --afectado:#f2c14e;
+}}
+:root[data-theme=dark]{
+ color-scheme:dark;
+ --paper:#171d1a; --raise:#1f2723; --ink:#eef0e8; --muted:#a9b5aa; --line:#3b4740; --hair:#2b332e;
+ --acc:#e8825f; --acc-soft:#3a231b; --focus:#7fd4be;
+ --P:#8bb7f0; --E:#e6be61; --S:#ee97ae; --T:#b8a0ff; --K:#b3d777; --L:#7fd4be;
+ --perpetrador:#f08a70; --activista:#5fc9d8; --afectado:#f2c14e;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+.page{display:grid;grid-template-columns:232px minmax(0,1fr);gap:56px;max-width:1220px;margin:0 auto;padding:0 32px}
+nav.rail{position:sticky;top:0;align-self:start;height:100dvh;padding:44px 0;display:flex;flex-direction:column;gap:22px;border-right:1px solid var(--hair)}
+.rail .mark{font:600 12px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.rail ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;counter-reset:s}
+.rail a{counter-increment:s;display:flex;gap:11px;padding:7px 10px 7px 0;text-decoration:none;color:var(--muted);font-size:14.5px;border-radius:6px}
+.rail a::before{content:counter(s,decimal-leading-zero);font:600 11px/1.7 var(--mono);color:var(--line)}
+.rail a:hover,.rail a:focus-visible{color:var(--ink)}
+.rail a[aria-current=true]{color:var(--acc);font-weight:600}
+.rail a[aria-current=true]::before{color:var(--acc)}
+main{padding:44px 0 120px;min-width:0}
+header.top{padding-bottom:40px;border-bottom:2px solid var(--ink);margin-bottom:52px}
+.kicker{font:600 12px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+h1{font:800 clamp(38px,5.2vw,66px)/.98 var(--disp);letter-spacing:-.035em;margin:16px 0 0;text-wrap:balance;max-width:16ch}
+.lede{font:400 clamp(18px,1.7vw,21px)/1.5 var(--body);color:var(--muted);max-width:56ch;margin:20px 0 0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:26px;font:600 12px/1.5 var(--mono);letter-spacing:.05em;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+section{margin-bottom:76px;scroll-margin-top:24px}
+h2{font:700 clamp(25px,2.7vw,34px)/1.1 var(--disp);letter-spacing:-.02em;margin:0 0 8px;text-wrap:balance}
+.eyebrow{font:600 11.5px/1.4 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+h3{font:700 21px/1.2 var(--disp);letter-spacing:-.01em;margin:0}
+h4{font:600 12px/1.4 var(--mono);letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin:30px 0 12px}
+p{max-width:66ch}
+.muted{color:var(--muted)}
+.sub{color:var(--muted);font-size:14.5px}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin:0 0 8px}
+table{width:100%;min-width:620px;border-collapse:collapse;font-size:14.5px}
+th{position:sticky;top:0;background:var(--raise);text-align:left;font:600 11px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--hair);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+td .sub{display:block;margin-top:2px}
+.n{font:600 14px/1.6 var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.grado{color:var(--acc);font-size:16px}
+tr.loop td{box-shadow:inset 3px 0 0 var(--focus)}
+.dim{display:inline-block;font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--paper);background:var(--d);padding:4px 7px;border-radius:4px;white-space:nowrap}
+.dim.mini{min-width:20px;text-align:center;margin-right:8px}
+.dim[data-d=P]{--d:var(--P)}.dim[data-d=E]{--d:var(--E)}.dim[data-d=S]{--d:var(--S)}
+.dim[data-d=T]{--d:var(--T)}.dim[data-d=K]{--d:var(--K)}.dim[data-d=L]{--d:var(--L)}
+.rol{display:inline-block;font:600 10.5px/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--paper);background:var(--r);padding:5px 8px;border-radius:99px;margin:0 5px 5px 0;white-space:nowrap}
+.rol[data-rol=perpetrador]{--r:var(--perpetrador)}.rol[data-rol=activista]{--r:var(--activista)}.rol[data-rol=afectado]{--r:var(--afectado)}
+.tag{display:inline-block;font:600 10.5px/1 var(--mono);letter-spacing:.05em;padding:5px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.tag.doc{border-color:var(--focus);color:var(--focus)}
+.problema{border:1px solid var(--line);border-radius:14px;padding:26px 26px 30px;margin-bottom:20px;background:var(--raise)}
+.problema.elegida{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.ph>div{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ph .num{font:600 12px/1 var(--mono);color:var(--muted)}
+.pill{font:600 10.5px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;padding:5px 9px;border-radius:99px;background:var(--acc);color:var(--paper)}
+.pill.off{background:none;border:1px solid var(--line);color:var(--muted)}
+.claim{font:700 clamp(20px,2vw,25px)/1.25 var(--disp);letter-spacing:-.015em;margin:14px 0 6px;max-width:26ch}
+.ce{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 34px}
+.ce ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.ce li{display:flex;flex-direction:column;gap:5px;padding-left:14px;border-left:2px solid var(--hair)}
+.ce b{font-weight:600;font-size:16px}
+.ce .dim{align-self:flex-start}
+.ce .ev{font-size:13.5px;line-height:1.5;color:var(--muted)}
+.ruta{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin:20px 0 10px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.ruta div{flex:1 1 190px;padding:20px 22px;border-right:1px solid var(--line)}
+.ruta div:last-child{border-right:0}
+.ruta div.core{background:var(--ink);color:var(--paper)}
+.ruta span{display:block;font:600 10.5px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.ruta div.core span{color:var(--acc)}
+.ruta b{font:700 19px/1.2 var(--disp);letter-spacing:-.01em}
+.cita{border-left:3px solid var(--acc);padding:4px 0 4px 20px;margin:20px 0}
+.cita p{font:500 clamp(18px,1.8vw,21px)/1.45 var(--disp);margin:0 0 10px;max-width:44ch}
+.cita cite{font-style:normal;font:600 12px/1.4 var(--mono);color:var(--muted)}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;margin-top:20px}
+.card{border:1px solid var(--line);border-radius:12px;padding:20px 22px;background:var(--raise)}
+.card h5{font:600 11px/1.4 var(--mono);letter-spacing:.11em;text-transform:uppercase;margin:0 0 10px;color:var(--muted)}
+.card.yes h5{color:var(--focus)}.card.no h5{color:var(--acc)}
+.card p{margin:0;font-size:15px;max-width:none}
+.fuentes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.fuente{border:1px solid var(--line);border-radius:12px;padding:20px 22px;background:var(--raise)}
+.fuente h4{margin:0;color:var(--ink);font:700 16px/1.25 var(--disp);letter-spacing:0;text-transform:none}
+.fuente dl{margin:14px 0 14px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13.5px}
+.fuente dt{font:600 10.5px/1.7 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.fuente dd{margin:0}
+.fuente a{color:var(--acc);font-size:13.5px;text-underline-offset:4px}
+ol.filtro{list-style:none;margin:0;padding:0;counter-reset:f;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px 30px}
+ol.filtro li{counter-increment:f;padding-left:32px;position:relative;font-size:15px}
+ol.filtro li::before{content:counter(f,decimal-leading-zero);position:absolute;left:0;top:2px;font:600 11px/1.6 var(--mono);color:var(--acc)}
+ol.filtro b{display:block;font-weight:600}
+ol.filtro span{color:var(--muted);font-size:14px}
+.nota{border:1px dashed var(--line);border-radius:12px;padding:18px 22px;margin-top:22px;background:none}
+.nota p{margin:0;font-size:14.5px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:3px}
+@media (max-width:900px){
+ .page{grid-template-columns:1fr;gap:0;padding:0 22px}
+ nav.rail{position:static;height:auto;padding:26px 0 20px;border-right:0;border-bottom:1px solid var(--hair)}
+ .rail ol{flex-direction:row;flex-wrap:wrap;gap:4px 16px}
+ main{padding-top:32px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div class="page">
+<nav class="rail" aria-label="Secciones">
+ <div class="mark">Expediente / 02</div>
+ <ol><li><a href="#estructura">Cómo se entrega</a></li><li><a href="#candidatas">Las tres problemáticas</a></li><li><a href="#decision">Por qué elegimos delitos</a></li><li><a href="#mapa">El mapa a fondo</a></li><li><a href="#relaciones">Inventario de relaciones</a></li><li><a href="#postura">La postura del equipo</a></li><li><a href="#fuentes">Fuentes y verificación</a></li><li><a href="#metodo">Método y trazabilidad</a></li></ol>
+</nav>
+<main>
+<header class="top">
+ <div class="kicker">Mercadotecnia Alternativa y Negocios Sustentables · ITESO</div>
+ <h1>Delitos que quedan fuera de investigación</h1>
+ <p class="lede">El documento de trabajo del equipo. Toda la investigación en un solo lugar: las tres problemáticas, por qué elegimos esta, el mapa completo de variables y el respaldo de cada afirmación.</p>
+ <div class="meta"><span>Zona Metropolitana de Guadalajara · Jalisco</span><span>Actualizado <b>9 de septiembre de 2026</b></span><span>Generado desde <b>datos/</b></span></div>
+</header>
+
+<section id="estructura">
+ <div class="eyebrow">Cómo se entrega</div>
+ <h2>La presentación se construye clase por clase</h2>
+ <p>No es un entregable único al final. Cada bloque se cierra y se presenta; el siguiente se apoya en el anterior. Esto es lo que ya está en la pieza y lo que falta.</p>
+ <div class="scroll"><table><thead><tr><th>Bloque</th><th>Qué contiene</th><th>Estado</th></tr></thead><tbody>
+  <tr><td><b>1 · Las tres problemáticas</b></td><td>Cada una con causas, efectos y stakeholders</td><td>En la pieza</td></tr>
+  <tr><td><b>1b · La decisión</b></td><td>Cuál elegimos y por qué las otras no</td><td>En la pieza</td></tr>
+  <tr><td><b>2 · La elegida a fondo</b></td><td>Mapa PESTEL con todas las variables y sus conexiones</td><td>En la pieza</td></tr>
+  <tr><td><b>2b · Ruta crítica</b></td><td>Causa crítica, problemática y efecto crítico, con el anillo de actores</td><td>En la pieza</td></tr>
+  <tr><td>3 · Audiencia y conducta</td><td>Pasos 3 y 4 del roadmap de Kotler</td><td class="muted">Pendiente</td></tr>
+  <tr><td>4 · Insights</td><td>Paso 5: barreras, beneficios, motivadores, competencia</td><td class="muted">Pendiente</td></tr>
+  <tr><td>5 · Posicionamiento e intervención</td><td>Pasos 6 y 7</td><td class="muted">Pendiente</td></tr>
+  <tr><td>6 · Monitoreo e implementación</td><td>Pasos 8, 9 y 10</td><td class="muted">Pendiente</td></tr>
+ </tbody></table></div>
+ <div class="nota"><p><b>Decisión de contenido:</b> la presentación no muestra estadísticas. Las cifras son el respaldo empírico del equipo, no el mensaje. En la pieza se leen insights; el dato completo está a un clic. En este documento sí aparece todo, porque su función es exactamente esa.</p></div>
+</section>
+
+<section id="candidatas">
+ <div class="eyebrow">Bloque 1</div>
+ <h2>Las tres problemáticas</h2>
+ <p>Las tres se investigaron con el mismo nivel: causas, efectos y stakeholders clasificados en perpetradores, activistas y afectados. Sólo la elegida lleva mapa conceptual.</p>
+ <article class="problema" id="p-salud">
+  <header class="ph">
+    <div><span class="num">01</span><h3>Salud pública / IMSS</h3>
+      <span class="pill off">Comparada</span></div>
+    <p class="claim">El tratamiento llega. El control, no.</p>
+    <p class="sub">La diferencia la absorbe el hogar.</p>
+  </header>
+  <div class="ce">
+    <div><h4>Causas</h4><ul><li><b>Nadie acompaña entre una consulta y otra</b><span class="dim" data-d="S">Sociocultural</span><span class="ev">A una persona con diabetes le dan tratamiento y una cita de control, pero entre una consulta y la siguiente nadie la acompaña. Si falta, nadie la busca. El tratamiento sigue existiendo en el expediente y el control se pierde en la vida real.</span></li><li><b>La familia compra el medicamento</b><span class="dim" data-d="E">Económico</span><span class="ev">Lo que el sistema no surte, lo compra la familia. Es un gasto que se repite cada mes y que nadie presupuestó, y es de los primeros que se recorta cuando el dinero no alcanza.</span></li><li><b>Los sistemas no comparten el historial</b><span class="dim" data-d="T">Tecnológico</span><span class="ev">Aunque exista el expediente electrónico, las instituciones no lo comparten entre sí. El resultado es que el médico de hoy no puede ver lo que hizo el de hace tres meses.</span></li><li><b>El aire contaminado agrava el padecimiento</b><span class="dim" data-d="K">Ecológico</span><span class="ev">La mala calidad del aire agrava padecimientos respiratorios y cardiovasculares. Es una carga que llega a la misma consulta ya saturada, sin que nadie la haya provocado desde el consultorio.</span></li></ul></div>
+    <div><h4>Efectos</h4><ul><li><b>El padecimiento avanza aunque haya tratamiento</b><span class="dim" data-d="S">Sociocultural</span><span class="ev">Tener tratamiento no es lo mismo que tener el padecimiento bajo control. La persona está diagnosticada y medicada, pero sus niveles siguen fuera de rango y el daño avanza en silencio, mientras el sistema la cuenta como atendida.</span></li><li><b>El hogar paga lo que el sistema no cubre</b><span class="dim" data-d="E">Económico</span><span class="ev">Consultas, estudios, traslados y medicamento que el sistema no cubrió. Es dinero que sale del gasto familiar cada mes, sin aparecer en ningún presupuesto público.</span></li><li><b>Se repiten estudios ya hechos</b><span class="dim" data-d="T">Tecnológico</span><span class="ev">Sin historial compartido, el siguiente médico vuelve a pedir lo que ya se hizo. Se gasta dos veces lo mismo y la persona pierde otra vuelta.</span></li><li><b>Se acumula daño respiratorio</b><span class="dim" data-d="K">Ecológico</span><span class="ev">La exposición sostenida al aire contaminado deteriora las vías respiratorias y suma consultas a un sistema que ya no da abasto.</span></li></ul></div>
+  </div>
+  <h4>Stakeholders</h4>
+  <div class="scroll"><table><thead><tr><th>Actor</th><th>Categoría</th><th>Por qué</th></tr></thead><tbody><tr>
+   <td><strong>Pacientes y familias</strong><span class="sub">Cuidan y pagan</span></td>
+   <td><span class="rol" data-rol="afectado">Afectado</span></td>
+   <td>Reciben tratamiento pero no llegan al control, y esa distancia entre una cosa y la otra la cubre el hogar: consultas, estudios, medicamento y tiempo de cuidado. El sistema los cuenta como atendidos aunque el padecimiento siga avanzando.</td></tr><tr>
+   <td><strong>Equipos de salud y unidades</strong><span class="sub">Atienden con lo que hay</span></td>
+   <td><span class="rol" data-rol="afectado">Afectado</span></td>
+   <td>Trabajan con una capacidad instalada que no deciden ellos. La falta de personal y de camas les llega como carga diaria, no como decisión propia, y son quienes dan la cara cuando el sistema no alcanza.<span class="sub">También actúan en contra del problema cuando sostienen la continuidad del cuidado.</span></td></tr><tr>
+   <td><strong>Autoridades y gobierno</strong><span class="sub">Deciden la capacidad</span></td>
+   <td><span class="rol" data-rol="perpetrador">Perpetrador</span></td>
+   <td>Deciden cuánto se financia el sistema, y ese techo condiciona todo lo demás: cuánto personal hay, cuántas camas, si el medicamento llega. La decisión se toma lejos del consultorio, pero se siente ahí.<span class="sub">También fijan el estándar clínico que obliga a prevenir, tratar y controlar.</span></td></tr><tr>
+   <td><strong>Industria farmacéutica y proveedores</strong><span class="sub">Distribuyen o no distribuyen</span></td>
+   <td><span class="rol" data-rol="perpetrador">Perpetrador</span></td>
+   <td>Su entrega depende del pago, y el pago del presupuesto. Cuando no surten, el tratamiento se interrumpe aunque la consulta haya ocurrido y el diagnóstico sea correcto.</td></tr><tr>
+   <td><strong>Farmacias y sector privado</strong><span class="sub">Atienden la demanda que sobra</span></td>
+   <td><span class="rol" data-rol="afectado">Afectado</span></td>
+   <td>Reciben una demanda desplazada que no originaron: la que el sistema público no alcanzó a atender. Cobran por ello, pero no decidieron que esa demanda llegara a su mostrador.</td></tr></tbody></table></div>
+ </article><article class="problema elegida" id="p-seguridad">
+  <header class="ph">
+    <div><span class="num">02</span><h3>Seguridad pública</h3>
+      <span class="pill">Elegida</span></div>
+    <p class="claim">No denuncian porque no confían.</p>
+    <p class="sub">Y quienes sí denuncian, muchas veces tampoco obtienen una carpeta. El sistema falla en dos puertas distintas.</p>
+  </header>
+  <div class="ce">
+    <div><h4>Causas</h4><ul><li><b>La gente ya no espera respuesta</b><span class="dim" data-d="S">Sociocultural</span><span class="ev">No es apatía. Es la conclusión de haber visto que las denuncias no avanzan: si no va a servir de nada, no vale la pena empezar.</span></li><li><b>Denunciar cuesta un día de trabajo</b><span class="dim" data-d="P">Político</span><span class="ev">Denunciar exige presentarse en persona, en horario de oficina. Para quien trabaja, significa perder el día. El trámite compite directamente con el ingreso.</span></li><li><b>A la víctima la tratan como sospechosa</b><span class="dim" data-d="P">Político</span><span class="ev">La persona llega a denunciar un delito y sale sintiéndose sospechosa. El trato que recibe en la ventanilla define si vuelve o no.</span></li><li><b>Denunciar expone a la víctima</b><span class="dim" data-d="S">Sociocultural</span><span class="ev">Denunciar implica quedar identificable frente a quien cometió el delito, y esa exposición pesa más que la posibilidad de justicia.</span></li><li><b>Fraudes cometidos por internet</b><span class="dim" data-d="T">Tecnológico</span><span class="ev">El engaño ocurre en línea y el dinero se va rápido. Para cuando se identifica, el rastro ya se enfrió.</span></li></ul></div>
+    <div><h4>Efectos</h4><ul><li><b>El agresor no enfrenta nada</b><span class="dim" data-d="L">Legal</span><span class="ev">Cuando el delito no llega a investigarse, quien lo cometió no enfrenta ninguna consecuencia. No es sólo que la víctima se quede sin respuesta: es que el cálculo de quien delinque sale barato, y eso hace más probable el siguiente.</span></li><li><b>Se pierden días de trabajo</b><span class="dim" data-d="E">Económico</span><span class="ev">Faltar al trabajo por el delito, por el trámite o por el daño emocional cuesta ingreso. Y ese costo empuja a no denunciar la próxima vez.</span></li><li><b>El miedo se queda después del delito</b><span class="dim" data-d="S">Sociocultural</span><span class="ev">El miedo y la ansiedad quedan mucho después del hecho, y no tienen a dónde reportarse.</span></li><li><b>Los menores ya no salen solos</b><span class="dim" data-d="S">Sociocultural</span><span class="ev">Es lo primero que cambia una familia con miedo: los hijos dejan de moverse solos por su propia colonia.</span></li><li><b>El hogar pierde lo que le robaron</b><span class="dim" data-d="E">Económico</span><span class="ev">El hogar pierde lo robado o dañado, y esa pérdida rara vez se recupera.</span></li></ul></div>
+  </div>
+  <h4>Stakeholders</h4>
+  <div class="scroll"><table><thead><tr><th>Actor</th><th>Categoría</th><th>Por qué</th></tr></thead><tbody><tr>
+   <td><strong>Víctimas y hogares</strong><span class="sub">Evalúan si vale la pena</span></td>
+   <td><span class="rol" data-rol="afectado">Afectado</span></td>
+   <td>Cargan el delito y, encima, el costo de intentar denunciarlo: el día de trabajo que se pierde, el traslado, la espera. Deciden sabiendo que lo más probable es que no pase nada, y esa expectativa acaba pesando más que el daño mismo. No denunciar no es descuido: es un cálculo razonable dentro de un sistema que no responde.</td></tr><tr>
+   <td><strong>Agresores</strong><span class="sub">Cometen el delito</span></td>
+   <td><span class="rol" data-rol="perpetrador">Perpetrador</span></td>
+   <td>Cometen el hecho y se benefician del silencio que viene después. Mientras menos se denuncia, menos probable es que alguien los investigue, y esa baja probabilidad vuelve a hacer rentable el siguiente delito. El silencio de las víctimas no es un efecto secundario del problema: es parte de lo que lo sostiene.</td></tr><tr>
+   <td><strong>Fiscalía y Ministerio Público</strong><span class="sub">Dificultan denunciar</span></td>
+   <td><span class="rol" data-rol="perpetrador">Perpetrador</span></td>
+   <td>Son la única puerta formal para que un delito entre a investigación, y esa puerta está tapada. Cada agente carga cientos de expedientes al mismo tiempo, así que archivar deja de ser una decisión y se vuelve la única salida operativa. El resultado es que denunciar y ser investigado terminan siendo dos cosas distintas: la víctima cumple su parte y el caso igual se queda afuera.<span class="sub">También son quienes pueden abrir la carpeta: sin ellos ningún delito entra al sistema.</span></td></tr><tr>
+   <td><strong>Policías</strong><span class="sub">Desalientan la denuncia</span></td>
+   <td><span class="rol" data-rol="perpetrador">Perpetrador</span></td>
+   <td>Son el primer trato que recibe una víctima, y ese trato define si vuelve o no. La actitud hostil y el miedo a que la propia autoridad extorsione aparecen entre los motivos declarados para no denunciar. Cuando el primer contacto desalienta en lugar de acompañar, el delito se pierde antes de llegar siquiera al Ministerio Público.<span class="sub">También previenen y atienden el primer contacto, que es donde se podría construir confianza.</span></td></tr><tr>
+   <td><strong>Comunidad y redes vecinales</strong><span class="sub">Se repliegan</span></td>
+   <td><span class="rol" data-rol="afectado">Afectado</span></td>
+   <td>El miedo les cambia la vida cotidiana: dejan de permitir que los menores salgan solos y dejan de visitar a su gente. Al replegarse pierden exactamente lo que las protegía, porque la vigilancia informal de una calle con vecinos que se conocen desaparece cuando nadie sale. El delito no sólo les quita bienes: les quita el tejido.<span class="sub">También pueden organizarse para prevenir, en lugar de replegarse.</span></td></tr></tbody></table></div>
+ </article><article class="problema" id="p-juventud">
+  <header class="ph">
+    <div><span class="num">03</span><h3>Precariedad juvenil</h3>
+      <span class="pill off">Comparada</span></div>
+    <p class="claim">Hay trabajo, pero no protección.</p>
+    <p class="sub">Y la vivienda se aleja al mismo ritmo.</p>
+  </header>
+  <div class="ce">
+    <div><h4>Causas</h4><ul><li><b>No queda nada para ahorrar</b><span class="dim" data-d="E">Económico</span><span class="ev">Sin excedente al final del mes no hay enganche posible. El ahorro es el requisito de entrada a la vivienda, y es justo lo que un ingreso apretado no deja formar.</span></li><li><b>El trabajo informal deja sin protección</b><span class="dim" data-d="L">Legal</span><span class="ev">Trabajar en informalidad significa quedar fuera del marco que protege el empleo y el ingreso: sin seguridad social, sin antigüedad y sin historial que sirva para nada más.</span></li><li><b>Lo asequible está lejos de todo</b><span class="dim" data-d="S">Sociocultural</span><span class="ev">Lo asequible está en la periferia, lejos del trabajo y de la escuela. Se ahorra en renta y se paga en transporte y en horas.</span></li><li><b>Sin conexión estable no hay oportunidades</b><span class="dim" data-d="T">Tecnológico</span><span class="ev">Sin conexión estable no hay educación en línea, ni trámites, ni buena parte de las vacantes. La brecha digital se traduce directo en oportunidades que no llegan.</span></li></ul></div>
+    <div><h4>Efectos</h4><ul><li><b>Ni comprar ni rentar resulta viable</b><span class="dim" data-d="E">Económico</span><span class="ev">Ni comprar ni rentar algo adecuado resulta viable. No es falta de voluntad: es que ninguna de las dos puertas abre con los ingresos y los requisitos reales.</span></li><li><b>Sin seguridad social ni respaldo</b><span class="dim" data-d="L">Legal</span><span class="ev">Sin seguridad social no hay incapacidad, ni pensión, ni respaldo si el trabajo se acaba. La precariedad deja de ser un momento y se vuelve una condición.</span></li><li><b>El traslado se vuelve gasto fijo grande</b><span class="dim" data-d="E">Económico</span><span class="ev">Vivir lejos convierte el transporte en un gasto fijo grande y en horas que no se recuperan. Es el precio oculto de la vivienda barata.</span></li><li><b>Estudiar o mejorar deja de ser opción</b><span class="dim" data-d="T">Tecnológico</span><span class="ev">Sin conexión, sin tiempo y sin cercanía, las opciones de estudiar o mejorar de empleo se reducen. Y con menos opciones, el ingreso se estanca.</span></li></ul></div>
+  </div>
+  <h4>Stakeholders</h4>
+  <div class="scroll"><table><thead><tr><th>Actor</th><th>Categoría</th><th>Por qué</th></tr></thead><tbody><tr>
+   <td><strong>Jóvenes y familias</strong><span class="sub">Trabajan y sostienen</span></td>
+   <td><span class="rol" data-rol="afectado">Afectado</span></td>
+   <td>Trabajan, pero sin protección y con la vivienda alejándose cada año. La autonomía se pospone y la familia termina cubriendo la diferencia durante más tiempo del previsto.</td></tr><tr>
+   <td><strong>Empleadores</strong><span class="sub">Contratan sin protección</span></td>
+   <td><span class="rol" data-rol="perpetrador">Perpetrador</span></td>
+   <td>Definen si el trabajo entra o no al marco que protege el empleo y el ingreso. La informalidad no es una condición del trabajador: es una forma de contratación que alguien eligió.<span class="sub">También son la vía directa para revertirlo: formalizar cambia el indicador.</span></td></tr><tr>
+   <td><strong>Arrendadores y financiadores</strong><span class="sub">Fijan la entrada</span></td>
+   <td><span class="rol" data-rol="perpetrador">Perpetrador</span></td>
+   <td>Fijan el precio y los requisitos con los que se entra a una vivienda o a un crédito. Sin comprobantes formales de ingreso, la puerta simplemente no abre, por más que exista capacidad de pago.</td></tr><tr>
+   <td><strong>Gobiernos e instituciones</strong><span class="sub">Regulan y habilitan</span></td>
+   <td><span class="rol" data-rol="activista">Activista</span></td>
+   <td>Son quienes pueden articular empleo y vivienda asequible, y ya identificaron la necesidad. Es donde está la palanca, y por eso también donde más se nota cuando no se acciona.<span class="sub">También quedan del otro lado cuando los programas dejan tramos de edad o de informalidad sin cobertura.</span></td></tr></tbody></table></div>
+ </article>
+ <div class="nota"><p>Ser stakeholder describe una relación con el problema; no implica causarlo intencionalmente. «Perpetrador» nombra la posición en la cadena causal, incluida la omisión, no una intención probada. Un mismo actor puede ocupar dos categorías, y el contexto de cada una queda escrito.</p></div>
+</section>
+
+<section id="decision">
+ <div class="eyebrow">Bloque 1b</div>
+ <h2>Por qué elegimos delitos</h2>
+ <h4>El filtro: seis criterios</h4>
+ <ol class="filtro">
+  <li><b>Wicked</b><span>No se resuelve, se incide en él: variables interconectadas, sin solución correcta y sin regla de paro.</span></li>
+  <li><b>Cercanía</b><span>El equipo puede acercarse al fenómeno sin intermediarios.</span></li>
+  <li><b>Conducta accionable</b><span>Existe una conducta concreta que una campaña puede mover.</span></li>
+  <li><b>Fuentes primarias</b><span>Hay medición oficial con metodología pública, no sólo notas de prensa.</span></li>
+  <li><b>Stakeholders claros</b><span>Se puede nombrar quién causa, quién combate y quién lo vive.</span></li>
+  <li><b>Seguridad y ética</b><span>Se puede investigar sin poner en riesgo a nadie ni producir un manual del delito.</span></li>
+ </ol>
+ <div class="split">
+  <div class="card no"><h5>Salud pública · descartada</h5><p>Su núcleo es financiero y administrativo, no wicked. La cercanía del equipo con el fenómeno es prestada.</p></div>
+  <div class="card yes"><h5>Delitos · elegida</h5><p>Cumple los seis criterios. Wicked de manual, medición oficial con metodología pública, stakeholders nombrables y una conducta sobre la que sí se puede incidir.</p></div>
+  <div class="card no"><h5>Precariedad juvenil · descartada</h5><p>Acceso inmejorable a fuentes primarias, pero no aparece una conducta concreta que una campaña pueda cambiar.</p></div>
+ </div>
+ <h4>El recorte</h4>
+ <p>El profesor señaló que «inseguridad» es un término paraguas. La problemática se recortó a <b>delitos que quedan fuera de investigación</b>, que sí tiene medición oficial con metodología pública.</p>
+ <h4>La elegida hereda a las otras dos</h4>
+ <p>Descartarlas no las borra del análisis. La precariedad juvenil aparece como motor económico, la salud pública como el mismo patrón —el hogar absorbiendo una falla del sistema— y en las tres está el mismo actor de fondo: un Estado que no registra.</p>
+</section>
+
+<section id="mapa">
+ <div class="eyebrow">Bloque 2</div>
+ <h2>El mapa a fondo</h2>
+ <p>30 variables y 47 relaciones declaradas, de las cuales 28 cruzan dimensiones distintas y 28 tienen vínculo documental. Hay 4 bucles marcados como hipótesis.</p>
+ <h4>Variables por dimensión PESTEL</h4>
+ <div class="scroll"><table><thead><tr><th>Dimensión</th><th>Factores</th><th>Efectos</th><th>Contexto</th><th>Variables</th></tr></thead><tbody><tr><td><span class="dim" data-d="P">Político</span></td><td>6</td><td>1</td><td>0</td>
+   <td class="muted">Denunciar cuesta un día de trabajo · El trámite no está claro para nadie · A la víctima la tratan como sospechosa · Miedo a que la propia autoridad extorsione · El presupuesto no alcanza para investigar · Hay que ir en persona, en horario de oficina · La autoridad no sabe dónde actuar</td></tr><tr><td><span class="dim" data-d="E">Económico</span></td><td>2</td><td>3</td><td>0</td>
+   <td class="muted">El hogar pierde lo que le robaron · La familia paga su propia seguridad · Se pierden días de trabajo · Un agente carga cientos de expedientes · No hay peritos que sostengan el caso</td></tr><tr><td><span class="dim" data-d="S">Sociocultural</span></td><td>3</td><td>4</td><td>0</td>
+   <td class="muted">La gente ya no espera respuesta · Denunciar expone a la víctima · El daño parece muy chico para denunciar · El miedo se queda después del delito · Hay lesiones que nadie repara · Los menores ya no salen solos · Se deja de visitar a la familia</td></tr><tr><td><span class="dim" data-d="T">Tecnológico</span></td><td>4</td><td>0</td><td>1</td>
+   <td class="muted">Roban la identidad en línea · Fraudes cometidos por internet · Amenazas y extorsión por mensaje · La Policía Cibernética orienta, no investiga · Reportar en línea no abre carpeta</td></tr><tr><td><span class="dim" data-d="K">Ecológico</span></td><td>0</td><td>0</td><td>0</td>
+   <td class="muted">Sin evidencia incorporada. El equipo confirmó que no aplica directamente: es un hallazgo, no un pendiente.</td></tr><tr><td><span class="dim" data-d="L">Legal</span></td><td>4</td><td>1</td><td>1</td>
+   <td class="muted">Sin pruebas, la víctima ni lo intenta · Se denuncia y no se abre carpeta · El agresor no enfrenta nada · El Ministerio Público decide qué avanza · La carpeta se archiva sin investigarse · La fila de casos nunca se vacía</td></tr></tbody></table></div>
+ <h4>Las más conectadas</h4>
+ <div class="scroll"><table><thead><tr><th></th><th>Variable</th><th>Grado</th><th>Dimensión</th><th>Tipo</th><th>Dimensiones que toca</th></tr></thead><tbody><tr><td class="n">1</td><td><b>El agresor no enfrenta nada</b></td>
+ <td class="n grado">10</td><td><span class="dim" data-d="L">Legal</span></td>
+ <td>Efecto</td><td class="n">5</td></tr><tr><td class="n">2</td><td><b>Denunciar cuesta un día de trabajo</b></td>
+ <td class="n grado">7</td><td><span class="dim" data-d="P">Político</span></td>
+ <td>Factor</td><td class="n">4</td></tr><tr><td class="n">3</td><td><b>La carpeta se archiva sin investigarse</b></td>
+ <td class="n grado">6</td><td><span class="dim" data-d="L">Legal</span></td>
+ <td>Factor</td><td class="n">2</td></tr><tr><td class="n">4</td><td><b>Denunciar expone a la víctima</b></td>
+ <td class="n grado">5</td><td><span class="dim" data-d="S">Sociocultural</span></td>
+ <td>Factor</td><td class="n">3</td></tr><tr><td class="n">5</td><td><b>Se pierden días de trabajo</b></td>
+ <td class="n grado">5</td><td><span class="dim" data-d="E">Económico</span></td>
+ <td>Efecto</td><td class="n">3</td></tr><tr><td class="n">6</td><td><b>Se denuncia y no se abre carpeta</b></td>
+ <td class="n grado">4</td><td><span class="dim" data-d="L">Legal</span></td>
+ <td>Factor</td><td class="n">2</td></tr><tr><td class="n">7</td><td><b>La gente ya no espera respuesta</b></td>
+ <td class="n grado">4</td><td><span class="dim" data-d="S">Sociocultural</span></td>
+ <td>Factor</td><td class="n">2</td></tr><tr><td class="n">8</td><td><b>Un agente carga cientos de expedientes</b></td>
+ <td class="n grado">4</td><td><span class="dim" data-d="E">Económico</span></td>
+ <td>Factor</td><td class="n">2</td></tr><tr><td class="n">9</td><td><b>El hogar pierde lo que le robaron</b></td>
+ <td class="n grado">4</td><td><span class="dim" data-d="E">Económico</span></td>
+ <td>Efecto</td><td class="n">2</td></tr><tr><td class="n">10</td><td><b>La fila de casos nunca se vacía</b></td>
+ <td class="n grado">3</td><td><span class="dim" data-d="L">Legal</span></td>
+ <td>Factor</td><td class="n">2</td></tr></tbody></table></div>
+ <div class="nota"><p>El grado se calcula desde las relaciones, nunca se escribe a mano. Un grado alto significa <b>más conexiones declaradas en este recorte</b>, no mayor peso causal: el recorte, la clasificación y el nivel de detalle condicionan el resultado.</p></div>
+ <h4>La ruta crítica</h4>
+ <div class="ruta">
+  <div><span>Causa crítica · grado 7</span><b>Denunciar cuesta un día de trabajo</b></div>
+  <div class="core"><span>La problemática</span><b>Delitos fuera de investigación</b></div>
+  <div><span>Efecto crítico · grado 10</span><b>El agresor no enfrenta nada</b></div>
+ </div>
+ <p class="sub">La ruta crítica no vive aparte: es el trazo grueso que cruza el centro del diagrama de replanteamiento, donde el anillo exterior de stakeholders se conecta con las variables que cada uno toca.</p>
+ <h4>Variables críticas</h4>
+ <p>Umbral calculado: <b>4 conexiones o más</b>. Son 9 de 30 variables, y conservan 11 relaciones entre ellas. Por dimensión: <span class="dim mini" data-d="P">P</span>Político 1 · <span class="dim mini" data-d="E">E</span>Económico 3 · <span class="dim mini" data-d="S">S</span>Sociocultural 2 · <span class="dim mini" data-d="L">L</span>Legal 3.</p>
+ <h4>Vínculos de stakeholder con variable crítica</h4>
+ <p>11 de 11 están descritos por su fuente. Un stakeholder se conecta con una variable <b>sólo</b> cuando una fuente describe ese vínculo: no se conectan por su categoría.</p>
+ <div class="scroll"><table><thead><tr><th>Stakeholder</th><th>Variable crítica</th><th>Lectura</th><th>Respaldo</th></tr></thead><tbody><tr><td><b>Víctimas y hogares</b><br><span class="muted">Afectado</span></td>
+  <td><span class="dim mini" data-d="P">P</span>Denunciar cuesta un día de trabajo<span class="muted"> · grado 7</span></td>
+  <td>ENVIPE clasifica la pérdida de tiempo como el motivo de no denuncia más citado en Jalisco: 31.4% de los casos. Es el cálculo que hace la víctima antes de decidir.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td><b>Víctimas y hogares</b><br><span class="muted">Afectado</span></td>
+  <td><span class="dim mini" data-d="S">S</span>La gente ya no espera respuesta<span class="muted"> · grado 4</span></td>
+  <td>La desconfianza en la autoridad aparece en 15.9% de los casos. INEGI la clasifica, junto con la pérdida de tiempo, como causa atribuible a la autoridad.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td><b>Víctimas y hogares</b><br><span class="muted">Afectado</span></td>
+  <td><span class="dim mini" data-d="S">S</span>Denunciar expone a la víctima<span class="muted"> · grado 5</span></td>
+  <td>El miedo al agresor está entre los motivos declarados para no denunciar: denunciar implica quedar identificable frente a quien cometió el delito.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td><b>Víctimas y hogares</b><br><span class="muted">Afectado</span></td>
+  <td><span class="dim mini" data-d="E">E</span>El hogar pierde lo que le robaron<span class="muted"> · grado 4</span></td>
+  <td>El costo del delito en los hogares de Jalisco fue de 25.8 mil millones de pesos, 9,100 por persona afectada.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td><b>Agresores</b><br><span class="muted">Perpetrador</span></td>
+  <td><span class="dim mini" data-d="L">L</span>El agresor no enfrenta nada<span class="muted"> · grado 10</span></td>
+  <td>México Evalúa documenta que sólo 6.28% de los casos acumulados llega al ejercicio de la acción penal: quien cometió el delito casi nunca enfrenta una consecuencia.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td><b>Agresores</b><br><span class="muted">Perpetrador</span></td>
+  <td><span class="dim mini" data-d="S">S</span>Denunciar expone a la víctima<span class="muted"> · grado 5</span></td>
+  <td>El temor a quedar identificable frente al agresor es uno de los motivos declarados de no denuncia.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td><b>Fiscalía y Ministerio Público</b><br><span class="muted">Perpetrador</span></td>
+  <td><span class="dim mini" data-d="E">E</span>Un agente carga cientos de expedientes<span class="muted"> · grado 4</span></td>
+  <td>El censo de procuración de justicia registra 504,184 carpetas pendientes y 701 agentes del Ministerio Público en Jalisco: 719 carpetas por agente, cinco veces el promedio nacional.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td><b>Fiscalía y Ministerio Público</b><br><span class="muted">Perpetrador</span></td>
+  <td><span class="dim mini" data-d="L">L</span>La carpeta se archiva sin investigarse<span class="muted"> · grado 6</span></td>
+  <td>De las 145,780 determinaciones que Jalisco tomó en investigación inicial durante 2024, 93,048 fueron archivo temporal: 63.8%, contra 37.9% del promedio nacional.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td><b>Fiscalía y Ministerio Público</b><br><span class="muted">Perpetrador</span></td>
+  <td><span class="dim mini" data-d="L">L</span>Se denuncia y no se abre carpeta<span class="muted"> · grado 4</span></td>
+  <td>El Ministerio Público decide si la denuncia se convierte en carpeta. México Evalúa mide que 93.8% de las denuncias sí abre carpeta, así que ésta es la fuga menor.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td><b>Policías</b><br><span class="muted">Perpetrador</span></td>
+  <td><span class="dim mini" data-d="S">S</span>La gente ya no espera respuesta<span class="muted"> · grado 4</span></td>
+  <td>ENVIPE incluye la actitud hostil de la autoridad y el miedo a la extorsión entre los motivos de no denuncia. Son percepciones reportadas por las víctimas, no una acusación probada contra la institución.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td><b>Comunidad y redes vecinales</b><br><span class="muted">Afectado</span></td>
+  <td><span class="dim mini" data-d="S">S</span>Denunciar expone a la víctima<span class="muted"> · grado 5</span></td>
+  <td>Los cambios de conducta que ENVIPE mide en Jalisco —dejar de permitir que los menores salgan solos, dejar de visitar a la familia— son la respuesta al miedo a quedar expuesto.</td>
+  <td><span class="tag doc">Documental</span></td></tr></tbody></table></div>
+ <div class="nota"><p><b>Hueco declarado.</b> Las dos variables propias del trato policial no alcanzan el umbral de 4 conexiones con la evidencia recogida, así que Policías aparece con un solo vínculo. Se declara en vez de bajar el umbral para que el diagrama se vea más lleno.</p></div>
+</section>
+
+<section id="relaciones">
+ <div class="eyebrow">Bloque 2</div>
+ <h2>Inventario de relaciones</h2>
+ <p>Todas las correlaciones declaradas entre variables. «Documental» significa que la fuente <b>describe</b> esa relación; «Lectura» es interpretación explícita del equipo. Ninguna de las dos es un efecto causal estimado. Las filas marcadas al margen son bucles de retroalimentación planteados como hipótesis.</p>
+ <div class="scroll"><table><thead><tr><th></th><th>Variable</th><th>Variable</th><th>Lectura</th><th>Respaldo</th></tr></thead><tbody><tr><td class="n">1</td>
+  <td><span class="dim mini" data-d="P">P</span>El presupuesto no alcanza para investigar</td>
+  <td><span class="dim mini" data-d="E">E</span>Un agente carga cientos de expedientes</td>
+  <td>Si investigar no se prioriza en el presupuesto, no se contrata a suficientes agentes.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">2</td>
+  <td><span class="dim mini" data-d="P">P</span>El presupuesto no alcanza para investigar</td>
+  <td><span class="dim mini" data-d="E">E</span>No hay peritos que sostengan el caso</td>
+  <td>El peritaje y la capacitación son de lo primero que se recorta cuando el gasto no alcanza.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">3</td>
+  <td><span class="dim mini" data-d="E">E</span>Un agente carga cientos de expedientes</td>
+  <td><span class="dim mini" data-d="L">L</span>La carpeta se archiva sin investigarse</td>
+  <td>Un agente con cientos de expedientes archiva los que no puede atender. No es desidia: es aritmética. Jalisco tiene la carga por agente más alta y también archiva más que nadie.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">4</td>
+  <td><span class="dim mini" data-d="E">E</span>No hay peritos que sostengan el caso</td>
+  <td><span class="dim mini" data-d="L">L</span>La carpeta se archiva sin investigarse</td>
+  <td>Sin peritaje que sostenga la investigación, la carpeta se guarda.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">5</td>
+  <td><span class="dim mini" data-d="E">E</span>Un agente carga cientos de expedientes</td>
+  <td><span class="dim mini" data-d="L">L</span>La fila de casos nunca se vacía</td>
+  <td>La carga por agente y el rezago crecen juntos.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">6</td>
+  <td><span class="dim mini" data-d="L">L</span>La carpeta se archiva sin investigarse</td>
+  <td><span class="dim mini" data-d="L">L</span>La fila de casos nunca se vacía</td>
+  <td>Cada carpeta archivada se suma a la pila que nadie retoma.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">7</td>
+  <td><span class="dim mini" data-d="L">L</span>La fila de casos nunca se vacía</td>
+  <td><span class="dim mini" data-d="L">L</span>La carpeta se archiva sin investigarse</td>
+  <td>En una fila que ya venía llena, archivar es la única forma de darle salida a lo que entra.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">8</td>
+  <td><span class="dim mini" data-d="L">L</span>La carpeta se archiva sin investigarse</td>
+  <td><span class="dim mini" data-d="L">L</span>Se denuncia y no se abre carpeta</td>
+  <td>La denuncia sí abrió carpeta, pero archivarla produce el mismo resultado para la víctima: nadie investiga.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">9</td>
+  <td><span class="dim mini" data-d="L">L</span>El Ministerio Público decide qué avanza</td>
+  <td><span class="dim mini" data-d="L">L</span>Se denuncia y no se abre carpeta</td>
+  <td>El Ministerio Público es donde se decide si la denuncia se convierte en carpeta.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">10</td>
+  <td><span class="dim mini" data-d="L">L</span>El Ministerio Público decide qué avanza</td>
+  <td><span class="dim mini" data-d="L">L</span>La carpeta se archiva sin investigarse</td>
+  <td>La decisión de archivar también ocurre ahí.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">11</td>
+  <td><span class="dim mini" data-d="L">L</span>Se denuncia y no se abre carpeta</td>
+  <td><span class="dim mini" data-d="L">L</span>El agresor no enfrenta nada</td>
+  <td>Un delito denunciado sin carpeta queda igual de fuera que uno no denunciado.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr class="loop"><td class="n">12</td>
+  <td><span class="dim mini" data-d="L">L</span>Se denuncia y no se abre carpeta</td>
+  <td><span class="dim mini" data-d="S">S</span>La gente ya no espera respuesta</td>
+  <td>Hipótesis de retroalimentación: quien denunció y no obtuvo respuesta aprende que no sirve, y lo cuenta.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">13</td>
+  <td><span class="dim mini" data-d="S">S</span>La gente ya no espera respuesta</td>
+  <td><span class="dim mini" data-d="L">L</span>El agresor no enfrenta nada</td>
+  <td>Si no se espera respuesta, no se denuncia; y sin denuncia el delito no entra al sistema.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">14</td>
+  <td><span class="dim mini" data-d="L">L</span>El agresor no enfrenta nada</td>
+  <td><span class="dim mini" data-d="P">P</span>La autoridad no sabe dónde actuar</td>
+  <td>Lo que no se investiga tampoco se registra, y lo que no se registra no se puede prevenir.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr class="loop"><td class="n">15</td>
+  <td><span class="dim mini" data-d="P">P</span>La autoridad no sabe dónde actuar</td>
+  <td><span class="dim mini" data-d="P">P</span>El presupuesto no alcanza para investigar</td>
+  <td>Hipótesis de retroalimentación: sin datos que muestren el tamaño del problema, es más difícil justificar el presupuesto que lo atendería.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">16</td>
+  <td><span class="dim mini" data-d="P">P</span>Hay que ir en persona, en horario de oficina</td>
+  <td><span class="dim mini" data-d="P">P</span>Denunciar cuesta un día de trabajo</td>
+  <td>Ir en persona, a una sola sede y en día hábil, es lo que convierte la denuncia en tiempo perdido.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">17</td>
+  <td><span class="dim mini" data-d="E">E</span>Un agente carga cientos de expedientes</td>
+  <td><span class="dim mini" data-d="P">P</span>Denunciar cuesta un día de trabajo</td>
+  <td>Con cada agente saturado, la espera en ventanilla se alarga.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">18</td>
+  <td><span class="dim mini" data-d="P">P</span>El trámite no está claro para nadie</td>
+  <td><span class="dim mini" data-d="P">P</span>Denunciar cuesta un día de trabajo</td>
+  <td>Un trámite largo y poco claro multiplica las horas que consume.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">19</td>
+  <td><span class="dim mini" data-d="P">P</span>Denunciar cuesta un día de trabajo</td>
+  <td><span class="dim mini" data-d="E">E</span>Se pierden días de trabajo</td>
+  <td>El tiempo que se va en denunciar sale de la jornada laboral.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">20</td>
+  <td><span class="dim mini" data-d="P">P</span>Denunciar cuesta un día de trabajo</td>
+  <td><span class="dim mini" data-d="L">L</span>El agresor no enfrenta nada</td>
+  <td>El costo en tiempo es uno de los motivos declarados para no denunciar.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr class="loop"><td class="n">21</td>
+  <td><span class="dim mini" data-d="E">E</span>Se pierden días de trabajo</td>
+  <td><span class="dim mini" data-d="P">P</span>Denunciar cuesta un día de trabajo</td>
+  <td>Hipótesis de retroalimentación: quien ya perdió ingreso por denunciar, lo piensa dos veces la próxima.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">22</td>
+  <td><span class="dim mini" data-d="P">P</span>A la víctima la tratan como sospechosa</td>
+  <td><span class="dim mini" data-d="S">S</span>La gente ya no espera respuesta</td>
+  <td>El trato hostil en la ventanilla erosiona la confianza en la institución.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">23</td>
+  <td><span class="dim mini" data-d="P">P</span>A la víctima la tratan como sospechosa</td>
+  <td><span class="dim mini" data-d="S">S</span>El miedo se queda después del delito</td>
+  <td>Denunciar y salir sintiéndose sospechosa suma daño al daño.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">24</td>
+  <td><span class="dim mini" data-d="P">P</span>Miedo a que la propia autoridad extorsione</td>
+  <td><span class="dim mini" data-d="S">S</span>La gente ya no espera respuesta</td>
+  <td>Temer a la autoridad a la que se acude es la forma más directa de desconfianza.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">25</td>
+  <td><span class="dim mini" data-d="P">P</span>Miedo a que la propia autoridad extorsione</td>
+  <td><span class="dim mini" data-d="L">L</span>El agresor no enfrenta nada</td>
+  <td>El miedo a la extorsión aparece entre los motivos de no denuncia.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">26</td>
+  <td><span class="dim mini" data-d="S">S</span>Denunciar expone a la víctima</td>
+  <td><span class="dim mini" data-d="L">L</span>El agresor no enfrenta nada</td>
+  <td>El temor al agresor pesa más que la expectativa de justicia.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">27</td>
+  <td><span class="dim mini" data-d="S">S</span>El daño parece muy chico para denunciar</td>
+  <td><span class="dim mini" data-d="L">L</span>El agresor no enfrenta nada</td>
+  <td>Percibir el delito como menor lleva a no denunciarlo.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">28</td>
+  <td><span class="dim mini" data-d="L">L</span>Sin pruebas, la víctima ni lo intenta</td>
+  <td><span class="dim mini" data-d="L">L</span>El agresor no enfrenta nada</td>
+  <td>Creer que sin pruebas no atenderán lleva a no intentarlo.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">29</td>
+  <td><span class="dim mini" data-d="S">S</span>El daño parece muy chico para denunciar</td>
+  <td><span class="dim mini" data-d="L">L</span>Sin pruebas, la víctima ni lo intenta</td>
+  <td>Los dos son cálculos de la víctima sobre si vale la pena, y llevan a la misma decisión.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">30</td>
+  <td><span class="dim mini" data-d="T">T</span>Reportar en línea no abre carpeta</td>
+  <td><span class="dim mini" data-d="P">P</span>Denunciar cuesta un día de trabajo</td>
+  <td>Que el canal digital no cierre el trámite obliga a acudir igual, con el mismo costo de tiempo.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">31</td>
+  <td><span class="dim mini" data-d="T">T</span>Reportar en línea no abre carpeta</td>
+  <td><span class="dim mini" data-d="L">L</span>El agresor no enfrenta nada</td>
+  <td>Si reportar en línea no abre carpeta, el delito digital tampoco entra a investigación.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">32</td>
+  <td><span class="dim mini" data-d="T">T</span>La Policía Cibernética orienta, no investiga</td>
+  <td><span class="dim mini" data-d="T">T</span>Reportar en línea no abre carpeta</td>
+  <td>La Policía Cibernética orienta, pero la denuncia formal sigue siendo presencial.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">33</td>
+  <td><span class="dim mini" data-d="T">T</span>La Policía Cibernética orienta, no investiga</td>
+  <td><span class="dim mini" data-d="T">T</span>Roban la identidad en línea</td>
+  <td>Atiende los casos de apropiación de identidad.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">34</td>
+  <td><span class="dim mini" data-d="T">T</span>La Policía Cibernética orienta, no investiga</td>
+  <td><span class="dim mini" data-d="T">T</span>Fraudes cometidos por internet</td>
+  <td>Atiende los casos de fraude cometido por internet.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">35</td>
+  <td><span class="dim mini" data-d="T">T</span>Roban la identidad en línea</td>
+  <td><span class="dim mini" data-d="E">E</span>El hogar pierde lo que le robaron</td>
+  <td>La suplantación se usa para disponer del dinero de otra persona.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">36</td>
+  <td><span class="dim mini" data-d="T">T</span>Fraudes cometidos por internet</td>
+  <td><span class="dim mini" data-d="E">E</span>El hogar pierde lo que le robaron</td>
+  <td>El fraude en línea se materializa en pérdida patrimonial.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">37</td>
+  <td><span class="dim mini" data-d="T">T</span>Amenazas y extorsión por mensaje</td>
+  <td><span class="dim mini" data-d="S">S</span>Denunciar expone a la víctima</td>
+  <td>Las amenazas digitales alimentan el temor al agresor.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">38</td>
+  <td><span class="dim mini" data-d="T">T</span>Amenazas y extorsión por mensaje</td>
+  <td><span class="dim mini" data-d="S">S</span>El miedo se queda después del delito</td>
+  <td>Recibir amenazas por mensaje deja daño emocional aunque no haya contacto físico.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">39</td>
+  <td><span class="dim mini" data-d="L">L</span>El agresor no enfrenta nada</td>
+  <td><span class="dim mini" data-d="E">E</span>La familia paga su propia seguridad</td>
+  <td>Cuando el Estado no responde, el hogar paga su propia seguridad.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">40</td>
+  <td><span class="dim mini" data-d="E">E</span>El hogar pierde lo que le robaron</td>
+  <td><span class="dim mini" data-d="E">E</span>La familia paga su propia seguridad</td>
+  <td>A la pérdida se le suma el gasto en evitar la siguiente.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">41</td>
+  <td><span class="dim mini" data-d="S">S</span>Denunciar expone a la víctima</td>
+  <td><span class="dim mini" data-d="S">S</span>Los menores ya no salen solos</td>
+  <td>El miedo se traduce en no dejar salir solos a los menores.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">42</td>
+  <td><span class="dim mini" data-d="S">S</span>Denunciar expone a la víctima</td>
+  <td><span class="dim mini" data-d="S">S</span>Se deja de visitar a la familia</td>
+  <td>El mismo miedo reduce las visitas a la familia y a las amistades.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr><td class="n">43</td>
+  <td><span class="dim mini" data-d="S">S</span>Los menores ya no salen solos</td>
+  <td><span class="dim mini" data-d="S">S</span>Se deja de visitar a la familia</td>
+  <td>Ambas son la misma decisión: encerrarse.</td>
+  <td><span class="tag doc">Documental</span></td></tr><tr class="loop"><td class="n">44</td>
+  <td><span class="dim mini" data-d="S">S</span>Se deja de visitar a la familia</td>
+  <td><span class="dim mini" data-d="S">S</span>Denunciar expone a la víctima</td>
+  <td>Hipótesis de retroalimentación: perder la red cercana deja más sola a la persona y aumenta su temor.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">45</td>
+  <td><span class="dim mini" data-d="S">S</span>El miedo se queda después del delito</td>
+  <td><span class="dim mini" data-d="E">E</span>Se pierden días de trabajo</td>
+  <td>El daño emocional se nota en la asistencia y el desempeño en el trabajo.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">46</td>
+  <td><span class="dim mini" data-d="S">S</span>Hay lesiones que nadie repara</td>
+  <td><span class="dim mini" data-d="E">E</span>Se pierden días de trabajo</td>
+  <td>Una lesión aparta del trabajo mientras dura.</td>
+  <td><span class="tag lec">Lectura</span></td></tr><tr><td class="n">47</td>
+  <td><span class="dim mini" data-d="E">E</span>Se pierden días de trabajo</td>
+  <td><span class="dim mini" data-d="E">E</span>El hogar pierde lo que le robaron</td>
+  <td>Los días de trabajo perdidos son también pérdida económica.</td>
+  <td><span class="tag doc">Documental</span></td></tr></tbody></table></div>
+</section>
+
+<section id="postura">
+ <div class="eyebrow">Interpretación</div>
+ <h2>La postura del equipo</h2>
+ <div class="cita">
+  <p>Ese porcentaje nos da a entender que realmente casi ninguna persona prefiere denunciar en Jalisco, por lo mismo de que nunca proceden esos casos. Entonces remarca la postura de que realmente la gente no confía en estas instituciones.</p>
+  <cite>Eddy · 8 de septiembre de 2026</cite>
+ </div>
+ <div class="split">
+  <div class="card yes"><h5>Lo que la fuente respalda</h5><p>INEGI agrupa cinco motivos de no denuncia bajo la etiqueta literal «causas atribuibles a la autoridad»: miedo a que lo extorsionaran, pérdida de tiempo, trámites largos y difíciles, desconfianza en la autoridad y actitud hostil de la autoridad. Dos de esos cinco ya suman 47.3% en Jalisco. La desconfianza institucional no es interpretación nuestra: es la clasificación del propio INEGI.</p></div>
+  <div class="card no"><h5>Hasta aquí llega</h5><p>ENVIPE pregunta por qué no denunció, no si la víctima sabe que los casos no proceden. El eslabón «no denuncian porque nunca proceden» es lectura del equipo, no medición, y se presenta como tal.</p></div>
+  <div class="card"><h5>Lo que afila la postura</h5><p>Una parte del 91.7% son personas que <b>sí denunciaron</b> y aun así nunca se abrió carpeta. El sistema no falla en una puerta: falla en dos. La que desalienta denunciar, y la que no investiga lo que sí se denunció.</p></div>
+ </div>
+</section>
+
+<section id="fuentes">
+ <div class="eyebrow">Respaldo</div>
+ <h2>Fuentes y verificación</h2>
+ <p>Cada cifra conserva su año, su institución y su alcance. Las cinco cifras del capítulo entregable se verificaron contra la presentación ENVIPE 2025 de Jalisco el 8 de septiembre de 2026, leyendo el documento, y quedaron firmadas por el equipo.</p>
+ <h4>Las cinco cifras y su límite</h4>
+ <div class="scroll"><table><thead><tr><th>Cifra</th><th>Qué mide exactamente</th><th>Hasta aquí llega</th></tr></thead><tbody>
+  <tr><td class="n">91.7%</td><td>Delitos no denunciados <b>+</b> denunciados sin carpeta <b>+</b> aquellos en que no se especificó. Definición literal de INEGI.</td><td><b>No es impunidad.</b> La impunidad se mide sobre casos investigados; esto se mide sobre delitos ocurridos.</td></tr>
+  <tr><td class="n">31.4%</td><td>Pérdida de tiempo como razón para no denunciar. INEGI la agrupa en «causas atribuibles a la autoridad».</td><td>Es lo que la víctima declara, no una medición del tiempo real de un trámite.</td></tr>
+  <tr><td class="n">15.9%</td><td>Desconfianza en la autoridad, también atribuible a la autoridad según INEGI.</td><td>Es una percepción reportada en encuesta, no una acusación probada contra la institución.</td></tr>
+  <tr><td class="n">57%</td><td>Población de 18 años y más que dejó de permitir que los menores salgan solos. Es la actividad que <b>más</b> se dejó de hacer.</td><td>Respuesta múltiple: los porcentajes no suman 100. No es una tasa de hogares.</td></tr>
+  <tr><td class="n">27.1%</td><td>Dejó de visitar parientes o amistades por miedo. Séptima actividad más abandonada.</td><td>Mismo límite: respuesta múltiple.</td></tr>
+ </tbody></table></div>
+ <div class="nota"><p><b>Dato que apareció al verificar:</b> el costo total de la inseguridad y el delito en hogares de Jalisco fue de 25.8 mil millones de pesos en 2024, 9,100 pesos por persona afectada, deflactado con 2018 como año base.</p></div>
+ <h4>Todas las fuentes</h4>
+ <div class="fuentes"><article class="fuente">
+  <h4>INSP · ENSANUT 2021–2024</h4><p class="sub">Diabetes tipo 2: diagnóstico, tratamiento y control · 2025</p>
+  <dl><dt>Alcance</dt><dd>México · adultos con diagnóstico previo</dd><dt>Dónde</dt><dd>Cuadro II, p. 629; discusión, p. 630</dd>
+  <dt>Qué mide y qué no</dt><dd>33.0% con control glucémico; 90.9% con tratamiento. Son indicadores de la misma población, no una trayectoria individual. El control no se estima a nivel estatal.</dd></dl>
+  <a href="https://ensanut.insp.mx/encuestas/ensanutcontinua2024/doctos/analiticos/17286-Texto%20del%20art%C3%ADculo-92190-1-10-20251118.pdf" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>OCDE · Panorama de la salud</h4><p class="sub">Recursos del sistema de salud en México · 2025</p>
+  <dl><dt>Alcance</dt><dd>México · comparación internacional</dd><dt>Dónde</dt><dd>Recursos del sistema de salud</dd>
+  <dt>Qué mide y qué no</dt><dd>Gasto total: 5.9% del PIB frente a 9.3% OCDE. No equivale a gasto público ni a presupuesto exclusivo del IMSS. Año de publicación del panorama.</dd></dl>
+  <a href="https://www.oecd.org/es/publications/panorama-de-la-salud-2025_5345f1bd-es/mexico_42bdb5b4-es.html" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>CIEP · análisis de ENIGH 2024</h4><p class="sub">Gasto de bolsillo en salud · 2025</p>
+  <dl><dt>Alcance</dt><dd>México · hogares, datos 2024</dd><dt>Dónde</dt><dd>Cuadro 2 y conclusiones</dd>
+  <dt>Qué mide y qué no</dt><dd>Análisis de un centro de investigación sobre datos de INEGI: promedio anual de $6,421 por hogar y crecimiento real de 7.9% entre 2022 y 2024.</dd></dl>
+  <a href="https://ciep.mx/gasto-de-bolsillo-en-salud-resultados-de-la-enigh-2024/" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>DOF · NOM-015-SSA2-2010</h4><p class="sub">Prevención, tratamiento y control de diabetes · 2010</p>
+  <dl><dt>Alcance</dt><dd>México · documento normativo</dd><dt>Dónde</dt><dd>Publicación del 23 de noviembre de 2010</dd>
+  <dt>Qué mide y qué no</dt><dd>Referencia normativa del expediente. Su existencia no demuestra cumplimiento ni resultados clínicos; no se usa como una medición.</dd></dl>
+  <a href="https://dof.gob.mx/normasOficiales.php?codp=4215&view=si" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>INEGI · ENVIPE Jalisco</h4><p class="sub">Victimización, denuncia y costos del delito · 2025</p>
+  <dl><dt>Alcance</dt><dd>Jalisco · delitos ocurridos en 2024</dd><dt>Dónde</dt><dd>Láminas 17, 21–24</dd>
+  <dt>Qué mide y qué no</dt><dd>Verificado contra el documento el 8 de septiembre de 2026. Cifra oculta 91.7%, definida por INEGI como delitos no denunciados + denunciados sin carpeta + no especificados. Motivos de no denuncia: pérdida de tiempo 31.4% y desconfianza 15.9%, ambos clasificados por INEGI como causas atribuibles a la autoridad. Costo total en hogares: 25.8 mil millones de pesos, 9,100 por persona afectada. LÍMITES: no es una tasa de impunidad; las razones de no denuncia son percepciones reportadas por las víctimas; en cambios de conducta el informante pudo elegir varias respuestas, así que esos porcentajes no suman 100.</dd></dl>
+  <a href="https://www.inegi.org.mx/contenidos/programas/envipe/2025/doc/envipe2025_jal.pdf" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>INEGI · ENOE / Juventud</h4><p class="sub">Informalidad laboral de las personas jóvenes · 2025</p>
+  <dl><dt>Alcance</dt><dd>México · 15–29 años, primer trimestre de 2025</dd><dt>Dónde</dt><dd>Página 2, tasas de desocupación e informalidad</dd>
+  <dt>Qué mide y qué no</dt><dd>Informalidad juvenil: 58.8%; población ocupada general: 54.3%. La definición se refiere a inserción laboral sin protección institucional; no implica ausencia absoluta de toda cobertura médica.</dd></dl>
+  <a href="https://www.inegi.org.mx/contenidos/saladeprensa/aproposito/2025/EAP_Juventud.pdf" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>IIEG · Índice SHF de vivienda</h4><p class="sub">Precios de vivienda en la ZM de Guadalajara · 2026</p>
+  <dl><dt>Alcance</dt><dd>ZMG · primer trimestre de 2026</dd><dt>Dónde</dt><dd>Página 1 · 29 de mayo de 2026</dd>
+  <dt>Qué mide y qué no</dt><dd>Aumento anual nominal de 12.46%. Es precio de vivienda del índice SHF, no renta, variación real ni relación precio/salario.</dd></dl>
+  <a href="https://iieg.gob.mx/ns/wp-content/uploads/2026/06/ficha_indice_precios_vivienda_zmg_jalisco_1T_2026.pdf" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>CONAVI · Vivienda y juventudes</h4><p class="sub">Barreras de acceso a una vivienda adecuada · 2025</p>
+  <dl><dt>Alcance</dt><dd>México · diagnóstico sobre población joven</dd><dt>Dónde</dt><dd>Conclusiones, pp. 38–39 del documento</dd>
+  <dt>Qué mide y qué no</dt><dd>El diagnóstico identifica ingresos reducidos y una oferta insuficiente de alquiler asequible. Analiza política habitacional, acceso al financiamiento y necesidades diferenciadas de las juventudes.</dd></dl>
+  <a href="https://siesco.conavi.gob.mx/doc/analisis/2025/Vivienda_jovenes.pdf" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>INEGI · ENOE Jalisco</h4><p class="sub">Mercado laboral de Jalisco · 2026</p>
+  <dl><dt>Alcance</dt><dd>Jalisco · segundo trimestre de 2026</dd><dt>Dónde</dt><dd>Principales resultados para Jalisco</dd>
+  <dt>Qué mide y qué no</dt><dd>VERIFICADO contra el boletín el 8 de septiembre de 2026. En el segundo trimestre de 2026 la tasa de informalidad laboral en Jalisco fue de 46.5% y la tasa de condiciones críticas de ocupación llegó a 25.4%, cuando en 2025 era 16.9%. La población ocupada bajó en 52 mil personas respecto al año anterior. LÍMITE: son datos de toda la población ocupada de 15 años y más, no exclusivamente de jóvenes.</dd></dl>
+  <a href="https://www.inegi.org.mx/contenidos/saladeprensa/boletines/2026/enoe/enoe2026_08_Jal.pdf" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>IIEG Jalisco · Índice de precios de la vivienda</h4><p class="sub">Cuánto sube la vivienda en la ZMG · 2026</p>
+  <dl><dt>Alcance</dt><dd>Zona Metropolitana de Guadalajara · primer trimestre de 2026</dd><dt>Dónde</dt><dd>Variación anual por zona metropolitana y por entidad</dd>
+  <dt>Qué mide y qué no</dt><dd>VERIFICADO contra la ficha el 8 de septiembre de 2026. La Zona Metropolitana de Guadalajara registró un aumento anual de 12.46% en el precio de la vivienda durante el primer trimestre de 2026, contra 8.74% del promedio nacional. Jalisco fue la segunda entidad del país con mayor crecimiento de precios. LÍMITES: es precio de vivienda con crédito hipotecario, no renta, y es variación nominal.</dd></dl>
+  <a href="https://iieg.gob.mx/ns/wp-content/uploads/2026/06/ficha_indice_precios_vivienda_zmg_jalisco_1T_2026.pdf" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>IIEG Jalisco · Defunciones por diabetes</h4><p class="sub">La diabetes entre las causas de muerte en Jalisco · 2024</p>
+  <dl><dt>Alcance</dt><dd>Jalisco · defunciones registradas 2023</dd><dt>Dónde</dt><dd>Panorama de las defunciones por diabetes mellitus en la entidad</dd>
+  <dt>Qué mide y qué no</dt><dd>VERIFICADO contra la ficha el 8 de septiembre de 2026. En 2023 se registraron 5,575 defunciones de residentes de Jalisco por diabetes mellitus. Es la tercera causa de muerte en la entidad, después de las enfermedades del corazón y los tumores malignos. LÍMITE: la ficha reporta defunciones, no prevalencia ni control del padecimiento.</dd></dl>
+  <a href="https://iieg.gob.mx/ns/wp-content/uploads/2024/11/D%C3%ADaMundialDiabetes2024.pdf" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>INEGI · Censo de procuración de justicia</h4><p class="sub">Rezago de carpetas en las fiscalías estatales · 2025</p>
+  <dl><dt>Alcance</dt><dd>Jalisco · determinaciones en investigación inicial, datos 2024</dd><dt>Dónde</dt><dd>Tabulado 13 · determinaciones por entidad federativa según tipo</dd>
+  <dt>Qué mide y qué no</dt><dd>VERIFICADO en el tabulado del censo el 8 de septiembre de 2026. De las 145,780 determinaciones que Jalisco efectuó en la etapa de investigación inicial durante 2024, 93,048 fueron archivo temporal: el 63.8%. El promedio nacional es 37.9%. Jalisco archiva casi el doble. Sólo el 14.5% de sus determinaciones llegó al ejercicio de la acción penal. El archivo temporal guarda la carpeta sin cerrarla ni avanzarla.</dd></dl>
+  <a href="https://www.inegi.org.mx/contenidos/programas/cnpje/2025/tabulados/cnpje2025_proc_just.xlsx" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>INEGI · Censo Nacional de Procuración de Justicia</h4><p class="sub">Volumen de carpetas y personal de las fiscalías · 2025</p>
+  <dl><dt>Alcance</dt><dd>Jalisco · carpetas y agentes del Ministerio Público, datos 2024</dd><dt>Dónde</dt><dd>Tabulados 6 y 10 · personal y carpetas por entidad federativa</dd>
+  <dt>Qué mide y qué no</dt><dd>VERIFICADO en los tabulados del censo el 8 de septiembre de 2026. Jalisco cerró 2024 con 504,184 carpetas de investigación pendientes y 701 agentes del Ministerio Público: 719 carpetas pendientes por agente. El promedio nacional es de 143 por agente, así que la carga en Jalisco es cinco veces mayor. En el año se abrieron 124,089 carpetas nuevas y la Fiscalía ejerció un presupuesto de 2,644.8 millones de pesos. LÍMITE: el censo no incluye a la Ciudad de México, que no entregó el módulo completo.</dd></dl>
+  <a href="https://www.inegi.org.mx/contenidos/programas/cnpje/2025/tabulados/cnpje2025_est_org_rec.xlsx" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>México Evalúa · Radiografía de la Impunidad</h4><p class="sub">Qué proporción de los delitos llega a resolverse · 2024</p>
+  <dl><dt>Alcance</dt><dd>México · sistema de justicia penal</dd><dt>Dónde</dt><dd>Radiografía de la Impunidad 2024 · flujo procesal e IIPI</dd>
+  <dt>Qué mide y qué no</dt><dd>VERIFICADO contra el documento el 8 de septiembre de 2026. El 93% de los delitos no se denuncia, dato que el estudio toma de la ENVIPE del INEGI. De las denuncias que sí ocurren, el 93.8% deriva en la apertura de una carpeta, pero sólo el 6.28% de los casos acumulados llega al ejercicio de la acción penal. El Índice de Impunidad Penal Institucional estima que el 89.42% de los casos que el sistema debía resolver en 2024 no obtuvo solución efectiva. Entre 2019 y 2024 los casos pendientes en fiscalías pasaron de 1.3 a 2.6 millones. CORRECCIÓN: la cifra de 99.23% que circuló en prensa NO aparece en el estudio.</dd></dl>
+  <a href="https://mexicoevalua.org/solo-1-de-cada-10-casos-se-resuelve-en-mexico-radiografia-de-la-impunidad-propone-soluciones-para-fortalecer-la-justicia-penal/" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>CIPD · PESTLE analysis</h4><p class="sub">El marco PESTEL · 2025</p>
+  <dl><dt>Alcance</dt><dd>Marco metodológico · factores externos</dd><dt>Dónde</dt><dd>What is a PESTLE analysis?</dd>
+  <dt>Qué mide y qué no</dt><dd>Clasifica seis dimensiones del entorno. Esta visualización adapta el marco al análisis de problemas sociales. No aporta una fórmula de ponderación causal.</dd></dl>
+  <a href="https://www.cipd.org/uk/knowledge/factsheets/pestle-analysis-factsheet/" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>DOF · Programa Sectorial de Salud</h4><p class="sub">Diagnóstico del sistema de salud · 2025–2030</p>
+  <dl><dt>Alcance</dt><dd>México · diagnóstico de política pública</dd><dt>Dónde</dt><dd>Apartado 5 · diagnóstico; integración y modernización</dd>
+  <dt>Qué mide y qué no</dt><dd>Documenta barreras de acceso, distribución de medicamentos y fragmentación de información. Las metas del programa no se presentan como resultados logrados.</dd></dl>
+  <a href="https://sidof.segob.gob.mx/notas/docFuente/5767240" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>INSP · Contaminación del aire y salud</h4><p class="sub">Exposición ambiental y daños a la salud · 2016</p>
+  <dl><dt>Alcance</dt><dd>Mecanismos de salud pública · no prevalencia local</dd><dt>Dónde</dt><dd>Efectos agudos y crónicos</dd>
+  <dt>Qué mide y qué no</dt><dd>Identifica daños respiratorios y cardiovasculares. Su presencia en el mapa de salud no significa que explique el dato de control glucémico ni cuantifica su efecto en la ZMG.</dd></dl>
+  <a href="https://www.insp.mx/resources/images/stories/infografias/Docs/160627_infografia_contaminacion_aire_salud.pdf" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>Fiscalía de Jalisco · Policía Cibernética</h4><p class="sub">Delitos cometidos mediante internet · Consulta 2026</p>
+  <dl><dt>Alcance</dt><dd>Jalisco · orientación institucional, sin tasa de incidencia</dd><dt>Dónde</dt><dd>Suplantación de identidad y denuncia</dd>
+  <dt>Qué mide y qué no</dt><dd>La página identifica suplantación, fraude, amenazas y extorsión mediante internet. No estima qué proporción de la cifra oculta proviene de estos delitos.</dd></dl>
+  <a href="https://fiscalia.jalisco.gob.mx/policia-cibernetica" target="_blank" rel="noopener">Abrir el documento ↗</a></article><article class="fuente">
+  <h4>OIT · Trabajo en plataformas web</h4><p class="sub">Condiciones laborales y protección social · 2025</p>
+  <dl><dt>Alcance</dt><dd>América Latina y el Caribe · estudio regional</dd><dt>Dónde</dt><dd>Encuesta regional a trabajadores de plataformas basadas en la web</dd>
+  <dt>Qué mide y qué no</dt><dd>Describe precariedad, informalidad y falta de protección social en su muestra. Se usa como contexto tecnológico, no como una tasa de juventud en México.</dd></dl>
+  <a href="https://www.ilo.org/es/publications/encuesta-sobre-trabajadores-en-plataformas-digitales-basadas-en-la-web" target="_blank" rel="noopener">Abrir el documento ↗</a></article></div>
+</section>
+
+<section id="metodo">
+ <div class="eyebrow">Método</div>
+ <h2>Método y trazabilidad</h2>
+ <p>El mapa se construyó <b>con apoyo de IA bajo verificación humana</b>. Esta sección declara qué está verificado y qué no, para que cada afirmación pueda contrastarse.</p>
+ <div class="split">
+  <div class="card"><h5>Cómo se marca cada relación</h5><p><b>Documental</b> significa que la fuente <b>describe</b> el vínculo. <b>Lectura del equipo</b> es una interpretación explícita, apoyada en la evidencia de los nodos. Ninguna de las dos es un efecto causal estimado, y la distinción está declarada relación por relación en el inventario.</p></div>
+  <div class="card"><h5>Qué está verificado</h5><p>De las 47 relaciones del mapa, <b>28 tienen vínculo documental</b>. Los 11 vínculos de stakeholder con variable crítica tienen fuente: 11 de 11. Las cifras ancla se abrieron una por una contra el documento primario, con fecha de verificación.</p></div>
+  <div class="card"><h5>Qué sigue en revisión</h5><p>Las relaciones incorporadas en la última ronda de ampliación —25 según el registro del equipo— <b>siguen en revisión humana</b>. No se dan por verificadas hasta que una persona del equipo las contrasta contra la fuente. Se declara aquí en vez de presentarlas como cerradas.</p></div>
+  <div class="card"><h5>Huecos declarados, no rellenados</h5><p>La dimensión ecológica se muestra <b>vacía a propósito</b>: el equipo confirmó que no aplica directamente a esta problemática. Y las dos variables del trato policial no alcanzan el umbral de criticidad, así que ese stakeholder aparece con un solo vínculo. Un hueco declarado vale más que uno rellenado.</p></div>
+ </div>
+</section>
+</main>
+</div>
+<script>
+const links=[...document.querySelectorAll('.rail a')];
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)
+ links.forEach(a=>a.setAttribute('aria-current',String(a.hash==='#'+e.target.id)))})},{rootMargin:'-15% 0px -70% 0px'});
+document.querySelectorAll('main section').forEach(s=>obs.observe(s));
+</script>
